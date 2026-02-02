@@ -1,72 +1,38 @@
 @import "tailwindcss";
 
-/* ===== DESIGN TOKENS - BEIGE/COFFEE/BROWN THEME ===== */
-:root {
+/* ===== BEIGE/COFFEE/BROWN THEME ===== */
+@theme {
 	/* Backgrounds - Warm dark tones */
-	--bg-0: #0f0d0b;
-	--bg-1: #1a1613;
-	--bg-2: #252019;
+	--color-bg-0: #0f0d0b;
+	--color-bg-1: #1a1613;
+	--color-bg-2: #252019;
 
 	/* Primary - Coffee/Brown Gradient */
-	--primary-start: #b08968;
-	--primary-end: #c9a77c;
+	--color-primary-start: #b08968;
+	--color-primary-end: #c9a77c;
 
 	/* Beige / Cream Accent */
-	--beige-highlight: #f3e7d3;
-	--beige-accent: #e7d3b0;
-	--beige-deep: #b08968;
+	--color-beige-highlight: #f3e7d3;
+	--color-beige-accent: #e7d3b0;
+	--color-beige-deep: #b08968;
 
 	/* Rich Brown tones */
-	--coffee: #6f4e37;
-	--espresso: #3c2415;
-	--mocha: #967259;
+	--color-coffee: #6f4e37;
+	--color-espresso: #3c2415;
+	--color-mocha: #967259;
 
 	/* Text */
-	--text-primary: #f5f0e8;
-	--text-muted: #b8a898;
-	--text-dim: #8a7a6a;
+	--color-text-primary: #f5f0e8;
+	--color-text-muted: #b8a898;
+	--color-text-dim: #8a7a6a;
 
 	/* Warm accent */
-	--accent-warm: #d4a574;
-
-	/* Glass - Warm tint */
-	--glass-bg: rgba(243, 231, 211, 0.03);
-	--glass-border: rgba(243, 231, 211, 0.08);
-	--glass-beige-border: rgba(243, 231, 211, 0.15);
-}
-
-@theme inline {
-	/* Backgrounds */
-	--color-bg-0: var(--bg-0);
-	--color-bg-1: var(--bg-1);
-	--color-bg-2: var(--bg-2);
-
-	/* Primary */
-	--color-primary-start: var(--primary-start);
-	--color-primary-end: var(--primary-end);
-
-	/* Beige */
-	--color-beige-highlight: var(--beige-highlight);
-	--color-beige-accent: var(--beige-accent);
-	--color-beige-deep: var(--beige-deep);
-
-	/* Coffee/Brown */
-	--color-coffee: var(--coffee);
-	--color-espresso: var(--espresso);
-	--color-mocha: var(--mocha);
-
-	/* Text */
-	--color-text-primary: var(--text-primary);
-	--color-text-muted: var(--text-muted);
-	--color-text-dim: var(--text-dim);
-
-	/* Accent */
-	--color-accent-warm: var(--accent-warm);
+	--color-accent-warm: #d4a574;
 
 	/* Glass */
-	--color-glass-bg: var(--glass-bg);
-	--color-glass-border: var(--glass-border);
-	--color-glass-beige: var(--glass-beige-border);
+	--color-glass-bg: rgba(243, 231, 211, 0.03);
+	--color-glass-border: rgba(243, 231, 211, 0.08);
+	--color-glass-beige: rgba(243, 231, 211, 0.15);
 
 	/* Font */
 	--font-sans: var(--font-geist-sans), system-ui, sans-serif;
@@ -79,20 +45,15 @@ html {
 }
 
 body {
-	background: var(--bg-0);
-	color: var(--text-primary);
+	background: var(--color-bg-0);
+	color: var(--color-text-primary);
 	font-family: var(--font-sans);
 	overflow-x: hidden;
 }
 
 /* ===== UTILITY CLASSES ===== */
 .gradient-text {
-	background: linear-gradient(
-		135deg,
-		var(--beige-highlight),
-		var(--primary-start),
-		var(--beige-accent)
-	);
+	background: linear-gradient(135deg, #f3e7d3, #b08968, #e7d3b0);
 	background-size: 200% 200%;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -111,17 +72,17 @@ body {
 }
 
 .glass {
-	background: var(--glass-bg);
+	background: rgba(243, 231, 211, 0.03);
 	backdrop-filter: blur(12px);
 	-webkit-backdrop-filter: blur(12px);
-	border: 1px solid var(--glass-border);
+	border: 1px solid rgba(243, 231, 211, 0.08);
 }
 
 .glass-beige {
-	background: var(--glass-bg);
+	background: rgba(243, 231, 211, 0.03);
 	backdrop-filter: blur(12px);
 	-webkit-backdrop-filter: blur(12px);
-	border: 1px solid var(--glass-beige-border);
+	border: 1px solid rgba(243, 231, 211, 0.15);
 }
 
 .glow-primary {
@@ -146,7 +107,7 @@ body {
 /* Selection */
 ::selection {
 	background: rgba(176, 137, 104, 0.3);
-	color: var(--text-primary);
+	color: #f5f0e8;
 }
 
 /* Scrollbar */
@@ -155,16 +116,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-	background: var(--bg-0);
+	background: #0f0d0b;
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--bg-2);
+	background: #252019;
 	border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background: var(--beige-deep);
+	background: #b08968;
 }
 
 /* Reduced motion */

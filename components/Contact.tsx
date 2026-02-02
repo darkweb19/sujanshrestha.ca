@@ -36,7 +36,7 @@ export default function Contact() {
 		},
 		{
 			name: "LinkedIn",
-			url: "https://linkedin.com/in/sujanshrestha",
+			url: "https://linkedin.com/in/sujansthadev",
 			icon: (
 				<svg
 					className="w-6 h-6"

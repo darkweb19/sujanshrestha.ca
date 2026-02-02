@@ -17,23 +17,28 @@ const skills = [
 	{ name: "GitHub", icon: "⬡" },
 ];
 
+const highlights = [
+	{ label: "Focus", value: "Full-Stack Development" },
+	{ label: "Location", value: "Toronto, Canada" },
+	{ label: "Availability", value: "Open to opportunities" },
+];
+
 const containerVariants = {
 	hidden: { opacity: 0 },
 	visible: {
 		opacity: 1,
 		transition: {
-			staggerChildren: 0.1,
+			staggerChildren: 0.08,
 		},
 	},
 };
 
 const itemVariants = {
-	hidden: { opacity: 0, y: 20, filter: "blur(10px)" },
+	hidden: { opacity: 0, y: 15 },
 	visible: {
 		opacity: 1,
 		y: 0,
-		filter: "blur(0px)",
-		transition: { duration: 0.5 },
+		transition: { duration: 0.4 },
 	},
 };
 
@@ -51,74 +56,111 @@ export default function About() {
 					className="mb-16"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
-						/statement
+						/about
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary mb-8">
-						About <span className="gradient-text">Me</span>
+						Who I <span className="gradient-text">Am</span>
 					</h3>
 				</motion.div>
 
-				<div className="grid lg:grid-cols-2 gap-16">
-					{/* Bio */}
+				<div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
+					{/* Bio - Takes 3 columns */}
 					<motion.div
-						initial={{ opacity: 0, x: -30 }}
-						animate={isInView ? { opacity: 1, x: 0 } : {}}
+						initial={{ opacity: 0, y: 30 }}
+						animate={isInView ? { opacity: 1, y: 0 } : {}}
 						transition={{ duration: 0.6, delay: 0.2 }}
+						className="lg:col-span-3"
 					>
-						<div className="glass rounded-2xl p-8 glow-primary h-full">
-							<p className="text-text-muted text-lg leading-relaxed mb-6">
-								I have completed my bootcamp course in the MERN
-								stack from{" "}
-								<a
-									href="https://deerwalk.edu.np/DWIT/"
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-beige-highlight hover:text-beige-accent transition-colors underline underline-offset-4"
-								>
-									Deerwalk Institute
-								</a>
-								. At the same time, I am pursuing my Diploma
-								degree in Computer System Technician at{" "}
-								<a
-									href="https://loyalistcollege.com/"
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-primary-start hover:text-primary-end transition-colors underline underline-offset-4"
-								>
-									Loyalist College
-								</a>
-								, Toronto, CA.
-							</p>
-							<p className="text-text-muted text-lg leading-relaxed">
-								I&apos;m passionate about building scalable web
-								applications, exploring serverless architectures
-								with AWS Lambda, and following best practices in
-								DevOps and cloud infrastructure.
-							</p>
+						<div className="space-y-6">
+							{/* Main intro */}
+							<div className="glass rounded-2xl p-8">
+								<p className="text-xl md:text-2xl text-text-primary leading-relaxed mb-6">
+									Hey — I&apos;m{" "}
+									<span className="text-beige-highlight font-semibold">
+										Sujan
+									</span>
+									. I build web apps that feel smooth, modern,
+									and a little bit{" "}
+									<span className="italic">
+										&quot;wow.&quot;
+									</span>
+								</p>
+								<p className="text-text-muted leading-relaxed">
+									I love creating clean UI, subtle animations,
+									and experiences that users enjoy using every
+									day. I work across the full stack — taking
+									features from idea → design → code →
+									deployment.
+								</p>
+							</div>
+
+							{/* Philosophy */}
+							<div className="glass-beige rounded-2xl p-6">
+								<div className="flex items-start gap-4">
+									<span className="text-3xl">🎯</span>
+									<div>
+										<p className="text-beige-highlight font-medium mb-2">
+											My Philosophy
+										</p>
+										<p className="text-text-muted text-sm leading-relaxed">
+											If you&apos;re building something
+											ambitious and want a developer who
+											cares about both engineering +
+											aesthetics, let&apos;s connect.
+										</p>
+									</div>
+								</div>
+							</div>
+
+							{/* Quick Facts */}
+							<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+								{highlights.map((item, i) => (
+									<motion.div
+										key={item.label}
+										initial={{ opacity: 0, y: 20 }}
+										animate={
+											isInView ? { opacity: 1, y: 0 } : {}
+										}
+										transition={{
+											duration: 0.4,
+											delay: 0.4 + i * 0.1,
+										}}
+										className="glass rounded-xl p-4 text-center"
+									>
+										<p className="text-text-dim text-xs font-mono mb-1 uppercase tracking-wider">
+											{item.label}
+										</p>
+										<p className="text-beige-accent text-sm font-medium">
+											{item.value}
+										</p>
+									</motion.div>
+								))}
+							</div>
 						</div>
 					</motion.div>
 
-					{/* Skills Grid */}
+					{/* Skills Grid - Takes 2 columns */}
 					<motion.div
 						variants={containerVariants}
 						initial="hidden"
 						animate={isInView ? "visible" : "hidden"}
+						className="lg:col-span-2"
 					>
 						<h4 className="text-text-dim text-sm font-mono mb-6 tracking-wider">
-							TECHNOLOGIES I WORK WITH
+							TECH STACK
 						</h4>
-						<div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+						<div className="grid grid-cols-3 gap-3">
 							{skills.map((skill) => (
 								<motion.div
 									key={skill.name}
 									variants={itemVariants}
-									whileHover={{ scale: 1.05, y: -2 }}
-									className="group glass-beige rounded-xl p-4 text-center cursor-default transition-all duration-300 hover:bg-beige-highlight/5"
+									whileHover={{ scale: 1.05, y: -3 }}
+									className="group glass rounded-xl p-4 text-center cursor-default transition-all duration-200 hover:bg-beige-deep/10 hover:border-beige-deep/20 border border-transparent"
 								>
-									<span className="text-2xl mb-2 block group-hover:scale-110 transition-transform">
+									<span className="text-xl mb-2 block group-hover:scale-110 transition-transform duration-200">
 										{skill.icon}
 									</span>
-									<span className="text-text-muted text-sm group-hover:text-beige-highlight transition-colors">
+									<span className="text-text-muted text-xs group-hover:text-beige-highlight transition-colors">
 										{skill.name}
 									</span>
 								</motion.div>

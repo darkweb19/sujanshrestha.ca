@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useRef, MouseEvent } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const projects = [
 	{
@@ -10,7 +10,6 @@ const projects = [
 			"A simple web app that fetches data from an API and displays it in visually appealing formats.",
 		tech: ["TypeScript", "Next.js", "PostgreSQL"],
 		url: "https://fetchany.sujansthadev.com.np/",
-		gradient: "from-primary-start to-primary-end",
 	},
 	{
 		title: "Optics-lens Frontend",
@@ -18,7 +17,6 @@ const projects = [
 			"Frontend project showcasing an E-commerce platform with visually appealing design.",
 		tech: ["TypeScript", "React", "CSS"],
 		url: "https://opticlens.sujansthadev.com.np/",
-		gradient: "from-beige-deep to-beige-accent",
 	},
 	{
 		title: "Create-mytech CLI",
@@ -26,7 +24,6 @@ const projects = [
 			"CLI tool to generate a boilerplate Full-Stack codebase, helping developers quickly scaffold projects.",
 		tech: ["TypeScript", "Node.js", "CLI"],
 		url: "https://www.npmjs.com/package/create-mytech",
-		gradient: "from-primary-end to-beige-highlight",
 	},
 	{
 		title: "Finance Wanabee",
@@ -34,7 +31,6 @@ const projects = [
 			"A Finance Management system that tracks expenses and provides basic functionality for managing finances.",
 		tech: ["Next.js", "Prisma", "PostgreSQL", "TypeScript"],
 		url: "https://finance.sujansthadev.com.np/",
-		gradient: "from-accent-cyan to-primary-start",
 	},
 	{
 		title: "Threads-Backend",
@@ -42,7 +38,6 @@ const projects = [
 			"The heart of Threads, a backend server crafted with Node.js, GraphQL, PostgreSQL, and Prisma.",
 		tech: ["TypeScript", "Node.js", "GraphQL", "Prisma", "PostgreSQL"],
 		url: "#",
-		gradient: "from-beige-accent to-primary-start",
 	},
 ];
 
@@ -51,18 +46,17 @@ const containerVariants = {
 	visible: {
 		opacity: 1,
 		transition: {
-			staggerChildren: 0.15,
+			staggerChildren: 0.1,
 		},
 	},
 };
 
 const itemVariants = {
-	hidden: { opacity: 0, y: 40, filter: "blur(10px)" },
+	hidden: { opacity: 0, y: 30 },
 	visible: {
 		opacity: 1,
 		y: 0,
-		filter: "blur(0px)",
-		transition: { duration: 0.6 },
+		transition: { duration: 0.5 },
 	},
 };
 
@@ -71,7 +65,7 @@ export default function Projects() {
 	const isInView = useInView(ref, { once: true, margin: "-100px" });
 
 	return (
-		<section ref={ref} id="projects" className="py-32 relative bg-bg-1">
+		<section ref={ref} id="projects" className="py-32 relative">
 			<div className="section-container">
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
@@ -93,9 +87,9 @@ export default function Projects() {
 					animate={isInView ? "visible" : "hidden"}
 					className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
 				>
-					{projects.map((project, index) => (
+					{projects.map((project) => (
 						<motion.div key={project.title} variants={itemVariants}>
-							<ProjectCard project={project} index={index} />
+							<ProjectCard project={project} />
 						</motion.div>
 					))}
 				</motion.div>
@@ -109,76 +103,27 @@ interface Project {
 	description: string;
 	tech: string[];
 	url: string;
-	gradient: string;
 }
 
-function ProjectCard({ project }: { project: Project; index: number }) {
-	const cardRef = useRef<HTMLDivElement>(null);
-
-	// 3D tilt effect
-	const rotateX = useMotionValue(0);
-	const rotateY = useMotionValue(0);
-
-	const springConfig = { stiffness: 300, damping: 30 };
-	const rotateXSpring = useSpring(rotateX, springConfig);
-	const rotateYSpring = useSpring(rotateY, springConfig);
-
-	const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-		if (!cardRef.current) return;
-		const rect = cardRef.current.getBoundingClientRect();
-		const centerX = rect.left + rect.width / 2;
-		const centerY = rect.top + rect.height / 2;
-		const x = e.clientX - centerX;
-		const y = e.clientY - centerY;
-
-		rotateX.set((y / rect.height) * -10);
-		rotateY.set((x / rect.width) * 10);
-	};
-
-	const handleMouseLeave = () => {
-		rotateX.set(0);
-		rotateY.set(0);
-	};
-
+function ProjectCard({ project }: { project: Project }) {
 	return (
-		<motion.div
-			ref={cardRef}
-			onMouseMove={handleMouseMove}
-			onMouseLeave={handleMouseLeave}
-			style={{
-				rotateX: rotateXSpring,
-				rotateY: rotateYSpring,
-				transformPerspective: 1000,
-			}}
-			className="group relative h-full"
+		<a
+			href={project.url}
+			target="_blank"
+			rel="noopener noreferrer"
+			className="group block h-full"
 		>
-			{/* Animated border gradient */}
-			<div
-				className={`absolute -inset-[1px] bg-gradient-to-r ${project.gradient} rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500`}
-			/>
-
-			{/* Card */}
-			<a
-				href={project.url}
-				target="_blank"
-				rel="noopener noreferrer"
-				className="relative block h-full glass rounded-2xl p-6 overflow-hidden transition-all duration-300 group-hover:bg-glass-bg"
+			<motion.div
+				whileHover={{ y: -4 }}
+				transition={{ duration: 0.2 }}
+				className="relative h-full rounded-2xl p-6 bg-bg-1 border border-beige-deep/10 transition-all duration-300 hover:border-beige-deep/30 hover:shadow-[0_8px_30px_rgba(176,137,104,0.08)]"
 			>
-				{/* Spotlight effect */}
-				<div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-					<div
-						className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-5`}
-					/>
-				</div>
-
-				{/* Content */}
-				<div className="relative z-10">
-					<div className="flex items-start justify-between mb-4">
-						<h4 className="text-xl font-semibold text-text-primary group-hover:text-beige-highlight transition-colors">
-							{project.title}
-						</h4>
+				{/* Header */}
+				<div className="flex items-start justify-between mb-4">
+					{/* Folder Icon */}
+					<div className="w-12 h-12 rounded-xl bg-beige-deep/10 flex items-center justify-center text-beige-accent group-hover:bg-beige-deep/20 transition-colors">
 						<svg
-							className="w-5 h-5 text-text-dim group-hover:text-beige-highlight group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"
+							className="w-6 h-6"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -186,35 +131,50 @@ function ProjectCard({ project }: { project: Project; index: number }) {
 							<path
 								strokeLinecap="round"
 								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+								strokeWidth={1.5}
+								d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
 							/>
 						</svg>
 					</div>
 
-					<p className="text-text-muted text-sm mb-6 line-clamp-3">
-						{project.description}
-					</p>
-
-					{/* Tech tags */}
-					<motion.div
-						className="flex flex-wrap gap-2"
-						initial={false}
+					{/* External Link */}
+					<svg
+						className="w-5 h-5 text-text-dim group-hover:text-beige-highlight group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
 					>
-						{project.tech.map((tech, i) => (
-							<motion.span
-								key={tech}
-								initial={{ opacity: 1 }}
-								whileHover={{ scale: 1.05 }}
-								transition={{ delay: i * 0.05 }}
-								className="text-xs px-3 py-1 rounded-full bg-bg-2/50 text-text-dim group-hover:text-beige-accent group-hover:bg-beige-deep/10 transition-all"
-							>
-								{tech}
-							</motion.span>
-						))}
-					</motion.div>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth={1.5}
+							d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+						/>
+					</svg>
 				</div>
-			</a>
-		</motion.div>
+
+				{/* Title */}
+				<h4 className="text-lg font-semibold text-text-primary mb-3 group-hover:text-beige-highlight transition-colors">
+					{project.title}
+				</h4>
+
+				{/* Description */}
+				<p className="text-text-muted text-sm mb-6 line-clamp-3 leading-relaxed">
+					{project.description}
+				</p>
+
+				{/* Tech Stack */}
+				<div className="flex flex-wrap gap-2 mt-auto">
+					{project.tech.map((tech) => (
+						<span
+							key={tech}
+							className="text-xs font-mono px-2.5 py-1 rounded-md bg-bg-2/50 text-text-dim group-hover:text-beige-accent transition-colors"
+						>
+							{tech}
+						</span>
+					))}
+				</div>
+			</motion.div>
+		</a>
 	);
 }

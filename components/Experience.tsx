@@ -1,58 +1,51 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const experiences = [
 	{
+		id: "exp-001",
 		title: "Full-Stack Developer",
-		company: "Freelance / Personal Projects",
-		location: "Toronto, CA",
+		company: "Freelance",
+		type: "Remote",
 		period: "2023 - Present",
-		description: [
-			"Building scalable web applications using Next.js, TypeScript, and modern cloud infrastructure",
-			"Developing serverless architectures with AWS Lambda and implementing DevOps best practices",
-			"Creating CLI tools and open-source packages published on NPM",
+		status: "ACTIVE",
+		technologies: [
+			"Next.js",
+			"TypeScript",
+			"AWS Lambda",
+			"Docker",
+			"PostgreSQL",
 		],
-		current: true,
+		highlights: [
+			"Building scalable web applications with modern cloud architecture",
+			"Developing serverless solutions and RESTful APIs",
+			"Creating CLI tools published on NPM (create-mytech)",
+			"Implementing CI/CD pipelines and DevOps best practices",
+		],
 	},
 	{
+		id: "exp-002",
 		title: "MERN Stack Developer",
 		company: "Deerwalk Institute of Technology",
-		location: "Kathmandu, Nepal",
+		type: "Bootcamp",
 		period: "2023",
-		description: [
-			"Completed intensive bootcamp focusing on MongoDB, Express.js, React, and Node.js",
-			"Built multiple full-stack projects including e-commerce platforms and finance applications",
-			"Gained experience with GraphQL, Prisma ORM, and PostgreSQL databases",
+		status: "COMPLETED",
+		technologies: ["MongoDB", "Express.js", "React", "Node.js", "GraphQL"],
+		highlights: [
+			"Built e-commerce platform with full CRUD operations",
+			"Developed finance management system with Prisma ORM",
+			"Created GraphQL backend server for social platform",
+			"Implemented authentication and authorization systems",
 		],
-		current: false,
 	},
 ];
-
-const containerVariants = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.2,
-		},
-	},
-};
-
-const itemVariants = {
-	hidden: { opacity: 0, x: -30, filter: "blur(10px)" },
-	visible: {
-		opacity: 1,
-		x: 0,
-		filter: "blur(0px)",
-		transition: { duration: 0.6 },
-	},
-};
 
 export default function Experience() {
 	const ref = useRef<HTMLElement>(null);
 	const isInView = useInView(ref, { once: true, margin: "-100px" });
+	const [activeExp, setActiveExp] = useState(experiences[0].id);
 
 	return (
 		<section ref={ref} id="experience" className="py-32 relative bg-bg-1">
@@ -71,65 +64,274 @@ export default function Experience() {
 					</h3>
 				</motion.div>
 
+				{/* Terminal-style Experience Display */}
 				<motion.div
-					variants={containerVariants}
-					initial="hidden"
-					animate={isInView ? "visible" : "hidden"}
-					className="space-y-8"
+					initial={{ opacity: 0, y: 30 }}
+					animate={isInView ? { opacity: 1, y: 0 } : {}}
+					transition={{ duration: 0.6, delay: 0.2 }}
+					className="relative"
 				>
-					{experiences.map((exp) => (
-						<motion.div
-							key={exp.title + exp.company}
-							variants={itemVariants}
-							className="group"
-						>
-							<div
-								className={`glass rounded-2xl p-8 transition-all duration-300 hover:bg-glass-bg ${
-									exp.current ? "glass-beige glow-beige" : ""
-								}`}
-							>
-								<div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
-									<div>
-										<div className="flex items-center gap-3 mb-2">
-											<h4 className="text-xl font-semibold text-beige-highlight">
-												{exp.title}
-											</h4>
-											{exp.current && (
-												<span className="px-3 py-1 text-xs font-medium bg-primary-start/20 text-primary-end rounded-full">
-													Current
-												</span>
-											)}
-										</div>
-										<p className="text-primary-start font-medium">
-											{exp.company}
-										</p>
-										<p className="text-text-dim text-sm">
-											{exp.location}
-										</p>
-									</div>
-									<span className="text-text-dim text-sm font-mono lg:text-right">
-										{exp.period}
-									</span>
-								</div>
-
-								<ul className="space-y-3">
-									{exp.description.map((item, i) => (
-										<motion.li
-											key={i}
-											initial={{ opacity: 0.7 }}
-											whileHover={{ opacity: 1, x: 4 }}
-											className="flex items-start gap-3 text-text-muted"
-										>
-											<span className="text-primary-start mt-1.5">
-												▹
-											</span>
-											<span>{item}</span>
-										</motion.li>
-									))}
-								</ul>
+					{/* Terminal Window */}
+					<div className="rounded-2xl overflow-hidden border border-beige-deep/20 bg-bg-0/80 backdrop-blur-sm">
+						{/* Terminal Header */}
+						<div className="flex items-center gap-2 px-4 py-3 bg-bg-2/50 border-b border-beige-deep/10">
+							<div className="flex gap-2">
+								<div className="w-3 h-3 rounded-full bg-coffee/60" />
+								<div className="w-3 h-3 rounded-full bg-beige-accent/60" />
+								<div className="w-3 h-3 rounded-full bg-beige-highlight/60" />
 							</div>
-						</motion.div>
-					))}
+							<span className="ml-4 font-mono text-xs text-text-dim">
+								sujan@portfolio:~/experience
+							</span>
+						</div>
+
+						{/* Terminal Body */}
+						<div className="p-6 md:p-8">
+							{/* Command Line */}
+							<div className="font-mono text-sm mb-6">
+								<span className="text-beige-highlight">➜</span>{" "}
+								<span className="text-mocha">~</span>{" "}
+								<span className="text-text-muted">
+									cat experience.json
+								</span>
+							</div>
+
+							{/* Experience Tabs */}
+							<div className="flex flex-wrap gap-2 mb-8">
+								{experiences.map((exp) => (
+									<motion.button
+										key={exp.id}
+										onClick={() => setActiveExp(exp.id)}
+										whileHover={{ scale: 1.02 }}
+										whileTap={{ scale: 0.98 }}
+										className={`px-4 py-2 rounded-lg font-mono text-sm transition-all duration-300 ${
+											activeExp === exp.id
+												? "bg-beige-deep/20 text-beige-highlight border border-beige-deep/30"
+												: "bg-bg-2/30 text-text-muted hover:text-beige-accent border border-transparent"
+										}`}
+									>
+										{exp.company}
+									</motion.button>
+								))}
+							</div>
+
+							{/* Active Experience Content */}
+							{experiences
+								.filter((exp) => exp.id === activeExp)
+								.map((exp) => (
+									<motion.div
+										key={exp.id}
+										initial={{ opacity: 0, x: 10 }}
+										animate={{ opacity: 1, x: 0 }}
+										transition={{ duration: 0.3 }}
+										className="font-mono text-sm"
+									>
+										{/* JSON-style display */}
+										<div className="space-y-4">
+											<div className="text-text-dim">
+												{"{"}
+											</div>
+
+											<div className="pl-4 md:pl-8 space-y-3">
+												{/* Title */}
+												<div className="flex flex-wrap gap-2">
+													<span className="text-beige-accent">
+														&quot;title&quot;
+													</span>
+													<span className="text-text-dim">
+														:
+													</span>
+													<span className="text-beige-highlight">
+														&quot;{exp.title}&quot;
+													</span>
+													<span className="text-text-dim">
+														,
+													</span>
+												</div>
+
+												{/* Company */}
+												<div className="flex flex-wrap gap-2">
+													<span className="text-beige-accent">
+														&quot;company&quot;
+													</span>
+													<span className="text-text-dim">
+														:
+													</span>
+													<span className="text-primary-start">
+														&quot;{exp.company}
+														&quot;
+													</span>
+													<span className="text-text-dim">
+														,
+													</span>
+												</div>
+
+												{/* Period */}
+												<div className="flex flex-wrap gap-2">
+													<span className="text-beige-accent">
+														&quot;period&quot;
+													</span>
+													<span className="text-text-dim">
+														:
+													</span>
+													<span className="text-text-muted">
+														&quot;{exp.period}&quot;
+													</span>
+													<span className="text-text-dim">
+														,
+													</span>
+												</div>
+
+												{/* Status */}
+												<div className="flex flex-wrap items-center gap-2">
+													<span className="text-beige-accent">
+														&quot;status&quot;
+													</span>
+													<span className="text-text-dim">
+														:
+													</span>
+													<span
+														className={`px-2 py-0.5 rounded text-xs ${
+															exp.status ===
+															"ACTIVE"
+																? "bg-beige-highlight/20 text-beige-highlight"
+																: "bg-mocha/20 text-mocha"
+														}`}
+													>
+														{exp.status}
+													</span>
+													<span className="text-text-dim">
+														,
+													</span>
+												</div>
+
+												{/* Technologies */}
+												<div>
+													<div className="flex flex-wrap gap-2 mb-2">
+														<span className="text-beige-accent">
+															&quot;stack&quot;
+														</span>
+														<span className="text-text-dim">
+															: [
+														</span>
+													</div>
+													<div className="pl-4 flex flex-wrap gap-2">
+														{exp.technologies.map(
+															(tech, i) => (
+																<motion.span
+																	key={tech}
+																	initial={{
+																		opacity: 0,
+																		scale: 0.8,
+																	}}
+																	animate={{
+																		opacity: 1,
+																		scale: 1,
+																	}}
+																	transition={{
+																		delay:
+																			i *
+																			0.05,
+																	}}
+																	className="px-3 py-1 rounded-lg bg-beige-deep/10 text-beige-accent text-xs border border-beige-deep/20"
+																>
+																	{tech}
+																</motion.span>
+															),
+														)}
+													</div>
+													<div className="text-text-dim mt-2">
+														],
+													</div>
+												</div>
+
+												{/* Highlights */}
+												<div>
+													<div className="flex flex-wrap gap-2 mb-2">
+														<span className="text-beige-accent">
+															&quot;highlights&quot;
+														</span>
+														<span className="text-text-dim">
+															: [
+														</span>
+													</div>
+													<div className="pl-4 space-y-2">
+														{exp.highlights.map(
+															(highlight, i) => (
+																<motion.div
+																	key={i}
+																	initial={{
+																		opacity: 0,
+																		x: -10,
+																	}}
+																	animate={{
+																		opacity: 1,
+																		x: 0,
+																	}}
+																	transition={{
+																		delay:
+																			0.2 +
+																			i *
+																				0.1,
+																	}}
+																	className="flex items-start gap-2"
+																>
+																	<span className="text-beige-highlight mt-1">
+																		▹
+																	</span>
+																	<span className="text-text-muted">
+																		&quot;
+																		{
+																			highlight
+																		}
+																		&quot;
+																	</span>
+																	{i <
+																		exp
+																			.highlights
+																			.length -
+																			1 && (
+																		<span className="text-text-dim">
+																			,
+																		</span>
+																	)}
+																</motion.div>
+															),
+														)}
+													</div>
+													<div className="text-text-dim mt-2">
+														]
+													</div>
+												</div>
+											</div>
+
+											<div className="text-text-dim">
+												{"}"}
+											</div>
+										</div>
+									</motion.div>
+								))}
+
+							{/* Blinking cursor */}
+							<motion.div
+								className="mt-6 font-mono text-sm flex items-center gap-2"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								transition={{ delay: 0.5 }}
+							>
+								<span className="text-beige-highlight">➜</span>
+								<span className="text-mocha">~</span>
+								<motion.span
+									animate={{ opacity: [1, 0, 1] }}
+									transition={{
+										duration: 1,
+										repeat: Infinity,
+									}}
+									className="w-2 h-4 bg-beige-highlight inline-block"
+								/>
+							</motion.div>
+						</div>
+					</div>
 				</motion.div>
 			</div>
 		</section>
