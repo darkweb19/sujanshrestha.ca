@@ -6,38 +6,64 @@ import { useRef, useState } from "react";
 const experiences = [
 	{
 		id: "exp-001",
-		title: "Full-Stack Developer",
-		company: "Freelance",
-		type: "Remote",
-		period: "2023 - Present",
+		title: "Backend Developer",
+		type: "Part-time/Contract",
+		company: "NextUnicorn",
+		location: "Remote",
+		period: "April 2025 – Oct 2025",
 		status: "ACTIVE",
 		technologies: [
-			"Next.js",
 			"TypeScript",
-			"AWS Lambda",
+			"Node.js",
+			"Next.js",
 			"Docker",
+			"Jest",
 			"PostgreSQL",
+			"Supabase",
 		],
 		highlights: [
-			"Building scalable web applications with modern cloud architecture",
-			"Developing serverless solutions and RESTful APIs",
-			"Creating CLI tools published on NPM (create-mytech)",
-			"Implementing CI/CD pipelines and DevOps best practices",
+			"Worked on backend microservice architecture with a focus on the Authentication Microservice",
+			"Implemented secure user authentication flows and authorization protocols",
+			"Wrote test cases for authentication microservice endpoints using Supertest",
+			"Collaborated with the DevOps team to streamline deployment processes",
 		],
 	},
 	{
 		id: "exp-002",
-		title: "MERN Stack Developer",
-		company: "Deerwalk Institute of Technology",
-		type: "Bootcamp",
-		period: "2023",
+		title: "Frontend Developer Intern",
+		type: "Internship",
+		company: "Dobaato",
+		location: "Remote",
+		period: "Jan 2025 – May 2025",
 		status: "COMPLETED",
-		technologies: ["MongoDB", "Express.js", "React", "Node.js", "GraphQL"],
+		technologies: [
+			"TypeScript",
+			"React.js",
+			"Next.js",
+			"Redux",
+			"Docker",
+			"Supabase",
+			"PostgreSQL",
+		],
 		highlights: [
-			"Built e-commerce platform with full CRUD operations",
-			"Developed finance management system with Prisma ORM",
-			"Created GraphQL backend server for social platform",
-			"Implemented authentication and authorization systems",
+			"Built Dobaato's landing page and integrated a CMS for blogs and career section",
+			"Saahitt Project: Integrated Django backend with Next.js frontend",
+			"Collaborated with UI/UX team to align frontend with design requirements",
+			"Assisted in SEO optimization and content structuring for organic reach",
+		],
+	},
+	{
+		id: "exp-003",
+		title: "Open-Source Contributor",
+		type: "Contributor",
+		company: "KeepReact",
+		location: "Remote",
+		period: "Sept 2023 – Nov 2023",
+		status: "COMPLETED",
+		technologies: ["React", "TypeScript", "CSS", "Git"],
+		highlights: [
+			"Resolved UX issue by fixing avatar image group redirection behavior",
+			"Contributed improvements to frontend UI for better usability",
 		],
 	},
 ];
@@ -160,6 +186,22 @@ export default function Experience() {
 													<span className="text-primary-start">
 														&quot;{exp.company}
 														&quot;
+													</span>
+													<span className="text-text-dim">
+														,
+													</span>
+												</div>
+
+												{/* Type */}
+												<div className="flex flex-wrap gap-2">
+													<span className="text-beige-accent">
+														&quot;type&quot;
+													</span>
+													<span className="text-text-dim">
+														:
+													</span>
+													<span className="text-text-muted">
+														&quot;{exp.type}&quot;
 													</span>
 													<span className="text-text-dim">
 														,

@@ -5,11 +5,20 @@ import { useRef } from "react";
 
 const projects = [
 	{
+		title: "ATSResumie",
+		description:
+			"AI-powered resume builder that analyzes job descriptions and optimizes resumes for ATS compatibility. Features real-time PDF generation and smart suggestions.",
+		tech: ["Next.js", "TypeScript", "Supabase", "OpenAI", "AWS Lambda"],
+		url: "https://atsresumie.com",
+		featured: true,
+	},
+	{
 		title: "Fetchany",
 		description:
 			"A simple web app that fetches data from an API and displays it in visually appealing formats.",
 		tech: ["TypeScript", "Next.js", "PostgreSQL"],
 		url: "https://fetchany.sujansthadev.com.np/",
+		featured: false,
 	},
 	{
 		title: "Optics-lens Frontend",
@@ -17,6 +26,7 @@ const projects = [
 			"Frontend project showcasing an E-commerce platform with visually appealing design.",
 		tech: ["TypeScript", "React", "CSS"],
 		url: "https://opticlens.sujansthadev.com.np/",
+		featured: false,
 	},
 	{
 		title: "Create-mytech CLI",
@@ -24,6 +34,7 @@ const projects = [
 			"CLI tool to generate a boilerplate Full-Stack codebase, helping developers quickly scaffold projects.",
 		tech: ["TypeScript", "Node.js", "CLI"],
 		url: "https://www.npmjs.com/package/create-mytech",
+		featured: false,
 	},
 	{
 		title: "Finance Wanabee",
@@ -31,6 +42,7 @@ const projects = [
 			"A Finance Management system that tracks expenses and provides basic functionality for managing finances.",
 		tech: ["Next.js", "Prisma", "PostgreSQL", "TypeScript"],
 		url: "https://finance.sujansthadev.com.np/",
+		featured: false,
 	},
 	{
 		title: "Threads-Backend",
@@ -38,6 +50,7 @@ const projects = [
 			"The heart of Threads, a backend server crafted with Node.js, GraphQL, PostgreSQL, and Prisma.",
 		tech: ["TypeScript", "Node.js", "GraphQL", "Prisma", "PostgreSQL"],
 		url: "#",
+		featured: false,
 	},
 ];
 
@@ -64,6 +77,9 @@ export default function Projects() {
 	const ref = useRef<HTMLElement>(null);
 	const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+	const featuredProject = projects.find((p) => p.featured);
+	const otherProjects = projects.filter((p) => !p.featured);
+
 	return (
 		<section ref={ref} id="projects" className="py-32 relative">
 			<div className="section-container">
@@ -81,13 +97,81 @@ export default function Projects() {
 					</h3>
 				</motion.div>
 
+				{/* Featured Project - ATSResumie */}
+				{featuredProject && (
+					<motion.div
+						initial={{ opacity: 0, y: 30 }}
+						animate={isInView ? { opacity: 1, y: 0 } : {}}
+						transition={{ duration: 0.6, delay: 0.2 }}
+						className="mb-12"
+					>
+						<a
+							href={featuredProject.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="group block"
+						>
+							<div className="relative rounded-2xl p-8 bg-gradient-to-br from-beige-deep/10 to-bg-1 border border-beige-deep/20 transition-all duration-300 hover:border-beige-deep/40 hover:shadow-[0_8px_40px_rgba(176,137,104,0.12)]">
+								{/* Featured Badge */}
+								<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-beige-highlight/10 text-beige-highlight text-xs font-mono mb-6">
+									<span className="w-2 h-2 rounded-full bg-beige-highlight animate-pulse" />
+									Featured Project
+								</div>
+
+								<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+									<div className="flex-1">
+										<h4 className="text-2xl md:text-3xl font-bold text-text-primary group-hover:text-beige-highlight transition-colors mb-4">
+											{featuredProject.title}
+										</h4>
+										<p className="text-text-muted leading-relaxed mb-6 max-w-2xl">
+											{featuredProject.description}
+										</p>
+										<div className="flex flex-wrap gap-2">
+											{featuredProject.tech.map(
+												(tech) => (
+													<span
+														key={tech}
+														className="text-sm font-mono px-3 py-1.5 rounded-lg bg-beige-deep/15 text-beige-accent border border-beige-deep/20"
+													>
+														{tech}
+													</span>
+												),
+											)}
+										</div>
+									</div>
+
+									{/* Arrow */}
+									<div className="flex-shrink-0">
+										<div className="w-14 h-14 rounded-xl bg-beige-deep/10 flex items-center justify-center group-hover:bg-beige-deep/20 transition-colors">
+											<svg
+												className="w-6 h-6 text-beige-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth={2}
+													d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+												/>
+											</svg>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</motion.div>
+				)}
+
+				{/* Other Projects Grid */}
 				<motion.div
 					variants={containerVariants}
 					initial="hidden"
 					animate={isInView ? "visible" : "hidden"}
 					className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
 				>
-					{projects.map((project) => (
+					{otherProjects.map((project) => (
 						<motion.div key={project.title} variants={itemVariants}>
 							<ProjectCard project={project} />
 						</motion.div>
@@ -103,6 +187,7 @@ interface Project {
 	description: string;
 	tech: string[];
 	url: string;
+	featured: boolean;
 }
 
 function ProjectCard({ project }: { project: Project }) {

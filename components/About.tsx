@@ -17,12 +17,6 @@ const skills = [
 	{ name: "GitHub", icon: "⬡" },
 ];
 
-const highlights = [
-	{ label: "Focus", value: "Full-Stack Development" },
-	{ label: "Location", value: "Toronto, Canada" },
-	{ label: "Availability", value: "Open to opportunities" },
-];
-
 const containerVariants = {
 	hidden: { opacity: 0 },
 	visible: {
@@ -85,13 +79,30 @@ export default function About() {
 										&quot;wow.&quot;
 									</span>
 								</p>
-								<p className="text-text-muted leading-relaxed">
+								<p className="text-text-muted leading-relaxed text-md mb-6">
 									I love creating clean UI, subtle animations,
 									and experiences that users enjoy using every
-									day. I work across the full stack — taking
-									features from idea → design → code →
-									deployment.
+									day. I work across the full stack:
 								</p>
+
+								{/* Creative workflow pipeline */}
+								<div className="flex flex-wrap items-center gap-2 text-sm">
+									<span className="px-3 py-1.5 rounded-lg bg-beige-deep/10 text-beige-highlight font-mono flex items-center gap-2">
+										<span>💡</span> idea
+									</span>
+									<span className="text-beige-accent">→</span>
+									<span className="px-3 py-1.5 rounded-lg bg-beige-deep/10 text-beige-accent font-mono flex items-center gap-2">
+										<span>🎨</span> design
+									</span>
+									<span className="text-beige-accent">→</span>
+									<span className="px-3 py-1.5 rounded-lg bg-beige-deep/10 text-primary-start font-mono flex items-center gap-2">
+										<span>⚡</span> code
+									</span>
+									<span className="text-beige-accent">→</span>
+									<span className="px-3 py-1.5 rounded-lg bg-beige-deep/10 text-mocha font-mono flex items-center gap-2">
+										<span>🚀</span> deploy
+									</span>
+								</div>
 							</div>
 
 							{/* Philosophy */}
@@ -99,10 +110,10 @@ export default function About() {
 								<div className="flex items-start gap-4">
 									<span className="text-3xl">🎯</span>
 									<div>
-										<p className="text-beige-highlight font-medium mb-2">
+										<p className="text-beige-highlight text-lg font-medium mb-2">
 											My Philosophy
 										</p>
-										<p className="text-text-muted text-sm leading-relaxed">
+										<p className="text-text-muted text-md leading-relaxed">
 											If you&apos;re building something
 											ambitious and want a developer who
 											cares about both engineering +
@@ -110,31 +121,6 @@ export default function About() {
 										</p>
 									</div>
 								</div>
-							</div>
-
-							{/* Quick Facts */}
-							<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-								{highlights.map((item, i) => (
-									<motion.div
-										key={item.label}
-										initial={{ opacity: 0, y: 20 }}
-										animate={
-											isInView ? { opacity: 1, y: 0 } : {}
-										}
-										transition={{
-											duration: 0.4,
-											delay: 0.4 + i * 0.1,
-										}}
-										className="glass rounded-xl p-4 text-center"
-									>
-										<p className="text-text-dim text-xs font-mono mb-1 uppercase tracking-wider">
-											{item.label}
-										</p>
-										<p className="text-beige-accent text-sm font-medium">
-											{item.value}
-										</p>
-									</motion.div>
-								))}
 							</div>
 						</div>
 					</motion.div>

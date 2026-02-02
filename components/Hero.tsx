@@ -18,7 +18,7 @@ export default function Hero() {
 		<section
 			ref={containerRef}
 			id="home"
-			className="relative min-h-screen flex items-center justify-center overflow-hidden"
+			className="relative min-h-screen flex items-center overflow-hidden"
 		>
 			{/* Animated Background */}
 			<div className="absolute inset-0 bg-bg-0">
@@ -59,147 +59,179 @@ export default function Hero() {
 						ease: "easeInOut",
 					}}
 				/>
-				<motion.div
-					className="absolute top-1/2 right-1/3 w-[300px] h-[300px] rounded-full bg-beige-deep/10 blur-[80px]"
-					animate={{
-						x: [0, 30, 0],
-						y: [0, -40, 0],
-					}}
-					transition={{
-						duration: 12,
-						repeat: Infinity,
-						ease: "easeInOut",
-					}}
-				/>
 			</div>
 
 			{/* Content */}
 			<motion.div
 				style={{ y, opacity }}
-				className="relative z-10 section-container text-center"
+				className="relative z-10 section-container py-20"
 			>
-				<motion.div
-					initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-					animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-					transition={{ duration: 0.8, delay: 0.2 }}
-					className="mb-8"
-				>
-					{/* Profile Image */}
-					<motion.div
-						className="relative inline-block mb-8"
-						whileHover={{ scale: 1.02 }}
-						transition={{ type: "spring", stiffness: 300 }}
-					>
-						<div className="relative w-40 h-40 mx-auto">
-							{/* Glow effect */}
-							<div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary-start via-primary-end to-beige-highlight opacity-50 blur-xl" />
+				<div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+					{/* Left - Text Content */}
+					<div className="order-2 lg:order-1">
+						{/* Greeting */}
+						<motion.p
+							initial={{ opacity: 0, x: -20 }}
+							animate={{ opacity: 1, x: 0 }}
+							transition={{ duration: 0.6, delay: 0.2 }}
+							className="text-beige-highlight font-mono text-sm tracking-wider mb-6"
+						>
+							&#47;&#47; HELLO WORLD
+						</motion.p>
 
-							{/* Glass frame */}
-							<div className="relative w-full h-full rounded-2xl glass-beige p-1 glow-beige">
-								<Image
-									src="/images/sujan.jpg"
-									alt="Sujan Shrestha portrait"
-									width={160}
-									height={160}
-									className="rounded-xl object-cover w-full h-full"
-									priority
-									unoptimized
-								/>
+						{/* Name */}
+						<motion.h1
+							initial={{
+								opacity: 0,
+								y: 30,
+								filter: "blur(10px)",
+							}}
+							animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+							transition={{ duration: 0.8, delay: 0.4 }}
+							className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
+						>
+							<span className="gradient-text">
+								Sujan Shrestha
+							</span>
+							<br />
+						</motion.h1>
+
+						{/* Role badge */}
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.6 }}
+							className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-beige mb-6"
+						>
+							<span className="w-2 h-2 rounded-full bg-beige-highlight animate-pulse" />
+							<span className="text-beige-accent text-sm font-medium">
+								Full-Stack Software Engineer
+							</span>
+						</motion.div>
+
+						{/* Tagline */}
+						<motion.p
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.8, delay: 0.7 }}
+							className="text-lg md:text-xl text-text-muted max-w-lg mb-10"
+						>
+							I create{" "}
+							<span className="text-beige-highlight font-semibold">
+								beautiful products
+							</span>{" "}
+							that{" "}
+							<span className="text-primary-start text-2xl font-bold">
+								empower people
+							</span>
+							. Based in Toronto, CA.
+						</motion.p>
+
+						{/* CTA Buttons */}
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.8, delay: 0.9 }}
+							className="flex flex-wrap gap-4"
+						>
+							{/* Primary Button */}
+							<a
+								href="https://sujansthadev-resume2.s3.us-east-1.amazonaws.com/Sujan+Shrestha+dev.pdf"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="group inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-primary-start to-primary-end text-bg-0 font-semibold rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(176,137,104,0.4)] hover:scale-[1.02]"
+							>
+								<span>Download CV</span>
+								<svg
+									className="w-4 h-4 transition-transform group-hover:translate-y-0.5"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+									/>
+								</svg>
+							</a>
+
+							{/* Secondary Button */}
+							<a
+								href="#contact"
+								className="group inline-flex items-center gap-2 px-6 py-3.5 glass-beige text-beige-highlight font-semibold rounded-xl transition-all duration-300 hover:bg-beige-highlight/10"
+							>
+								<span>Get In Touch</span>
+								<svg
+									className="w-4 h-4 transition-transform group-hover:translate-x-1"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M17 8l4 4m0 0l-4 4m4-4H3"
+									/>
+								</svg>
+							</a>
+						</motion.div>
+					</div>
+
+					{/* Right - Profile Image */}
+					<motion.div
+						initial={{ opacity: 0, scale: 0.9 }}
+						animate={{ opacity: 1, scale: 1 }}
+						transition={{ duration: 0.8, delay: 0.3 }}
+						className="order-1 lg:order-2 flex justify-center lg:justify-end"
+					>
+						<div className="relative">
+							{/* Decorative elements */}
+							<div className="absolute -inset-4 bg-gradient-to-br from-primary-start/20 via-transparent to-beige-highlight/20 rounded-3xl blur-2xl" />
+
+							{/* Floating decorative dots */}
+							<motion.div
+								className="absolute -top-4 -right-4 w-20 h-20 rounded-full border border-beige-accent/20"
+								animate={{ rotate: 360 }}
+								transition={{
+									duration: 20,
+									repeat: Infinity,
+									ease: "linear",
+								}}
+							/>
+							<motion.div
+								className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full border border-primary-start/20"
+								animate={{ rotate: -360 }}
+								transition={{
+									duration: 25,
+									repeat: Infinity,
+									ease: "linear",
+								}}
+							/>
+
+							{/* Main image container */}
+							<div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96">
+								{/* Glass frame */}
+								<div className="absolute inset-0 rounded-2xl glass-beige glow-beige" />
+
+								{/* Image */}
+								<div className="relative w-full h-full p-2">
+									<Image
+										src="/images/sujan.jpg"
+										alt="Sujan Shrestha portrait"
+										width={320}
+										height={320}
+										className="rounded-xl object-cover w-full h-full"
+										priority
+										unoptimized
+									/>
+								</div>
 							</div>
 						</div>
 					</motion.div>
-
-					{/* Greeting */}
-					<motion.p
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						transition={{ duration: 0.6, delay: 0.4 }}
-						className="text-beige-highlight font-mono text-sm tracking-wider mb-4"
-					>
-						&#47;&#47; HELLO WORLD
-					</motion.p>
-				</motion.div>
-
-				{/* Name */}
-				<motion.h1
-					initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-					animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-					transition={{ duration: 0.8, delay: 0.5 }}
-					className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
-				>
-					<span className="gradient-text">Sujan Shrestha</span>
-				</motion.h1>
-
-				{/* Tagline */}
-				<motion.p
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, delay: 0.7 }}
-					className="text-xl md:text-2xl text-text-muted max-w-2xl mx-auto mb-10"
-				>
-					Software Engineer passionate about creating{" "}
-					<span className="text-beige-highlight">
-						beautiful products
-					</span>{" "}
-					that{" "}
-					<span className="text-primary-start">Empower People</span>
-				</motion.p>
-
-				{/* CTA Buttons */}
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, delay: 0.9 }}
-					className="flex flex-wrap justify-center gap-4"
-				>
-					{/* Primary Button */}
-					<MagneticButton>
-						<a
-							href="https://sujansthadev-resume2.s3.us-east-1.amazonaws.com/Sujan+Shrestha+dev.pdf"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="group relative inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-start to-primary-end text-bg-0 font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(176,137,104,0.4)]"
-						>
-							<span className="relative z-10">Download CV</span>
-							<svg
-								className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-								/>
-							</svg>
-						</a>
-					</MagneticButton>
-
-					{/* Secondary Button */}
-					<MagneticButton>
-						<a
-							href="#contact"
-							className="group relative inline-flex items-center gap-2 px-8 py-4 glass-beige text-beige-highlight font-semibold rounded-xl transition-all duration-300 hover:bg-beige-highlight/10"
-						>
-							<span>Get In Touch</span>
-							<svg
-								className="w-4 h-4 transition-transform group-hover:translate-x-1"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M17 8l4 4m0 0l-4 4m4-4H3"
-								/>
-							</svg>
-						</a>
-					</MagneticButton>
-				</motion.div>
+				</div>
 			</motion.div>
 
 			{/* Scroll indicator */}
@@ -218,34 +250,5 @@ export default function Hero() {
 				</motion.div>
 			</motion.div>
 		</section>
-	);
-}
-
-// Magnetic Button Component
-function MagneticButton({ children }: { children: React.ReactNode }) {
-	const ref = useRef<HTMLDivElement>(null);
-
-	const handleMouseMove = (e: React.MouseEvent) => {
-		if (!ref.current) return;
-		const rect = ref.current.getBoundingClientRect();
-		const x = e.clientX - rect.left - rect.width / 2;
-		const y = e.clientY - rect.top - rect.height / 2;
-		ref.current.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-	};
-
-	const handleMouseLeave = () => {
-		if (!ref.current) return;
-		ref.current.style.transform = "translate(0px, 0px)";
-	};
-
-	return (
-		<motion.div
-			ref={ref}
-			onMouseMove={handleMouseMove}
-			onMouseLeave={handleMouseLeave}
-			className="transition-transform duration-200 ease-out"
-		>
-			{children}
-		</motion.div>
 	);
 }
