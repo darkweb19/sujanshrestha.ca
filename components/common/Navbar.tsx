@@ -45,7 +45,9 @@ export default function Navbar() {
 			<div className="section-container">
 				<div
 					className={`flex items-center justify-between px-6 py-3 rounded-2xl transition-all duration-300 ${
-						scrolled ? "glass glow-primary" : "bg-transparent"
+						scrolled
+							? "glass backdrop-blur-md glow-primary"
+							: "bg-transparent"
 					}`}
 				>
 					{/* Logo */}
@@ -55,7 +57,7 @@ export default function Navbar() {
 						whileTap={{ scale: 0.95 }}
 						className="text-xl font-bold gradient-text"
 					>
-						SS
+						Sujan Shrestha
 					</motion.a>
 
 					{/* Desktop Nav */}
@@ -170,7 +172,7 @@ function NavLink({
 	return (
 		<motion.a
 			href={href}
-			className="group relative px-4 py-2 text-sm font-medium text-text-muted hover:text-beige-highlight transition-colors"
+			className="group relative px-4 py-2 text-md font-bold text-text-muted hover:text-beige-highlight transition-colors"
 			whileHover="hover"
 		>
 			{children}
