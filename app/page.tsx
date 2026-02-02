@@ -17,7 +17,7 @@ const jsonLd = {
 	image: "https://sujanshrestha.ca/images/sujan.jpg",
 	sameAs: [
 		"https://github.com/darkweb19",
-		"https://linkedin.com/in/sujanshrestha",
+		"https://linkedin.com/in/sujansthadev",
 	],
 	address: {
 		"@type": "PostalAddress",

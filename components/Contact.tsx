@@ -8,7 +8,7 @@ export default function Contact() {
 	const isInView = useInView(ref, { once: true, margin: "-100px" });
 	const [copied, setCopied] = useState(false);
 
-	const email = "hello@sujanshrestha.ca";
+	const email = "hi@sujanshrestha.ca";
 
 	const copyEmail = async () => {
 		await navigator.clipboard.writeText(email);

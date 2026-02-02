@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
-/* ===== BEIGE/COFFEE/BROWN THEME ===== */
 @theme {
-	/* Backgrounds - Warm dark tones */
-	--color-bg-0: #0f0d0b;
+	/* Backgrounds - Brighter warm tones */
+	--color-bg-0: #221e1aff;
 	--color-bg-1: #1a1613;
 	--color-bg-2: #252019;
 
