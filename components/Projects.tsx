@@ -54,25 +54,6 @@ const projects = [
 	},
 ];
 
-const containerVariants = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.1,
-		},
-	},
-};
-
-const itemVariants = {
-	hidden: { opacity: 0, y: 30 },
-	visible: {
-		opacity: 1,
-		y: 0,
-		transition: { duration: 0.5 },
-	},
-};
-
 export default function Projects() {
 	const ref = useRef<HTMLElement>(null);
 	const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -86,7 +67,7 @@ export default function Projects() {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
-					transition={{ duration: 0.6 }}
+					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
@@ -102,7 +83,7 @@ export default function Projects() {
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
-						transition={{ duration: 0.6, delay: 0.2 }}
+						transition={{ duration: 0.5, delay: 0.1 }}
 						className="mb-12"
 					>
 						<a
@@ -112,9 +93,9 @@ export default function Projects() {
 							className="group block"
 						>
 							<div className="relative rounded-2xl p-8 bg-gradient-to-br from-beige-deep/10 to-bg-1 border border-beige-deep/20 transition-all duration-300 hover:border-beige-deep/40 hover:shadow-[0_8px_40px_rgba(176,137,104,0.12)]">
-								{/* Featured Badge */}
+								{/* Featured Badge - removed animate-pulse */}
 								<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-beige-highlight/10 text-beige-highlight text-xs font-mono mb-6">
-									<span className="w-2 h-2 rounded-full bg-beige-highlight animate-pulse" />
+									<span className="w-2 h-2 rounded-full bg-beige-highlight" />
 									Featured Project
 								</div>
 
@@ -164,17 +145,15 @@ export default function Projects() {
 					</motion.div>
 				)}
 
-				{/* Other Projects Grid */}
+				{/* Other Projects Grid - simplified, no stagger animations */}
 				<motion.div
-					variants={containerVariants}
-					initial="hidden"
-					animate={isInView ? "visible" : "hidden"}
+					initial={{ opacity: 0, y: 30 }}
+					animate={isInView ? { opacity: 1, y: 0 } : {}}
+					transition={{ duration: 0.5, delay: 0.2 }}
 					className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
 				>
 					{otherProjects.map((project) => (
-						<motion.div key={project.title} variants={itemVariants}>
-							<ProjectCard project={project} />
-						</motion.div>
+						<ProjectCard key={project.title} project={project} />
 					))}
 				</motion.div>
 			</div>
@@ -198,11 +177,7 @@ function ProjectCard({ project }: { project: Project }) {
 			rel="noopener noreferrer"
 			className="group block h-full"
 		>
-			<motion.div
-				whileHover={{ y: -4 }}
-				transition={{ duration: 0.2 }}
-				className="relative h-full rounded-2xl p-6 bg-bg-1 border border-beige-deep/10 transition-all duration-300 hover:border-beige-deep/30 hover:shadow-[0_8px_30px_rgba(176,137,104,0.08)]"
-			>
+			<div className="relative h-full rounded-2xl p-6 bg-bg-1 border border-beige-deep/10 transition-all duration-200 hover:border-beige-deep/30 hover:shadow-[0_8px_30px_rgba(176,137,104,0.08)] hover:-translate-y-1">
 				{/* Header */}
 				<div className="flex items-start justify-between mb-4">
 					{/* Folder Icon */}
@@ -259,7 +234,7 @@ function ProjectCard({ project }: { project: Project }) {
 						</span>
 					))}
 				</div>
-			</motion.div>
+			</div>
 		</a>
 	);
 }

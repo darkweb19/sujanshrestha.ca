@@ -17,25 +17,6 @@ const skills = [
 	{ name: "GitHub", icon: "⬡" },
 ];
 
-const containerVariants = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.08,
-		},
-	},
-};
-
-const itemVariants = {
-	hidden: { opacity: 0, y: 15 },
-	visible: {
-		opacity: 1,
-		y: 0,
-		transition: { duration: 0.4 },
-	},
-};
-
 export default function About() {
 	const ref = useRef<HTMLElement>(null);
 	const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -46,7 +27,7 @@ export default function About() {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
-					transition={{ duration: 0.6 }}
+					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
@@ -62,7 +43,7 @@ export default function About() {
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
-						transition={{ duration: 0.6, delay: 0.2 }}
+						transition={{ duration: 0.5, delay: 0.1 }}
 						className="lg:col-span-3"
 					>
 						<div className="space-y-6">
@@ -127,9 +108,9 @@ export default function About() {
 
 					{/* Skills Grid - Takes 2 columns */}
 					<motion.div
-						variants={containerVariants}
-						initial="hidden"
-						animate={isInView ? "visible" : "hidden"}
+						initial={{ opacity: 0, y: 30 }}
+						animate={isInView ? { opacity: 1, y: 0 } : {}}
+						transition={{ duration: 0.5, delay: 0.2 }}
 						className="lg:col-span-2"
 					>
 						<h4 className="text-text-dim text-sm font-mono mb-6 tracking-wider">
@@ -137,11 +118,9 @@ export default function About() {
 						</h4>
 						<div className="grid grid-cols-3 gap-3">
 							{skills.map((skill) => (
-								<motion.div
+								<div
 									key={skill.name}
-									variants={itemVariants}
-									whileHover={{ scale: 1.05, y: -3 }}
-									className="group glass rounded-xl p-4 text-center cursor-default transition-all duration-200 hover:bg-beige-deep/10 hover:border-beige-deep/20 border border-transparent"
+									className="group glass rounded-xl p-4 text-center cursor-default transition-all duration-200 hover:bg-beige-deep/10 hover:border-beige-deep/20 border border-transparent hover:scale-105"
 								>
 									<span className="text-xl mb-2 block group-hover:scale-110 transition-transform duration-200">
 										{skill.icon}
@@ -149,7 +128,7 @@ export default function About() {
 									<span className="text-text-muted text-xs group-hover:text-beige-highlight transition-colors">
 										{skill.name}
 									</span>
-								</motion.div>
+								</div>
 							))}
 						</div>
 					</motion.div>

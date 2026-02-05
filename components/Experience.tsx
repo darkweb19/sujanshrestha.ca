@@ -79,7 +79,7 @@ export default function Experience() {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
-					transition={{ duration: 0.6 }}
+					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
@@ -94,7 +94,7 @@ export default function Experience() {
 				<motion.div
 					initial={{ opacity: 0, y: 30 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
-					transition={{ duration: 0.6, delay: 0.2 }}
+					transition={{ duration: 0.5, delay: 0.1 }}
 					className="relative"
 				>
 					{/* Terminal Window */}
@@ -125,19 +125,17 @@ export default function Experience() {
 							{/* Experience Tabs */}
 							<div className="flex flex-wrap gap-2 mb-8">
 								{experiences.map((exp) => (
-									<motion.button
+									<button
 										key={exp.id}
 										onClick={() => setActiveExp(exp.id)}
-										whileHover={{ scale: 1.02 }}
-										whileTap={{ scale: 0.98 }}
-										className={`px-4 py-2 rounded-lg font-mono text-sm transition-all duration-300 ${
+										className={`px-4 py-2 rounded-lg font-mono text-sm transition-all duration-200 hover:scale-[1.02] ${
 											activeExp === exp.id
 												? "bg-beige-deep/20 text-beige-highlight border border-beige-deep/30"
 												: "bg-bg-2/30 text-text-muted hover:text-beige-accent border border-transparent"
 										}`}
 									>
 										{exp.company}
-									</motion.button>
+									</button>
 								))}
 							</div>
 
@@ -145,11 +143,8 @@ export default function Experience() {
 							{experiences
 								.filter((exp) => exp.id === activeExp)
 								.map((exp) => (
-									<motion.div
+									<div
 										key={exp.id}
-										initial={{ opacity: 0, x: 10 }}
-										animate={{ opacity: 1, x: 0 }}
-										transition={{ duration: 0.3 }}
 										className="font-mono text-sm"
 									>
 										{/* JSON-style display */}
@@ -259,26 +254,13 @@ export default function Experience() {
 													</div>
 													<div className="pl-4 flex flex-wrap gap-2">
 														{exp.technologies.map(
-															(tech, i) => (
-																<motion.span
+															(tech) => (
+																<span
 																	key={tech}
-																	initial={{
-																		opacity: 0,
-																		scale: 0.8,
-																	}}
-																	animate={{
-																		opacity: 1,
-																		scale: 1,
-																	}}
-																	transition={{
-																		delay:
-																			i *
-																			0.05,
-																	}}
 																	className="px-3 py-1 rounded-lg bg-beige-deep/10 text-beige-accent text-xs border border-beige-deep/20"
 																>
 																	{tech}
-																</motion.span>
+																</span>
 															),
 														)}
 													</div>
@@ -300,22 +282,8 @@ export default function Experience() {
 													<div className="pl-4 space-y-2">
 														{exp.highlights.map(
 															(highlight, i) => (
-																<motion.div
+																<div
 																	key={i}
-																	initial={{
-																		opacity: 0,
-																		x: -10,
-																	}}
-																	animate={{
-																		opacity: 1,
-																		x: 0,
-																	}}
-																	transition={{
-																		delay:
-																			0.2 +
-																			i *
-																				0.1,
-																	}}
 																	className="flex items-start gap-2"
 																>
 																	<span className="text-beige-highlight mt-1">
@@ -337,7 +305,7 @@ export default function Experience() {
 																			,
 																		</span>
 																	)}
-																</motion.div>
+																</div>
 															),
 														)}
 													</div>
@@ -351,27 +319,15 @@ export default function Experience() {
 												{"}"}
 											</div>
 										</div>
-									</motion.div>
+									</div>
 								))}
 
-							{/* Blinking cursor */}
-							<motion.div
-								className="mt-6 font-mono text-sm flex items-center gap-2"
-								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								transition={{ delay: 0.5 }}
-							>
+							{/* Blinking cursor - simplified, no infinite animation */}
+							<div className="mt-6 font-mono text-sm flex items-center gap-2">
 								<span className="text-beige-highlight">➜</span>
 								<span className="text-mocha">~</span>
-								<motion.span
-									animate={{ opacity: [1, 0, 1] }}
-									transition={{
-										duration: 1,
-										repeat: Infinity,
-									}}
-									className="w-2 h-4 bg-beige-highlight inline-block"
-								/>
-							</motion.div>
+								<span className="w-2 h-4 bg-beige-highlight inline-block" />
+							</div>
 						</div>
 					</div>
 				</motion.div>

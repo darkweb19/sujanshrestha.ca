@@ -73,7 +73,7 @@ export default function Academics() {
 				<motion.header
 					initial={{ opacity: 0, y: 20 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
-					transition={{ duration: 0.6 }}
+					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
@@ -147,7 +147,7 @@ function TimelineItem({
 		<motion.li
 			initial={{ opacity: 0, x: isEven ? -30 : 30 }}
 			animate={isInView ? { opacity: 1, x: 0 } : {}}
-			transition={{ duration: 0.6, delay: index * 0.15 }}
+			transition={{ duration: 0.5, delay: index * 0.1 }}
 			className={`relative flex flex-col md:flex-row items-start ${
 				isEven ? "md:flex-row-reverse" : ""
 			}`}
@@ -157,22 +157,10 @@ function TimelineItem({
 				className="absolute left-4 md:left-1/2 -translate-x-1/2 z-10"
 				aria-hidden="true"
 			>
-				<motion.div
-					initial={{ scale: 0 }}
-					animate={isInView ? { scale: 1 } : {}}
-					transition={{ duration: 0.4, delay: index * 0.15 + 0.2 }}
-					className="relative"
-				>
-					{/* Pulse ring for current */}
+				<div className="relative">
+					{/* Pulse ring for current - simplified, no infinite animation */}
 					{item.highlight && (
-						<motion.div
-							animate={{
-								scale: [1, 1.8, 1],
-								opacity: [0.6, 0, 0.6],
-							}}
-							transition={{ duration: 2, repeat: Infinity }}
-							className="absolute inset-0 rounded-full bg-beige-highlight"
-						/>
+						<div className="absolute inset-0 rounded-full bg-beige-highlight/40 scale-150" />
 					)}
 
 					{/* Transition marker */}
@@ -191,7 +179,7 @@ function TimelineItem({
 							}`}
 						/>
 					)}
-				</motion.div>
+				</div>
 			</div>
 
 			{/* Content */}
@@ -202,9 +190,8 @@ function TimelineItem({
 						: "md:pl-8 pl-12"
 				}`}
 			>
-				<motion.div
-					whileHover={{ scale: 1.02 }}
-					className={`glass rounded-xl p-6 ${
+				<div
+					className={`glass rounded-xl p-6 transition-transform duration-200 hover:scale-[1.02] ${
 						item.highlight ? "glass-beige glow-beige" : ""
 					} ${isTransition ? "ring-1 ring-beige-highlight/30" : ""}`}
 				>
@@ -239,7 +226,7 @@ function TimelineItem({
 						{item.institution}
 					</p>
 					<p className="text-text-dim text-sm">{item.description}</p>
-				</motion.div>
+				</div>
 			</article>
 		</motion.li>
 	);

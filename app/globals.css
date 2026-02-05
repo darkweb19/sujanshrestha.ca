@@ -60,6 +60,14 @@ body {
 	animation: gradient-shift 5s ease infinite;
 }
 
+/* Disable gradient animation on mobile for performance */
+@media (max-width: 768px) {
+	.gradient-text {
+		animation: none;
+		background-position: 50% 50%;
+	}
+}
+
 @keyframes gradient-shift {
 	0%,
 	100% {
@@ -75,6 +83,21 @@ body {
 	backdrop-filter: blur(12px);
 	-webkit-backdrop-filter: blur(12px);
 	border: 1px solid rgba(243, 231, 211, 0.08);
+	/* Performance: contain layout for better isolation */
+	contain: layout style;
+}
+
+/* Reduce glass blur on mobile for performance */
+@media (max-width: 768px) {
+	.glass {
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+
+	.glass-beige {
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
 }
 
 .glass-beige {
@@ -82,12 +105,24 @@ body {
 	backdrop-filter: blur(12px);
 	-webkit-backdrop-filter: blur(12px);
 	border: 1px solid rgba(243, 231, 211, 0.15);
+	contain: layout style;
 }
 
 .glow-primary {
 	box-shadow:
 		0 0 40px rgba(176, 137, 104, 0.15),
 		0 0 80px rgba(201, 167, 124, 0.1);
+}
+
+/* Disable glows on mobile for performance */
+@media (max-width: 768px) {
+	.glow-primary {
+		box-shadow: 0 0 20px rgba(176, 137, 104, 0.1);
+	}
+
+	.glow-beige {
+		box-shadow: 0 0 20px rgba(243, 231, 211, 0.08);
+	}
 }
 
 .glow-beige {

@@ -1,11 +1,23 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 
 export default function Hero() {
 	const containerRef = useRef<HTMLElement>(null);
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		// Check if device is mobile/low-power
+		const checkMobile = () => {
+			setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+		};
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+		return () => window.removeEventListener("resize", checkMobile);
+	}, []);
+
 	const { scrollYProgress } = useScroll({
 		target: containerRef,
 		offset: ["start start", "end start"],
@@ -34,31 +46,40 @@ export default function Hero() {
 					}}
 				/>
 
-				{/* Floating orbs */}
-				<motion.div
-					className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary-start/10 blur-[120px]"
-					animate={{
-						x: [0, 50, 0],
-						y: [0, 30, 0],
-					}}
-					transition={{
-						duration: 8,
-						repeat: Infinity,
-						ease: "easeInOut",
-					}}
-				/>
-				<motion.div
-					className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-primary-end/10 blur-[100px]"
-					animate={{
-						x: [0, -40, 0],
-						y: [0, -20, 0],
-					}}
-					transition={{
-						duration: 10,
-						repeat: Infinity,
-						ease: "easeInOut",
-					}}
-				/>
+				{/* Floating orbs - static on mobile for performance */}
+				{isMobile ? (
+					<>
+						<div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] rounded-full bg-primary-start/10 blur-[80px]" />
+						<div className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] rounded-full bg-primary-end/10 blur-[60px]" />
+					</>
+				) : (
+					<>
+						<motion.div
+							className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary-start/10 blur-[120px]"
+							animate={{
+								x: [0, 50, 0],
+								y: [0, 30, 0],
+							}}
+							transition={{
+								duration: 8,
+								repeat: Infinity,
+								ease: "easeInOut",
+							}}
+						/>
+						<motion.div
+							className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-primary-end/10 blur-[100px]"
+							animate={{
+								x: [0, -40, 0],
+								y: [0, -20, 0],
+							}}
+							transition={{
+								duration: 10,
+								repeat: Infinity,
+								ease: "easeInOut",
+							}}
+						/>
+					</>
+				)}
 			</div>
 
 			{/* Content */}
@@ -191,25 +212,34 @@ export default function Hero() {
 							{/* Decorative elements */}
 							<div className="absolute -inset-4 bg-gradient-to-br from-primary-start/20 via-transparent to-beige-highlight/20 rounded-3xl blur-2xl" />
 
-							{/* Floating decorative dots */}
-							<motion.div
-								className="absolute -top-4 -right-4 w-20 h-20 rounded-full border border-beige-accent/20"
-								animate={{ rotate: 360 }}
-								transition={{
-									duration: 20,
-									repeat: Infinity,
-									ease: "linear",
-								}}
-							/>
-							<motion.div
-								className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full border border-primary-start/20"
-								animate={{ rotate: -360 }}
-								transition={{
-									duration: 25,
-									repeat: Infinity,
-									ease: "linear",
-								}}
-							/>
+							{/* Floating decorative dots - static on mobile */}
+							{isMobile ? (
+								<>
+									<div className="absolute -top-4 -right-4 w-20 h-20 rounded-full border border-beige-accent/20" />
+									<div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full border border-primary-start/20" />
+								</>
+							) : (
+								<>
+									<motion.div
+										className="absolute -top-4 -right-4 w-20 h-20 rounded-full border border-beige-accent/20"
+										animate={{ rotate: 360 }}
+										transition={{
+											duration: 20,
+											repeat: Infinity,
+											ease: "linear",
+										}}
+									/>
+									<motion.div
+										className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full border border-primary-start/20"
+										animate={{ rotate: -360 }}
+										transition={{
+											duration: 25,
+											repeat: Infinity,
+											ease: "linear",
+										}}
+									/>
+								</>
+							)}
 
 							{/* Main image container */}
 							<div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96">

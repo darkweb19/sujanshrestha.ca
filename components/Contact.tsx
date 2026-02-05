@@ -74,7 +74,7 @@ export default function Contact() {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
-					transition={{ duration: 0.6 }}
+					transition={{ duration: 0.5 }}
 					className="text-center max-w-2xl mx-auto"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
@@ -90,18 +90,11 @@ export default function Contact() {
 						you!
 					</p>
 
-					{/* Email Button */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={isInView ? { opacity: 1, y: 0 } : {}}
-						transition={{ duration: 0.6, delay: 0.2 }}
-						className="mb-12"
-					>
-						<motion.button
+					{/* Email Button - simplified, no motion wrapper */}
+					<div className="mb-12">
+						<button
 							onClick={copyEmail}
-							whileHover={{ scale: 1.02 }}
-							whileTap={{ scale: 0.98 }}
-							className="group relative inline-flex items-center gap-3 px-8 py-5 glass-beige rounded-2xl text-lg font-medium text-beige-highlight transition-all duration-300 hover:bg-beige-highlight/10"
+							className="group relative inline-flex items-center gap-3 px-8 py-5 glass-beige rounded-2xl text-lg font-medium text-beige-highlight transition-all duration-200 hover:bg-beige-highlight/10 hover:scale-[1.02] active:scale-[0.98]"
 						>
 							<svg
 								className="w-6 h-6 group-hover:scale-110 transition-transform"
@@ -126,33 +119,23 @@ export default function Contact() {
 							>
 								{copied ? "Copied!" : "Click to copy"}
 							</span>
-						</motion.button>
-					</motion.div>
+						</button>
+					</div>
 
 					{/* Direct email link for accessibility */}
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={isInView ? { opacity: 1 } : {}}
-						transition={{ duration: 0.6, delay: 0.3 }}
-						className="mb-12"
-					>
+					<div className="mb-12">
 						<a
 							href={`mailto:${email}`}
 							className="text-primary-start hover:text-primary-end transition-colors underline underline-offset-4"
 						>
 							Or send an email directly →
 						</a>
-					</motion.div>
+					</div>
 
-					{/* Social Links */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={isInView ? { opacity: 1, y: 0 } : {}}
-						transition={{ duration: 0.6, delay: 0.4 }}
-						className="flex justify-center gap-6"
-					>
+					{/* Social Links - simplified */}
+					<div className="flex justify-center gap-6">
 						{socialLinks.map((link) => (
-							<motion.a
+							<a
 								key={link.name}
 								href={link.url}
 								target={
@@ -165,15 +148,13 @@ export default function Contact() {
 										? "noopener noreferrer"
 										: undefined
 								}
-								whileHover={{ scale: 1.1, y: -2 }}
-								whileTap={{ scale: 0.95 }}
-								className="group flex items-center justify-center w-14 h-14 glass rounded-xl text-text-muted hover:text-beige-highlight hover:bg-beige-highlight/5 transition-all duration-300"
+								className="group flex items-center justify-center w-14 h-14 glass rounded-xl text-text-muted hover:text-beige-highlight hover:bg-beige-highlight/5 hover:scale-110 hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
 								aria-label={link.name}
 							>
 								{link.icon}
-							</motion.a>
+							</a>
 						))}
-					</motion.div>
+					</div>
 				</motion.div>
 			</div>
 		</section>

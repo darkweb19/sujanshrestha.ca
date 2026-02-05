@@ -1,11 +1,24 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Experience from "@/components/Experience";
-import Projects from "@/components/Projects";
-import Academics from "@/components/Academics";
-import Contact from "@/components/Contact";
+
+// Dynamically import below-the-fold components to improve initial load
+const About = dynamic(() => import("@/components/About"), {
+	loading: () => <div className="min-h-[50vh]" />,
+});
+const Experience = dynamic(() => import("@/components/Experience"), {
+	loading: () => <div className="min-h-[50vh]" />,
+});
+const Projects = dynamic(() => import("@/components/Projects"), {
+	loading: () => <div className="min-h-[50vh]" />,
+});
+const Academics = dynamic(() => import("@/components/Academics"), {
+	loading: () => <div className="min-h-[50vh]" />,
+});
+const Contact = dynamic(() => import("@/components/Contact"), {
+	loading: () => <div className="min-h-[50vh]" />,
+});
 
 // JSON-LD Structured Data for SEO
 const jsonLd = {
