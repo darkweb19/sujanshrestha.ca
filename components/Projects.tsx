@@ -9,7 +9,7 @@ const projects = [
 		description:
 			"AI-powered resume builder that analyzes job descriptions and optimizes resumes for ATS compatibility. Features real-time PDF generation and smart suggestions.",
 		tech: ["Next.js", "TypeScript", "Supabase", "OpenAI", "AWS Lambda"],
-		url: "https://atsresumie.com",
+		url: "https://atsresumie.vercel.app",
 		featured: true,
 	},
 	{
