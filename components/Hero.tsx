@@ -202,12 +202,7 @@ export default function Hero() {
 					</div>
 
 					{/* Right - Profile Image */}
-					<motion.div
-						initial={{ opacity: 0, scale: 0.9 }}
-						animate={{ opacity: 1, scale: 1 }}
-						transition={{ duration: 0.8, delay: 0.3 }}
-						className="order-1 lg:order-2 flex justify-center lg:justify-end"
-					>
+					<div className="order-1 lg:order-2 flex justify-center lg:justify-end">
 						<div className="relative">
 							{/* Decorative elements */}
 							<div className="absolute -inset-4 bg-gradient-to-br from-primary-start/20 via-transparent to-beige-highlight/20 rounded-3xl blur-2xl" />
@@ -251,16 +246,17 @@ export default function Hero() {
 									<Image
 										src="/images/sujan.jpg"
 										alt="Sujan Shrestha portrait"
-										width={320}
-										height={320}
+										width={384}
+										height={384}
 										className="rounded-xl object-cover w-full h-full"
 										priority
-										unoptimized
+										fetchPriority="high"
+										sizes="(max-width: 640px) 256px, (max-width: 768px) 288px, 384px"
 									/>
 								</div>
 							</div>
 						</div>
-					</motion.div>
+					</div>
 				</div>
 			</motion.div>
 
