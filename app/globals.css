@@ -176,3 +176,96 @@ body {
 		scroll-behavior: auto;
 	}
 }
+
+/* ===== HERO CSS ANIMATIONS (replaces JS-driven framer-motion) ===== */
+
+/* Floating orb drift — desktop only */
+@media (min-width: 769px) {
+	.hero-orb-1 {
+		animation: orb-drift-1 8s ease-in-out infinite;
+		will-change: transform;
+	}
+	.hero-orb-2 {
+		animation: orb-drift-2 10s ease-in-out infinite;
+		will-change: transform;
+	}
+}
+
+@keyframes orb-drift-1 {
+	0%,
+	100% {
+		transform: translate(0, 0);
+	}
+	50% {
+		transform: translate(50px, 30px);
+	}
+}
+
+@keyframes orb-drift-2 {
+	0%,
+	100% {
+		transform: translate(0, 0);
+	}
+	50% {
+		transform: translate(-40px, -20px);
+	}
+}
+
+/* Decorative rings — desktop only */
+@media (min-width: 769px) {
+	.hero-ring-cw {
+		animation: ring-rotate 20s linear infinite;
+		will-change: transform;
+	}
+	.hero-ring-ccw {
+		animation: ring-rotate 25s linear infinite reverse;
+		will-change: transform;
+	}
+}
+
+@keyframes ring-rotate {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Scroll indicator */
+.hero-scroll-indicator {
+	animation: fade-in 0.5s ease 1.5s both;
+}
+
+.hero-scroll-dot {
+	animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes scroll-bounce {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(10px);
+	}
+}
+
+/* ===== BELOW-THE-FOLD PERFORMANCE ===== */
+
+/* Use content-visibility to skip rendering of off-screen sections.
+   contain-intrinsic-size provides a height estimate to prevent CLS. */
+#about,
+#experience,
+#projects,
+#academics,
+#contact {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 600px;
+}

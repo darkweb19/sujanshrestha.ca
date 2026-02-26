@@ -1,142 +1,41 @@
-"use client";
-
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import { HeroParallax, HeroTextAnimations } from "./HeroAnimations";
 
+/**
+ * Hero section — server component.
+ * The LCP image and all text are SSR'd and sent in the initial HTML payload.
+ * Only the parallax scroll effect and text fade-in are client-side (via HeroAnimations).
+ */
 export default function Hero() {
-	const containerRef = useRef<HTMLElement>(null);
-	const [isMobile, setIsMobile] = useState(false);
-
-	useEffect(() => {
-		// Check if device is mobile/low-power
-		const checkMobile = () => {
-			setIsMobile(window.matchMedia("(max-width: 768px)").matches);
-		};
-		checkMobile();
-		window.addEventListener("resize", checkMobile);
-		return () => window.removeEventListener("resize", checkMobile);
-	}, []);
-
-	const { scrollYProgress } = useScroll({
-		target: containerRef,
-		offset: ["start start", "end start"],
-	});
-
-	const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-	const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
 	return (
-		<section
-			ref={containerRef}
-			id="home"
-			className="relative min-h-screen flex items-center overflow-hidden"
-		>
-			{/* Animated Background */}
-			<div className="absolute inset-0 bg-bg-0">
-				{/* Grid pattern */}
-				<div
-					className="absolute inset-0 opacity-[0.02]"
-					style={{
-						backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-            `,
-						backgroundSize: "60px 60px",
-					}}
-				/>
-
-				{/* Floating orbs - static on mobile for performance */}
-				{isMobile ? (
-					<>
-						<div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] rounded-full bg-primary-start/10 blur-[80px]" />
-						<div className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] rounded-full bg-primary-end/10 blur-[60px]" />
-					</>
-				) : (
-					<>
-						<motion.div
-							className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary-start/10 blur-[120px]"
-							animate={{
-								x: [0, 50, 0],
-								y: [0, 30, 0],
-							}}
-							transition={{
-								duration: 8,
-								repeat: Infinity,
-								ease: "easeInOut",
-							}}
-						/>
-						<motion.div
-							className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-primary-end/10 blur-[100px]"
-							animate={{
-								x: [0, -40, 0],
-								y: [0, -20, 0],
-							}}
-							transition={{
-								duration: 10,
-								repeat: Infinity,
-								ease: "easeInOut",
-							}}
-						/>
-					</>
-				)}
-			</div>
-
-			{/* Content */}
-			<motion.div
-				style={{ y, opacity }}
-				className="relative z-10 section-container py-20"
-			>
-				<div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-					{/* Left - Text Content */}
-					<div className="order-2 lg:order-1">
+		<HeroParallax>
+			<div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+				{/* Left - Text Content */}
+				<div className="order-2 lg:order-1">
+					<HeroTextAnimations>
 						{/* Greeting */}
-						<motion.p
-							initial={{ opacity: 0, x: -20 }}
-							animate={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.6, delay: 0.2 }}
-							className="text-beige-highlight font-mono text-sm tracking-wider mb-6"
-						>
+						<p className="text-beige-highlight font-mono text-sm tracking-wider mb-6">
 							&#47;&#47; HELLO WORLD
-						</motion.p>
+						</p>
 
 						{/* Name */}
-						<motion.h1
-							initial={{
-								opacity: 0,
-								y: 30,
-								filter: "blur(10px)",
-							}}
-							animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-							transition={{ duration: 0.8, delay: 0.4 }}
-							className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
-						>
+						<h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
 							<span className="gradient-text">
 								Sujan Shrestha
 							</span>
 							<br />
-						</motion.h1>
+						</h1>
 
 						{/* Role badge */}
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.6, delay: 0.6 }}
-							className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-beige mb-6"
-						>
+						<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-beige mb-6">
 							<span className="w-2 h-2 rounded-full bg-beige-highlight animate-pulse" />
 							<span className="text-beige-accent text-sm font-medium">
 								Full-Stack Software Engineer
 							</span>
-						</motion.div>
+						</div>
 
 						{/* Tagline */}
-						<motion.p
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.8, delay: 0.7 }}
-							className="text-lg md:text-xl text-text-muted max-w-lg mb-10"
-						>
+						<p className="text-lg md:text-xl text-text-muted max-w-lg mb-10">
 							I create{" "}
 							<span className="text-beige-highlight font-semibold">
 								beautiful products
@@ -146,15 +45,10 @@ export default function Hero() {
 								empower people
 							</span>
 							. Based in Toronto, CA.
-						</motion.p>
+						</p>
 
 						{/* CTA Buttons */}
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.8, delay: 0.9 }}
-							className="flex flex-wrap gap-4"
-						>
+						<div className="flex flex-wrap gap-4">
 							{/* Primary Button */}
 							<a
 								href="https://sujansthadev-resume2.s3.us-east-1.amazonaws.com/Sujan+Shrestha+dev.pdf"
@@ -198,83 +92,42 @@ export default function Hero() {
 									/>
 								</svg>
 							</a>
-						</motion.div>
-					</div>
+						</div>
+					</HeroTextAnimations>
+				</div>
 
-					{/* Right - Profile Image */}
-					<div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-						<div className="relative">
-							{/* Decorative elements */}
-							<div className="absolute -inset-4 bg-gradient-to-br from-primary-start/20 via-transparent to-beige-highlight/20 rounded-3xl blur-2xl" />
+				{/* Right - Profile Image (SSR, no animation wrapper, instant LCP) */}
+				<div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+					<div className="relative">
+						{/* Decorative glow */}
+						<div className="absolute -inset-4 bg-gradient-to-br from-primary-start/20 via-transparent to-beige-highlight/20 rounded-3xl blur-2xl" />
 
-							{/* Floating decorative dots - static on mobile */}
-							{isMobile ? (
-								<>
-									<div className="absolute -top-4 -right-4 w-20 h-20 rounded-full border border-beige-accent/20" />
-									<div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full border border-primary-start/20" />
-								</>
-							) : (
-								<>
-									<motion.div
-										className="absolute -top-4 -right-4 w-20 h-20 rounded-full border border-beige-accent/20"
-										animate={{ rotate: 360 }}
-										transition={{
-											duration: 20,
-											repeat: Infinity,
-											ease: "linear",
-										}}
-									/>
-									<motion.div
-										className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full border border-primary-start/20"
-										animate={{ rotate: -360 }}
-										transition={{
-											duration: 25,
-											repeat: Infinity,
-											ease: "linear",
-										}}
-									/>
-								</>
-							)}
+						{/* Floating decorative rings — pure CSS animation on desktop */}
+						<div className="absolute -top-4 -right-4 w-20 h-20 rounded-full border border-beige-accent/20 hero-ring hero-ring-cw" />
+						<div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full border border-primary-start/20 hero-ring hero-ring-ccw" />
 
-							{/* Main image container */}
-							<div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96">
-								{/* Glass frame */}
-								<div className="absolute inset-0 rounded-2xl glass-beige glow-beige" />
+						{/* Main image container */}
+						<div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96">
+							{/* Glass frame */}
+							<div className="absolute inset-0 rounded-2xl glass-beige glow-beige" />
 
-								{/* Image */}
-								<div className="relative w-full h-full p-2">
-									<Image
-										src="/images/sujan.jpg"
-										alt="Sujan Shrestha portrait"
-										width={384}
-										height={384}
-										className="rounded-xl object-cover w-full h-full"
-										priority
-										fetchPriority="high"
-										sizes="(max-width: 640px) 256px, (max-width: 768px) 288px, 384px"
-									/>
-								</div>
+							{/* Image — SSR'd, priority, instant paint */}
+							<div className="relative w-full h-full p-2">
+								<Image
+									src="/images/sujan.jpg"
+									alt="Sujan Shrestha — Full-Stack Software Engineer based in Toronto"
+									width={384}
+									height={384}
+									className="rounded-xl object-cover w-full h-full"
+									priority
+									fetchPriority="high"
+									sizes="(max-width: 640px) 256px, (max-width: 768px) 288px, 384px"
+								/>
 							</div>
 						</div>
 					</div>
 				</div>
-			</motion.div>
-
-			{/* Scroll indicator */}
-			<motion.div
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: 1.5 }}
-				className="absolute bottom-8 left-1/2 -translate-x-1/2"
-			>
-				<motion.div
-					animate={{ y: [0, 10, 0] }}
-					transition={{ duration: 2, repeat: Infinity }}
-					className="w-6 h-10 rounded-full border-2 border-beige-accent/30 flex justify-center pt-2"
-				>
-					<motion.div className="w-1 h-2 rounded-full bg-beige-accent" />
-				</motion.div>
-			</motion.div>
-		</section>
+			</div>
+		</HeroParallax>
 	);
 }
