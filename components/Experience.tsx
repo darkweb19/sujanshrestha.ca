@@ -5,6 +5,31 @@ import { useRef, useState } from "react";
 
 const experiences = [
 	{
+		id: "exp-000",
+		title: "Founding AI Engineer",
+		type: "Permanent Full-time",
+		company: "Atsresumie",
+		location: "Toronto, ON",
+		period: "Jan 2026 – Present",
+		status: "ACTIVE",
+		technologies: [
+			"TypeScript",
+			"Node.js",
+			"React",
+			"Docker",
+			"GitHub Actions",
+			"REST APIs",
+		],
+		highlights: [
+			"Architected and built scalable REST APIs and microservices using Node.js and TypeScript, establishing foundation for platform growth",
+			"Developed comprehensive component architecture and shared systems enabling cross-functional teams to build features independently",
+			"Built full-stack features ensuring seamless integration between frontend React applications and backend services",
+			"Implemented containerized services using Docker with CI/CD pipelines via GitHub Actions, improving deployment reliability and developer experience",
+			"Designed automated generation pipeline transforming user inputs into structured outputs, optimizing performance for growing user base",
+			"Led end-to-end development lifecycle from system design through deployment, collaborating closely with stakeholders to translate requirements into technical solutions",
+		],
+	},
+	{
 		id: "exp-001",
 		title: "Backend Developer",
 		type: "Part-time/Contract",
