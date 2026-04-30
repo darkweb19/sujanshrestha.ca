@@ -264,8 +264,7 @@ body {
 #about,
 #experience,
 #projects,
-#academics,
-#contact {
+#academics {
 	content-visibility: auto;
 	contain-intrinsic-size: auto 600px;
 }
