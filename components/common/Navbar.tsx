@@ -4,12 +4,12 @@ import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useState } from "react";
 
 const navLinks = [
-	{ name: "Home", href: "#home" },
-	{ name: "About", href: "#about" },
-	{ name: "Experience", href: "#experience" },
-	{ name: "Projects", href: "#projects" },
-	{ name: "Academics", href: "#academics" },
-	{ name: "Contact", href: "#contact" },
+	{ name: "Home", href: "/#home" },
+	{ name: "About", href: "/#about" },
+	{ name: "Experience", href: "/#experience" },
+	{ name: "Projects", href: "/#projects" },
+	{ name: "Academics", href: "/#academics" },
+	{ name: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
@@ -52,7 +52,7 @@ export default function Navbar() {
 				>
 					{/* Logo */}
 					<motion.a
-						href="#home"
+						href="/#home"
 						whileHover={{ scale: 1.05 }}
 						whileTap={{ scale: 0.95 }}
 						className="text-xl font-bold gradient-text"
