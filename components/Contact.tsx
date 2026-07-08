@@ -49,7 +49,7 @@ export default function Contact() {
 		},
 		{
 			name: "Blog",
-			url: "/blog",
+			url: "/blogs",
 			icon: (
 				<svg
 					className="w-6 h-6"
