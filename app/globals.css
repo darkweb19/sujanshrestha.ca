@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
 	/* Backgrounds - Brighter warm tones */
@@ -267,4 +268,79 @@ body {
 #academics {
 	content-visibility: auto;
 	contain-intrinsic-size: auto 600px;
+}
+
+/* ===== BLOG / MARKDOWN (prose) ===== */
+
+/* Tune the typography plugin's "invert" (dark) prose to the warm palette. */
+.prose {
+	--tw-prose-body: var(--color-text-muted);
+	--tw-prose-headings: var(--color-text-primary);
+	--tw-prose-links: var(--color-beige-highlight);
+	--tw-prose-bold: var(--color-text-primary);
+	--tw-prose-code: var(--color-beige-accent);
+	--tw-prose-quotes: var(--color-text-muted);
+	--tw-prose-quote-borders: var(--color-beige-deep);
+	--tw-prose-bullets: var(--color-beige-deep);
+	--tw-prose-hr: var(--color-glass-border);
+	--tw-prose-th-borders: var(--color-glass-border);
+	--tw-prose-td-borders: var(--color-glass-border);
+}
+
+/* highlight.js code-block theme (self-contained, warm dark). */
+.prose pre {
+	background: var(--color-bg-1);
+	border: 1px solid var(--color-glass-border);
+	border-radius: 0.75rem;
+}
+.prose pre code.hljs {
+	padding: 0;
+	background: transparent;
+	color: var(--color-text-primary);
+}
+.prose code.hljs {
+	display: block;
+	overflow-x: auto;
+}
+.hljs-comment,
+.hljs-quote {
+	color: var(--color-text-dim);
+	font-style: italic;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+	color: #c9a77c;
+}
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+	color: #e7d3b0;
+}
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-attr,
+.hljs-variable,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+	color: #d4a574;
+}
+.hljs-meta,
+.hljs-deletion {
+	color: var(--color-text-dim);
+}
+.hljs-emphasis {
+	font-style: italic;
+}
+.hljs-strong {
+	font-weight: 700;
 }
