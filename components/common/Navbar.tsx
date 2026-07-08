@@ -72,7 +72,7 @@ export default function Navbar() {
 					{/* Blog Button */}
 					<div className="hidden md:block">
 						<motion.a
-							href="/blog"
+							href="/blogs"
 							whileHover={{ scale: 1.02 }}
 							whileTap={{ scale: 0.98 }}
 							className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium glass-beige rounded-lg text-beige-highlight hover:bg-beige-highlight/10 transition-all"
@@ -149,7 +149,7 @@ export default function Navbar() {
 							</a>
 						))}
 						<a
-							href="/blog"
+							href="/blogs"
 							onClick={() => setMobileOpen(false)}
 							className="px-4 py-3 rounded-lg text-beige-highlight bg-beige-highlight/10"
 						>

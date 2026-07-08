@@ -31,7 +31,7 @@ export default function Footer() {
 							Projects
 						</a>
 						<a
-							href="/blog"
+							href="/blogs"
 							className="text-text-muted hover:text-beige-highlight transition-colors text-sm"
 						>
 							Blog
