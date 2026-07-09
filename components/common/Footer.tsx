@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
 	const currentYear = new Date().getFullYear();
 
@@ -18,24 +20,24 @@ export default function Footer() {
 
 					{/* Quick Links */}
 					<div className="flex items-center gap-6">
-						<a
-							href="#home"
+						<Link
+							href="/#home"
 							className="text-text-muted hover:text-beige-highlight transition-colors text-sm"
 						>
 							Home
-						</a>
-						<a
-							href="#projects"
+						</Link>
+						<Link
+							href="/#projects"
 							className="text-text-muted hover:text-beige-highlight transition-colors text-sm"
 						>
 							Projects
-						</a>
-						<a
+						</Link>
+						<Link
 							href="/blogs"
 							className="text-text-muted hover:text-beige-highlight transition-colors text-sm"
 						>
 							Blog
-						</a>
+						</Link>
 						<a
 							href="https://github.com/darkweb19"
 							target="_blank"
@@ -47,8 +49,8 @@ export default function Footer() {
 					</div>
 
 					{/* Back to top */}
-					<a
-						href="#home"
+					<Link
+						href="/#home"
 						className="flex items-center gap-2 text-text-dim hover:text-beige-highlight hover:-translate-y-0.5 transition-all text-sm"
 					>
 						<span>Back to top</span>
@@ -65,7 +67,7 @@ export default function Footer() {
 								d="M5 10l7-7m0 0l7 7m-7-7v18"
 							/>
 						</svg>
-					</a>
+					</Link>
 				</div>
 			</div>
 		</footer>

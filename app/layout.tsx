@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import MotionProvider from "@/components/common/MotionProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -44,21 +45,12 @@ export const metadata: Metadata = {
 		title: "Sujan Shrestha | Full-Stack Software Engineer",
 		description:
 			"Full-Stack Software Engineer based in Toronto, passionate about creating beautiful products that empower people.",
-		images: [
-			{
-				url: "/og-image.png",
-				width: 1200,
-				height: 630,
-				alt: "Sujan Shrestha - Full-Stack Software Engineer",
-			},
-		],
 	},
 	twitter: {
 		card: "summary_large_image",
 		title: "Sujan Shrestha | Full-Stack Software Engineer",
 		description:
 			"Full-Stack Software Engineer based in Toronto, passionate about creating beautiful products that empower people.",
-		images: ["/og-image.png"],
 	},
 	robots: {
 		index: true,
@@ -71,13 +63,6 @@ export const metadata: Metadata = {
 			"max-snippet": -1,
 		},
 	},
-	icons: {
-		icon: "/favicon.ico",
-		apple: "/apple-touch-icon.png",
-	},
-	verification: {
-		google: "YOUR_GOOGLE_VERIFICATION_CODE",
-	},
 };
 
 export default function RootLayout({
@@ -89,8 +74,9 @@ export default function RootLayout({
 		<html lang="en" className="scroll-smooth">
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				suppressHydrationWarning
 			>
-				{children}
+				<MotionProvider>{children}</MotionProvider>
 			</body>
 		</html>
 	);
