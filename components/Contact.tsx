@@ -1,19 +1,35 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { m, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 export default function Contact() {
 	const ref = useRef<HTMLElement>(null);
 	const isInView = useInView(ref, { once: true, margin: "-100px" });
 	const [copied, setCopied] = useState(false);
+	const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	const email = "hi@sujanshrestha.ca";
 
+	useEffect(() => {
+		return () => {
+			if (copiedTimeoutRef.current) {
+				clearTimeout(copiedTimeoutRef.current);
+			}
+		};
+	}, []);
+
 	const copyEmail = async () => {
-		await navigator.clipboard.writeText(email);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
+		try {
+			await navigator.clipboard.writeText(email);
+			setCopied(true);
+			if (copiedTimeoutRef.current) {
+				clearTimeout(copiedTimeoutRef.current);
+			}
+			copiedTimeoutRef.current = setTimeout(() => setCopied(false), 2000);
+		} catch {
+			window.location.href = "mailto:" + email;
+		}
 	};
 
 	const socialLinks = [
@@ -71,14 +87,14 @@ export default function Contact() {
 	return (
 		<section ref={ref} id="contact" className="py-32 relative bg-bg-1">
 			<div className="section-container">
-				<motion.div
+				<m.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
 					transition={{ duration: 0.5 }}
 					className="text-center max-w-2xl mx-auto"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
-						/contact
+						05 — Contact
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
 						Let&apos;s{" "}
@@ -94,10 +110,10 @@ export default function Contact() {
 					<div className="mb-12">
 						<button
 							onClick={copyEmail}
-							className="group relative inline-flex items-center gap-3 px-8 py-5 glass-beige rounded-2xl text-lg font-medium text-beige-highlight transition-all duration-200 hover:bg-beige-highlight/10 hover:scale-[1.02] active:scale-[0.98]"
+							className="group relative inline-flex items-center gap-3 px-8 py-5 glass-beige rounded-2xl text-lg font-medium text-beige-highlight transition-all duration-200 hover:bg-beige-highlight/10"
 						>
 							<svg
-								className="w-6 h-6 group-hover:scale-110 transition-transform"
+								className="w-6 h-6"
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"
@@ -113,7 +129,7 @@ export default function Contact() {
 							<span
 								className={`ml-2 text-sm ${
 									copied
-										? "text-accent-cyan"
+										? "text-beige-highlight"
 										: "text-text-dim"
 								} transition-colors`}
 							>
@@ -148,14 +164,14 @@ export default function Contact() {
 										? "noopener noreferrer"
 										: undefined
 								}
-								className="group flex items-center justify-center w-14 h-14 glass rounded-xl text-text-muted hover:text-beige-highlight hover:bg-beige-highlight/5 hover:scale-110 hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
+								className="group flex items-center justify-center w-14 h-14 glass rounded-xl text-text-muted hover:text-beige-highlight hover:bg-beige-highlight/5 transition-all duration-200"
 								aria-label={link.name}
 							>
 								{link.icon}
 							</a>
 						))}
 					</div>
-				</motion.div>
+				</m.div>
 			</div>
 		</section>
 	);

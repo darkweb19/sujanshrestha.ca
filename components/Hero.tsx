@@ -28,7 +28,7 @@ export default function Hero() {
 
 						{/* Role badge */}
 						<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-beige mb-6">
-							<span className="w-2 h-2 rounded-full bg-beige-highlight animate-pulse" />
+							<span className="w-2 h-2 rounded-full bg-beige-highlight" />
 							<span className="text-beige-accent text-sm font-medium">
 								Full-Stack Software Engineer
 							</span>
@@ -41,7 +41,7 @@ export default function Hero() {
 								beautiful products
 							</span>{" "}
 							that{" "}
-							<span className="text-primary-start text-2xl font-bold">
+							<span className="text-beige-highlight font-semibold">
 								empower people
 							</span>
 							. Based in Toronto, CA.
@@ -53,7 +53,7 @@ export default function Hero() {
 							<a
 								href="/Sujann .pdf"
 								download="Sujan_Shrestha_Resume.pdf"
-								className="group inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-primary-start to-primary-end text-bg-0 font-semibold rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(176,137,104,0.4)] hover:scale-[1.02]"
+								className="group inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-primary-start to-primary-end text-bg-0 font-semibold rounded-xl transition-all duration-300 hover:opacity-90"
 							>
 								<span>Download CV</span>
 								<svg
@@ -98,17 +98,10 @@ export default function Hero() {
 				{/* Right - Profile Image (SSR, no animation wrapper, instant LCP) */}
 				<div className="order-1 lg:order-2 flex justify-center lg:justify-end">
 					<div className="relative">
-						{/* Decorative glow */}
-						<div className="absolute -inset-4 bg-gradient-to-br from-primary-start/20 via-transparent to-beige-highlight/20 rounded-3xl blur-2xl" />
-
-						{/* Floating decorative rings — pure CSS animation on desktop */}
-						<div className="absolute -top-4 -right-4 w-20 h-20 rounded-full border border-beige-accent/20 hero-ring hero-ring-cw" />
-						<div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full border border-primary-start/20 hero-ring hero-ring-ccw" />
-
 						{/* Main image container */}
 						<div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96">
 							{/* Glass frame */}
-							<div className="absolute inset-0 rounded-2xl glass-beige glow-beige" />
+							<div className="absolute inset-0 rounded-2xl glass-beige" />
 
 							{/* Image — SSR'd, priority, instant paint */}
 							<div className="relative w-full h-full p-2">

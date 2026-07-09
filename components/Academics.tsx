@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { m, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 // Education data with country info for the transition story
@@ -70,14 +70,14 @@ export default function Academics() {
 		<section ref={ref} id="academics" className="py-32 relative">
 			<div className="section-container">
 				{/* Header */}
-				<motion.header
+				<m.header
 					initial={{ opacity: 0, y: 20 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
 					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
-						/academics
+						04 — Academics
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
 						Education <span className="gradient-text">Journey</span>
@@ -86,7 +86,7 @@ export default function Academics() {
 						From the foothills of the Himalayas to the shores of
 						Lake Ontario — my educational journey across continents.
 					</p>
-				</motion.header>
+				</m.header>
 
 				{/* Timeline */}
 				<div ref={timelineRef} className="relative max-w-3xl mx-auto">
@@ -97,7 +97,7 @@ export default function Academics() {
 					/>
 
 					{/* Timeline line - animated fill */}
-					<motion.div
+					<m.div
 						style={{ height: lineHeight }}
 						className="absolute left-4 md:left-1/2 top-0 w-[2px] bg-gradient-to-b from-primary-start via-primary-end to-beige-highlight -translate-x-1/2 origin-top"
 						aria-hidden="true"
@@ -144,7 +144,7 @@ function TimelineItem({
 	const isEven = index % 2 === 0;
 
 	return (
-		<motion.li
+		<m.li
 			initial={{ opacity: 0, x: isEven ? -30 : 30 }}
 			animate={isInView ? { opacity: 1, x: 0 } : {}}
 			transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -158,21 +158,18 @@ function TimelineItem({
 				aria-hidden="true"
 			>
 				<div className="relative">
-					{/* Pulse ring for current - simplified, no infinite animation */}
-					{item.highlight && (
-						<div className="absolute inset-0 rounded-full bg-beige-highlight/40 scale-150" />
-					)}
-
 					{/* Transition marker */}
 					{isTransition ? (
-						<div className="w-8 h-8 rounded-full bg-gradient-to-br from-beige-highlight to-primary-start flex items-center justify-center text-sm glow-beige">
-							🍁
+						<div className="w-8 h-8 rounded-full bg-gradient-to-br from-beige-highlight to-primary-start flex items-center justify-center">
+							<span className="text-[10px] font-mono text-bg-0 font-bold">
+								CA
+							</span>
 						</div>
 					) : (
 						<div
 							className={`w-4 h-4 rounded-full ${
 								item.highlight
-									? "bg-beige-highlight glow-beige"
+									? "bg-beige-highlight"
 									: item.country === "canada"
 										? "bg-gradient-to-r from-beige-highlight to-primary-end"
 										: "bg-gradient-to-r from-primary-start to-primary-end"
@@ -191,16 +188,19 @@ function TimelineItem({
 				}`}
 			>
 				<div
-					className={`glass rounded-xl p-6 transition-transform duration-200 hover:scale-[1.02] ${
-						item.highlight ? "glass-beige glow-beige" : ""
+					className={`glass rounded-xl p-6 ${
+						item.highlight ? "ring-1 ring-beige-highlight/30" : ""
 					} ${isTransition ? "ring-1 ring-beige-highlight/30" : ""}`}
 				>
-					{/* Country flag & year */}
+					{/* Country label & year */}
 					<div
 						className={`flex items-center gap-2 mb-2 ${isEven ? "md:justify-end" : ""}`}
 					>
-						<span className="text-sm" aria-label={item.country}>
-							{item.country === "canada" ? "🇨🇦" : "🇳🇵"}
+						<span
+							className="text-[10px] font-mono text-text-dim border border-beige-deep/20 rounded px-1.5 py-0.5"
+							aria-label={item.country}
+						>
+							{item.country === "canada" ? "CA" : "NP"}
 						</span>
 						<time
 							className={`text-xs font-mono ${
@@ -228,6 +228,6 @@ function TimelineItem({
 					<p className="text-text-dim text-sm">{item.description}</p>
 				</div>
 			</article>
-		</motion.li>
+		</m.li>
 	);
 }

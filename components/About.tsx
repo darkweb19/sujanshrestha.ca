@@ -1,20 +1,20 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const skills = [
-	{ name: "Next.js", icon: "▲" },
-	{ name: "TypeScript", icon: "TS" },
-	{ name: "React", icon: "⚛" },
-	{ name: "Node.js", icon: "⬢" },
-	{ name: "AWS", icon: "☁" },
-	{ name: "Docker", icon: "🐳" },
-	{ name: "PostgreSQL", icon: "🐘" },
-	{ name: "MongoDB", icon: "🍃" },
-	{ name: "GraphQL", icon: "◈" },
-	{ name: "Linux", icon: "🐧" },
-	{ name: "GitHub", icon: "⬡" },
+	"Next.js",
+	"TypeScript",
+	"React",
+	"Node.js",
+	"AWS",
+	"Docker",
+	"PostgreSQL",
+	"MongoDB",
+	"GraphQL",
+	"Linux",
+	"GitHub",
 ];
 
 export default function About() {
@@ -24,23 +24,23 @@ export default function About() {
 	return (
 		<section ref={ref} id="about" className="py-32 relative">
 			<div className="section-container">
-				<motion.div
+				<m.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
 					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
-						/about
+						01 — About
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary mb-8">
 						Who I <span className="gradient-text">Am</span>
 					</h3>
-				</motion.div>
+				</m.div>
 
 				<div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
 					{/* Bio - Takes 3 columns */}
-					<motion.div
+					<m.div
 						initial={{ opacity: 0, y: 30 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
 						transition={{ duration: 0.5, delay: 0.1 }}
@@ -60,54 +60,29 @@ export default function About() {
 										&quot;wow.&quot;
 									</span>
 								</p>
-								<p className="text-text-muted leading-relaxed text-md mb-6">
+								<p className="text-text-muted leading-relaxed text-md">
 									I love creating clean UI, subtle animations,
 									and experiences that users enjoy using every
-									day. I work across the full stack:
+									day — across the full stack.
 								</p>
-
-								{/* Creative workflow pipeline */}
-								<div className="flex flex-wrap items-center gap-2 text-sm">
-									<span className="px-3 py-1.5 rounded-lg bg-beige-deep/10 text-beige-highlight font-mono flex items-center gap-2">
-										<span>💡</span> idea
-									</span>
-									<span className="text-beige-accent">→</span>
-									<span className="px-3 py-1.5 rounded-lg bg-beige-deep/10 text-beige-accent font-mono flex items-center gap-2">
-										<span>🎨</span> design
-									</span>
-									<span className="text-beige-accent">→</span>
-									<span className="px-3 py-1.5 rounded-lg bg-beige-deep/10 text-primary-start font-mono flex items-center gap-2">
-										<span>⚡</span> code
-									</span>
-									<span className="text-beige-accent">→</span>
-									<span className="px-3 py-1.5 rounded-lg bg-beige-deep/10 text-mocha font-mono flex items-center gap-2">
-										<span>🚀</span> deploy
-									</span>
-								</div>
 							</div>
 
 							{/* Philosophy */}
 							<div className="glass-beige rounded-2xl p-6">
-								<div className="flex items-start gap-4">
-									<span className="text-3xl">🎯</span>
-									<div>
-										<p className="text-beige-highlight text-lg font-medium mb-2">
-											My Philosophy
-										</p>
-										<p className="text-text-muted text-md leading-relaxed">
-											If you&apos;re building something
-											ambitious and want a developer who
-											cares about both engineering +
-											aesthetics, let&apos;s connect.
-										</p>
-									</div>
-								</div>
+								<p className="text-beige-highlight text-lg font-medium mb-2">
+									My Philosophy
+								</p>
+								<p className="text-text-muted text-md leading-relaxed">
+									If you&apos;re building something ambitious
+									and want a developer who cares about both
+									engineering + aesthetics, let&apos;s connect.
+								</p>
 							</div>
 						</div>
-					</motion.div>
+					</m.div>
 
 					{/* Skills Grid - Takes 2 columns */}
-					<motion.div
+					<m.div
 						initial={{ opacity: 0, y: 30 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
 						transition={{ duration: 0.5, delay: 0.2 }}
@@ -116,22 +91,17 @@ export default function About() {
 						<h4 className="text-text-dim text-sm font-mono mb-6 tracking-wider">
 							TECH STACK
 						</h4>
-						<div className="grid grid-cols-3 gap-3">
+						<div className="flex flex-wrap gap-2">
 							{skills.map((skill) => (
-								<div
-									key={skill.name}
-									className="group glass rounded-xl p-4 text-center cursor-default transition-all duration-200 hover:bg-beige-deep/10 hover:border-beige-deep/20 border border-transparent hover:scale-105"
+								<span
+									key={skill}
+									className="px-3 py-1.5 rounded-lg border border-beige-deep/15 text-text-muted text-sm font-mono hover:text-beige-highlight hover:border-beige-deep/30 transition-colors"
 								>
-									<span className="text-xl mb-2 block group-hover:scale-110 transition-transform duration-200">
-										{skill.icon}
-									</span>
-									<span className="text-text-muted text-xs group-hover:text-beige-highlight transition-colors">
-										{skill.name}
-									</span>
-								</div>
+									{skill}
+								</span>
 							))}
 						</div>
-					</motion.div>
+					</m.div>
 				</div>
 			</div>
 		</section>

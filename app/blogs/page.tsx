@@ -44,7 +44,9 @@ function getPosts(): PostSummary[] {
 	posts.sort((a, b) => {
 		const ta = new Date(a.date).getTime();
 		const tb = new Date(b.date).getTime();
-		if (Number.isNaN(ta) || Number.isNaN(tb)) return a.date < b.date ? 1 : -1;
+		if (Number.isNaN(ta) && Number.isNaN(tb)) return 0;
+		if (Number.isNaN(ta)) return 1;
+		if (Number.isNaN(tb)) return -1;
 		return tb - ta;
 	});
 
@@ -78,7 +80,7 @@ export default function BlogsIndex() {
 						<Link
 							key={post.slug}
 							href={`/blogs/${post.slug}`}
-							className="group block glass rounded-2xl p-8 transition-all duration-300 hover:border-beige-deep/30"
+							className="group block border border-beige-deep/15 bg-bg-1 rounded-2xl p-8 transition-all duration-300 hover:border-beige-deep/30"
 						>
 							{post.date && (
 								<div className="text-sm text-text-dim font-mono mb-3">

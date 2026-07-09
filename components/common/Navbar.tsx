@@ -1,21 +1,22 @@
 "use client";
 
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { useState } from "react";
+import { m, useMotionValueEvent, useScroll } from "framer-motion";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const navLinks = [
-	{ name: "Home", href: "/#home" },
-	{ name: "About", href: "/#about" },
-	{ name: "Experience", href: "/#experience" },
-	{ name: "Projects", href: "/#projects" },
-	{ name: "Academics", href: "/#academics" },
-	{ name: "Contact", href: "/#contact" },
+	{ name: "Home", href: "/#home", id: "home" },
+	{ name: "About", href: "/#about", id: "about" },
+	{ name: "Experience", href: "/#experience", id: "experience" },
+	{ name: "Projects", href: "/#projects", id: "projects" },
+	{ name: "Academics", href: "/#academics", id: "academics" },
+	{ name: "Contact", href: "/#contact", id: "contact" },
 ];
 
 export default function Navbar() {
 	const [hidden, setHidden] = useState(false);
-	const [scrolled, setScrolled] = useState(false);
 	const [mobileOpen, setMobileOpen] = useState(false);
+	const [active, setActive] = useState("");
 
 	const { scrollY } = useScroll();
 
@@ -27,164 +28,157 @@ export default function Navbar() {
 		} else {
 			setHidden(false);
 		}
-		setScrolled(latest > 50);
 	});
 
-	return (
-		<motion.nav
-			variants={{
-				visible: { y: 0 },
-				hidden: { y: "-100%" },
-			}}
-			animate={hidden ? "hidden" : "visible"}
-			transition={{ duration: 0.35, ease: "easeInOut" }}
-			className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-				scrolled ? "py-3" : "py-5"
-			}`}
-		>
-			<div className="section-container">
-				<div
-					className={`flex items-center justify-between px-6 py-3 rounded-2xl transition-all duration-300 ${
-						scrolled
-							? "glass backdrop-blur-md glow-primary"
-							: "bg-transparent"
-					}`}
-				>
-					{/* Logo */}
-					<motion.a
-						href="/#home"
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-						className="text-xl font-bold gradient-text"
-					>
-						Sujan Shrestha
-					</motion.a>
+	useEffect(() => {
+		const elements = navLinks
+			.map((link) => document.getElementById(link.id))
+			.filter((el): el is HTMLElement => el !== null);
 
-					{/* Desktop Nav */}
-					<div className="hidden md:flex items-center gap-1">
+		if (elements.length === 0) return;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const visible = entries.filter((entry) => entry.isIntersecting);
+				if (visible.length > 0) {
+					setActive(visible[0].target.id);
+				}
+			},
+			{ rootMargin: "-40% 0px -55% 0px" }
+		);
+
+		elements.forEach((el) => observer.observe(el));
+
+		return () => observer.disconnect();
+	}, []);
+
+	return (
+		<div className="fixed top-4 inset-x-0 z-50 flex justify-center px-4">
+			<m.nav
+				variants={{
+					visible: { y: 0, opacity: 1 },
+					hidden: { y: -80, opacity: 0 },
+				}}
+				animate={hidden ? "hidden" : "visible"}
+				transition={{ duration: 0.35, ease: "easeInOut" }}
+				className="relative"
+			>
+				<div className="glass rounded-full border border-glass-border flex items-center gap-1 pl-4 pr-2 py-2">
+					{/* Monogram */}
+					<Link
+						href="/#home"
+						className="font-mono text-sm font-semibold text-beige-highlight tracking-tight"
+					>
+						SS
+					</Link>
+
+					{/* Separator */}
+					<span className="hidden md:block h-4 w-px bg-beige-deep/20 mx-1" />
+
+					{/* Desktop links */}
+					<div className="hidden md:flex items-center gap-0.5">
 						{navLinks.map((link) => (
-							<NavLink key={link.name} href={link.href}>
+							<a
+								key={link.name}
+								href={link.href}
+								className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+									active === link.id
+										? "text-beige-highlight bg-beige-highlight/10"
+										: "text-text-muted hover:text-text-primary"
+								}`}
+							>
 								{link.name}
-							</NavLink>
+							</a>
 						))}
 					</div>
 
-					{/* Blog Button */}
-					<div className="hidden md:block">
-						<motion.a
-							href="/blogs"
-							whileHover={{ scale: 1.02 }}
-							whileTap={{ scale: 0.98 }}
-							className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium glass-beige rounded-lg text-beige-highlight hover:bg-beige-highlight/10 transition-all"
+					{/* Blog */}
+					<Link
+						href="/blogs"
+						className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-beige-highlight hover:bg-beige-highlight/10 transition-colors"
+					>
+						<span>Blog</span>
+						<svg
+							className="w-3.5 h-3.5"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
 						>
-							<span>Blog</span>
-							<svg
-								className="w-4 h-4"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M14 5l7 7m0 0l-7 7m7-7H3"
-								/>
-							</svg>
-						</motion.a>
-					</div>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M14 5l7 7m0 0l-7 7m7-7H3"
+							/>
+						</svg>
+					</Link>
 
-					{/* Mobile Menu Button */}
-					<motion.button
+					{/* Mobile menu button */}
+					<m.button
 						whileTap={{ scale: 0.95 }}
 						onClick={() => setMobileOpen(!mobileOpen)}
-						className="md:hidden flex flex-col gap-1.5 p-2"
+						className="md:hidden flex flex-col gap-1 p-1.5"
 						aria-label="Toggle menu"
 					>
-						<motion.span
+						<m.span
 							animate={
 								mobileOpen
-									? { rotate: 45, y: 6 }
+									? { rotate: 45, y: 5 }
 									: { rotate: 0, y: 0 }
 							}
-							className="w-6 h-0.5 bg-beige-highlight rounded-full"
+							className="w-5 h-0.5 bg-beige-highlight rounded-full"
 						/>
-						<motion.span
-							animate={
-								mobileOpen ? { opacity: 0 } : { opacity: 1 }
-							}
-							className="w-6 h-0.5 bg-beige-highlight rounded-full"
+						<m.span
+							animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
+							className="w-5 h-0.5 bg-beige-highlight rounded-full"
 						/>
-						<motion.span
+						<m.span
 							animate={
 								mobileOpen
-									? { rotate: -45, y: -6 }
+									? { rotate: -45, y: -5 }
 									: { rotate: 0, y: 0 }
 							}
-							className="w-6 h-0.5 bg-beige-highlight rounded-full"
+							className="w-5 h-0.5 bg-beige-highlight rounded-full"
 						/>
-					</motion.button>
+					</m.button>
 				</div>
 
-				{/* Mobile Menu */}
-				<motion.div
+				{/* Mobile dropdown */}
+				<m.div
 					initial={false}
 					animate={
 						mobileOpen
-							? { height: "auto", opacity: 1 }
-							: { height: 0, opacity: 0 }
+							? { opacity: 1, y: 0, pointerEvents: "auto" }
+							: { opacity: 0, y: -8, pointerEvents: "none" }
 					}
-					transition={{ duration: 0.3 }}
-					className="md:hidden overflow-hidden"
+					transition={{ duration: 0.2 }}
+					className="md:hidden absolute left-1/2 -translate-x-1/2 mt-3 w-64"
 				>
-					<div className="glass rounded-2xl mt-3 p-4 flex flex-col gap-2">
+					<div className="glass rounded-2xl p-2 flex flex-col">
 						{navLinks.map((link) => (
 							<a
 								key={link.name}
 								href={link.href}
 								onClick={() => setMobileOpen(false)}
-								className="px-4 py-3 rounded-lg text-text-muted hover:text-beige-highlight hover:bg-beige-highlight/5 transition-all"
+								className={`px-4 py-2.5 rounded-xl text-sm transition-colors ${
+									active === link.id
+										? "text-beige-highlight bg-beige-highlight/10"
+										: "text-text-muted hover:text-text-primary hover:bg-beige-highlight/5"
+								}`}
 							>
 								{link.name}
 							</a>
 						))}
-						<a
+						<Link
 							href="/blogs"
 							onClick={() => setMobileOpen(false)}
-							className="px-4 py-3 rounded-lg text-beige-highlight bg-beige-highlight/10"
+							className="px-4 py-2.5 rounded-xl text-sm font-medium text-beige-highlight hover:bg-beige-highlight/10 transition-colors"
 						>
-							Blog →
-						</a>
+							Blog
+						</Link>
 					</div>
-				</motion.div>
-			</div>
-		</motion.nav>
-	);
-}
-
-function NavLink({
-	href,
-	children,
-}: {
-	href: string;
-	children: React.ReactNode;
-}) {
-	return (
-		<motion.a
-			href={href}
-			className="group relative px-4 py-2 text-md font-bold text-text-muted hover:text-beige-highlight transition-colors"
-			whileHover="hover"
-		>
-			{children}
-			{/* Underline sweep */}
-			<motion.span
-				variants={{
-					hover: { scaleX: 1, opacity: 1 },
-				}}
-				initial={{ scaleX: 0, opacity: 0 }}
-				transition={{ duration: 0.2 }}
-				className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-primary-start to-beige-highlight origin-left"
-			/>
-		</motion.a>
+				</m.div>
+			</m.nav>
+		</div>
 	);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 
 /**
@@ -24,32 +24,19 @@ export function HeroParallax({ children }: { children: ReactNode }) {
 			id="home"
 			className="relative min-h-screen flex items-center overflow-hidden"
 		>
-			{/* Background grid */}
+			{/* Background */}
 			<div className="absolute inset-0 bg-bg-0">
-				<div
-					className="absolute inset-0 opacity-[0.02]"
-					style={{
-						backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-            `,
-						backgroundSize: "60px 60px",
-					}}
-				/>
-
-				{/* Floating orbs — use CSS animations instead of JS-driven framer-motion.
-				     On mobile (max-width: 768px), the .hero-orb-animate class is stripped via media query. */}
+				{/* Floating orb — CSS animation on desktop, stripped on mobile via media query. */}
 				<div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full bg-primary-start/10 blur-[80px] md:blur-[120px] hero-orb hero-orb-1" />
-				<div className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] md:w-[400px] md:h-[400px] rounded-full bg-primary-end/10 blur-[60px] md:blur-[100px] hero-orb hero-orb-2" />
 			</div>
 
 			{/* Parallax content */}
-			<motion.div
+			<m.div
 				style={{ y, opacity }}
 				className="relative z-10 section-container py-20"
 			>
 				{children}
-			</motion.div>
+			</m.div>
 
 			{/* Scroll indicator */}
 			<div className="absolute bottom-8 left-1/2 -translate-x-1/2 hero-scroll-indicator">
@@ -67,12 +54,12 @@ export function HeroParallax({ children }: { children: ReactNode }) {
  */
 export function HeroTextAnimations({ children }: { children: ReactNode }) {
 	return (
-		<motion.div
+		<m.div
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.6, delay: 0.1 }}
 		>
 			{children}
-		</motion.div>
+		</m.div>
 	);
 }

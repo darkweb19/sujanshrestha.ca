@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const projects = [
@@ -64,23 +64,23 @@ export default function Projects() {
 	return (
 		<section ref={ref} id="projects" className="py-32 relative">
 			<div className="section-container">
-				<motion.div
+				<m.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
 					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
 					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
-						/creations
+						03 — Projects
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary">
 						Featured <span className="gradient-text">Projects</span>
 					</h3>
-				</motion.div>
+				</m.div>
 
 				{/* Featured Project - ATSResumie */}
 				{featuredProject && (
-					<motion.div
+					<m.div
 						initial={{ opacity: 0, y: 30 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
 						transition={{ duration: 0.5, delay: 0.1 }}
@@ -92,8 +92,8 @@ export default function Projects() {
 							rel="noopener noreferrer"
 							className="group block"
 						>
-							<div className="relative rounded-2xl p-8 bg-gradient-to-br from-beige-deep/10 to-bg-1 border border-beige-deep/20 transition-all duration-300 hover:border-beige-deep/40 hover:shadow-[0_8px_40px_rgba(176,137,104,0.12)]">
-								{/* Featured Badge - removed animate-pulse */}
+							<div className="relative rounded-2xl p-8 bg-bg-1 border border-beige-deep/20 transition-all duration-300 hover:border-beige-deep/40">
+								{/* Featured Badge */}
 								<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-beige-highlight/10 text-beige-highlight text-xs font-mono mb-6">
 									<span className="w-2 h-2 rounded-full bg-beige-highlight" />
 									Featured Project
@@ -142,11 +142,11 @@ export default function Projects() {
 								</div>
 							</div>
 						</a>
-					</motion.div>
+					</m.div>
 				)}
 
 				{/* Other Projects Grid - simplified, no stagger animations */}
-				<motion.div
+				<m.div
 					initial={{ opacity: 0, y: 30 }}
 					animate={isInView ? { opacity: 1, y: 0 } : {}}
 					transition={{ duration: 0.5, delay: 0.2 }}
@@ -155,7 +155,7 @@ export default function Projects() {
 					{otherProjects.map((project) => (
 						<ProjectCard key={project.title} project={project} />
 					))}
-				</motion.div>
+				</m.div>
 			</div>
 		</section>
 	);
@@ -169,35 +169,36 @@ interface Project {
 	featured: boolean;
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCardBody({
+	project,
+	showExternalLinkIcon,
+}: {
+	project: Project;
+	showExternalLinkIcon: boolean;
+}) {
 	return (
-		<a
-			href={project.url}
-			target="_blank"
-			rel="noopener noreferrer"
-			className="group block h-full"
-		>
-			<div className="relative h-full rounded-2xl p-6 bg-bg-1 border border-beige-deep/10 transition-all duration-200 hover:border-beige-deep/30 hover:shadow-[0_8px_30px_rgba(176,137,104,0.08)] hover:-translate-y-1">
-				{/* Header */}
-				<div className="flex items-start justify-between mb-4">
-					{/* Folder Icon */}
-					<div className="w-12 h-12 rounded-xl bg-beige-deep/10 flex items-center justify-center text-beige-accent group-hover:bg-beige-deep/20 transition-colors">
-						<svg
-							className="w-6 h-6"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={1.5}
-								d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-							/>
-						</svg>
-					</div>
+		<div className="relative h-full rounded-2xl p-6 bg-bg-1 border border-beige-deep/10 transition-all duration-200 hover:border-beige-deep/30">
+			{/* Header */}
+			<div className="flex items-start justify-between mb-4">
+				{/* Folder Icon */}
+				<div className="w-12 h-12 rounded-xl bg-beige-deep/10 flex items-center justify-center text-beige-accent group-hover:bg-beige-deep/20 transition-colors">
+					<svg
+						className="w-6 h-6"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth={1.5}
+							d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+						/>
+					</svg>
+				</div>
 
-					{/* External Link */}
+				{/* External Link */}
+				{showExternalLinkIcon && (
 					<svg
 						className="w-5 h-5 text-text-dim group-hover:text-beige-highlight group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
 						fill="none"
@@ -211,30 +212,51 @@ function ProjectCard({ project }: { project: Project }) {
 							d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
 						/>
 					</svg>
-				</div>
-
-				{/* Title */}
-				<h4 className="text-lg font-semibold text-text-primary mb-3 group-hover:text-beige-highlight transition-colors">
-					{project.title}
-				</h4>
-
-				{/* Description */}
-				<p className="text-text-muted text-sm mb-6 line-clamp-3 leading-relaxed">
-					{project.description}
-				</p>
-
-				{/* Tech Stack */}
-				<div className="flex flex-wrap gap-2 mt-auto">
-					{project.tech.map((tech) => (
-						<span
-							key={tech}
-							className="text-xs font-mono px-2.5 py-1 rounded-md bg-bg-2/50 text-text-dim group-hover:text-beige-accent transition-colors"
-						>
-							{tech}
-						</span>
-					))}
-				</div>
+				)}
 			</div>
+
+			{/* Title */}
+			<h4 className="text-lg font-semibold text-text-primary mb-3 group-hover:text-beige-highlight transition-colors">
+				{project.title}
+			</h4>
+
+			{/* Description */}
+			<p className="text-text-muted text-sm mb-6 line-clamp-3 leading-relaxed">
+				{project.description}
+			</p>
+
+			{/* Tech Stack */}
+			<div className="flex flex-wrap gap-2 mt-auto">
+				{project.tech.map((tech) => (
+					<span
+						key={tech}
+						className="text-xs font-mono px-2.5 py-1 rounded-md bg-bg-2/50 text-text-dim group-hover:text-beige-accent transition-colors"
+					>
+						{tech}
+					</span>
+				))}
+			</div>
+		</div>
+	);
+}
+
+function ProjectCard({ project }: { project: Project }) {
+	if (project.url === "#") {
+		return (
+			<div className="group block h-full">
+				<ProjectCardBody project={project} showExternalLinkIcon={false} />
+			</div>
+		);
+	}
+
+	return (
+		<a
+			href={project.url}
+			target="_blank"
+			rel="noopener noreferrer"
+			className="group block h-full"
+		>
+			<ProjectCardBody project={project} showExternalLinkIcon={true} />
 		</a>
 	);
 }
