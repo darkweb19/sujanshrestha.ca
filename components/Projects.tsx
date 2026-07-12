@@ -13,19 +13,11 @@ const projects = [
 		featured: true,
 	},
 	{
-		title: "Fetchany",
+		title: "NeverComes",
 		description:
-			"A simple web app that fetches data from an API and displays it in visually appealing formats.",
-		tech: ["TypeScript", "Next.js", "PostgreSQL"],
-		url: "https://fetchany.sujansthadev.com.np/",
-		featured: false,
-	},
-	{
-		title: "Optics-lens Frontend",
-		description:
-			"Frontend project showcasing an E-commerce platform with visually appealing design.",
-		tech: ["TypeScript", "React", "CSS"],
-		url: "https://opticlens.sujansthadev.com.np/",
+			"A deadpan parody shopping & food-delivery app. Browse products, add to cart, checkout, and track your courier on a live map — the order never arrives. All the dopamine of buying, none of the receipt.",
+		tech: ["Next.js", "TypeScript", "Supabase", "MapLibre GL JS", "Zustand"],
+		url: "https://nevercomes.sujanshrestha.ca",
 		featured: false,
 	},
 	{
@@ -42,14 +34,6 @@ const projects = [
 			"A Finance Management system that tracks expenses and provides basic functionality for managing finances.",
 		tech: ["Next.js", "Prisma", "PostgreSQL", "TypeScript"],
 		url: "https://finance.sujansthadev.com.np/",
-		featured: false,
-	},
-	{
-		title: "Threads-Backend",
-		description:
-			"The heart of Threads, a backend server crafted with Node.js, GraphQL, PostgreSQL, and Prisma.",
-		tech: ["TypeScript", "Node.js", "GraphQL", "Prisma", "PostgreSQL"],
-		url: "#",
 		featured: false,
 	},
 ];
