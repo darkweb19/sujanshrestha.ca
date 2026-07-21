@@ -64,7 +64,7 @@ export default function ScheduleCallModal() {
 
 	const modal = isOpen ? (
 		<div
-			className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+			className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-2 backdrop-blur-sm sm:p-4"
 			onMouseDown={(event) => {
 				if (event.target === event.currentTarget) setIsOpen(false);
 			}}
@@ -75,9 +75,9 @@ export default function ScheduleCallModal() {
 				aria-modal="true"
 				aria-labelledby={titleId}
 				aria-describedby={descriptionId}
-				className="w-full max-w-4xl max-h-[calc(100dvh-2rem)] overflow-hidden rounded-2xl border border-beige-highlight/15 bg-bg-1 shadow-2xl shadow-black/50"
+				className="flex h-[calc(100dvh-1rem)] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-beige-highlight/15 bg-bg-1 shadow-2xl shadow-black/50 sm:h-[calc(100dvh-2rem)]"
 			>
-				<div className="flex items-start justify-between gap-6 border-b border-beige-highlight/10 px-5 py-4 sm:px-6">
+				<div className="flex shrink-0 items-start justify-between gap-6 border-b border-beige-highlight/10 px-5 py-3 sm:px-6">
 					<div>
 						<p className="mb-1 font-mono text-xs tracking-wider text-beige-highlight">
 							AVAILABLE TO CONNECT
@@ -123,7 +123,7 @@ export default function ScheduleCallModal() {
 				<iframe
 					src={APPOINTMENT_URL}
 					title="Book an appointment with Sujan Shrestha"
-					className="h-[calc(100dvh-10rem)] min-h-[300px] max-h-[600px] w-full bg-white sm:h-[600px] sm:min-h-[500px]"
+					className="min-h-0 w-full flex-1 bg-white"
 					frameBorder="0"
 				/>
 			</div>
