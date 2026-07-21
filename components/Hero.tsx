@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { HeroParallax, HeroTextAnimations } from "./HeroAnimations";
+import ScheduleCallModal from "./ScheduleCallModal";
 
 /**
  * Hero section — server component.
@@ -71,26 +72,8 @@ export default function Hero() {
 								</svg>
 							</a>
 
-							{/* Secondary Button */}
-							<a
-								href="#contact"
-								className="group inline-flex items-center gap-2 px-6 py-3.5 glass-beige text-beige-highlight font-semibold rounded-xl transition-all duration-300 hover:bg-beige-highlight/10"
-							>
-								<span>Get In Touch</span>
-								<svg
-									className="w-4 h-4 transition-transform group-hover:translate-x-1"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M17 8l4 4m0 0l-4 4m4-4H3"
-									/>
-								</svg>
-							</a>
+							{/* Scheduling CTA */}
+							<ScheduleCallModal />
 						</div>
 					</HeroTextAnimations>
 				</div>
