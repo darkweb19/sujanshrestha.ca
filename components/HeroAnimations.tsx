@@ -16,7 +16,11 @@ export function HeroParallax({ children }: { children: ReactNode }) {
 	});
 
 	const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-	const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+	const opacity = useTransform(
+		scrollYProgress,
+		[0, 0.6, 0.85],
+		[1, 0.65, 0]
+	);
 
 	return (
 		<section
