@@ -25,4 +25,4 @@
 ## Gotchas
 - LazyMotion `strict`: any future `motion.*` (instead of `m.*`) throws at runtime — intentional guard.
 - Turbopack build no longer prints First Load JS; measure via scripts in `.next/server/app/index.html`.
-- Resume PDF is `public/Sujann .pdf` (space in filename) — unchanged.
+- Resume PDF is `public/Sujan.pdf`.

@@ -52,7 +52,7 @@ export default function Hero() {
 						<div className="flex flex-wrap gap-4">
 							{/* Primary Button */}
 							<a
-								href="/Sujann .pdf"
+								href="/Sujan.pdf"
 								download="Sujan_Shrestha_Resume.pdf"
 								className="group inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-primary-start to-primary-end text-bg-0 font-semibold rounded-xl transition-all duration-300 hover:opacity-90"
 							>

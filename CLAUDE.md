@@ -41,5 +41,5 @@ SEO is a first-class concern and spread across several files — update them tog
 
 ## Assets
 
-- Resume PDF is served from `public/Sujann .pdf` (**note the space in the filename**) and linked from `components/Hero.tsx` via a `download` anchor. Keep the href in sync if the file is renamed.
+- Resume PDF is served from `public/Sujan.pdf` and linked from `components/Hero.tsx` via a `download` anchor. Keep the href in sync if the file is renamed.
 - Profile image: `public/images/sujan.jpg`.
