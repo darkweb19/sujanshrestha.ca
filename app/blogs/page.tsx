@@ -59,7 +59,7 @@ export default function BlogsIndex() {
 	return (
 		<main className="min-h-screen bg-bg-0">
 			<header className="pt-32 pb-16 relative overflow-hidden">
-				<div className="absolute inset-0 bg-gradient-to-b from-beige-deep/5 to-transparent" />
+				<div className="absolute inset-0 bg-gradient-to-b from-beige-highlight/50 to-transparent" />
 				<div className="section-container relative z-10">
 					<h1 className="text-4xl md:text-6xl font-bold mb-6">
 						<span className="gradient-text">Blog</span>
@@ -80,14 +80,14 @@ export default function BlogsIndex() {
 						<Link
 							key={post.slug}
 							href={`/blogs/${post.slug}`}
-							className="group block border border-beige-deep/15 bg-bg-1 rounded-2xl p-8 transition-all duration-300 hover:border-beige-deep/30"
+							className="group block border border-black/8 bg-bg-1 shadow-card rounded-2xl p-8 transition-all duration-300 hover:border-coffee/30 hover:shadow-card-hover"
 						>
 							{post.date && (
 								<div className="text-sm text-text-dim font-mono mb-3">
 									{post.date}
 								</div>
 							)}
-							<h2 className="text-2xl font-semibold text-text-primary group-hover:text-beige-highlight transition-colors mb-3">
+							<h2 className="text-2xl font-semibold text-text-primary group-hover:text-coffee transition-colors mb-3">
 								{post.title}
 							</h2>
 							<p className="text-text-muted leading-relaxed">

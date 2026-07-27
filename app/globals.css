@@ -205,13 +205,13 @@ body {
 
 /* ===== BLOG / MARKDOWN (prose) ===== */
 
-/* Tune the typography plugin's "invert" (dark) prose to the warm palette. */
+/* Tune the typography plugin's light prose to the brown accent. */
 .prose {
 	--tw-prose-body: var(--color-text-muted);
 	--tw-prose-headings: var(--color-text-primary);
-	--tw-prose-links: var(--color-beige-highlight);
+	--tw-prose-links: var(--color-coffee);
 	--tw-prose-bold: var(--color-text-primary);
-	--tw-prose-code: var(--color-beige-accent);
+	--tw-prose-code: var(--color-espresso);
 	--tw-prose-quotes: var(--color-text-muted);
 	--tw-prose-quote-borders: var(--color-beige-deep);
 	--tw-prose-bullets: var(--color-beige-deep);
@@ -220,9 +220,10 @@ body {
 	--tw-prose-td-borders: var(--color-glass-border);
 }
 
-/* highlight.js code-block theme (self-contained, warm dark). */
+/* highlight.js code-block theme (self-contained, monochrome brown on light —
+   a full-spectrum theme fights the black/white/brown identity). */
 .prose pre {
-	background: var(--color-bg-1);
+	background: var(--color-bg-2);
 	border: 1px solid var(--color-glass-border);
 	border-radius: 0.75rem;
 }
@@ -245,7 +246,8 @@ body {
 .hljs-built_in,
 .hljs-name,
 .hljs-tag {
-	color: #c9a77c;
+	color: #6f4e37;
+	font-weight: 600;
 }
 .hljs-string,
 .hljs-title,
@@ -256,7 +258,7 @@ body {
 .hljs-template-variable,
 .hljs-type,
 .hljs-addition {
-	color: #e7d3b0;
+	color: #3c2415;
 }
 .hljs-number,
 .hljs-symbol,
@@ -265,7 +267,7 @@ body {
 .hljs-variable,
 .hljs-selector-attr,
 .hljs-selector-pseudo {
-	color: #d4a574;
+	color: #8a6144;
 }
 .hljs-meta,
 .hljs-deletion {

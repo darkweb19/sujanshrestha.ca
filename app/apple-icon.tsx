@@ -17,7 +17,7 @@ export default async function Icon() {
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
-					backgroundImage: "linear-gradient(135deg, #b08968, #c9a77c)",
+					backgroundImage: "linear-gradient(135deg, #6f4e37, #b08968)",
 					borderRadius: 0,
 				}}
 			>
@@ -25,7 +25,7 @@ export default async function Icon() {
 					style={{
 						fontSize: 110,
 						fontWeight: 700,
-						color: "#2c2721",
+						color: "#ffffff",
 						display: "flex",
 					}}
 				>

@@ -78,7 +78,7 @@ export async function renderMarkdownPage(dir: string): Promise<RenderedBlog> {
 							{frontmatter.tags.map((tag) => (
 								<span
 									key={tag}
-									className="px-3 py-1 rounded-full bg-beige-deep/10 text-beige-accent"
+									className="px-3 py-1 rounded-full bg-beige-highlight/70 text-espresso"
 								>
 									{tag}
 								</span>
@@ -86,7 +86,7 @@ export async function renderMarkdownPage(dir: string): Promise<RenderedBlog> {
 						</div>
 					</header>
 					<article
-						className="prose prose-invert max-w-none"
+						className="prose max-w-none"
 						dangerouslySetInnerHTML={{ __html: html }}
 					/>
 				</div>
