@@ -54,7 +54,7 @@ export default function Projects() {
 					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
-					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
+					<h2 className="text-sm font-mono text-coffee tracking-wider mb-4">
 						03 — Projects
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary">
@@ -76,16 +76,16 @@ export default function Projects() {
 							rel="noopener noreferrer"
 							className="group block"
 						>
-							<div className="relative rounded-2xl p-8 bg-bg-1 border border-beige-deep/20 transition-all duration-300 hover:border-beige-deep/40">
+							<div className="relative rounded-2xl p-8 bg-bg-1 border border-black/8 shadow-card transition-all duration-300 hover:border-coffee/30 hover:shadow-card-hover">
 								{/* Featured Badge */}
-								<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-beige-highlight/10 text-beige-highlight text-xs font-mono mb-6">
-									<span className="w-2 h-2 rounded-full bg-beige-highlight" />
+								<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-beige-highlight/70 text-espresso text-xs font-mono mb-6">
+									<span className="w-2 h-2 rounded-full bg-coffee" />
 									Featured Project
 								</div>
 
 								<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 									<div className="flex-1">
-										<h4 className="text-2xl md:text-3xl font-bold text-text-primary group-hover:text-beige-highlight transition-colors mb-4">
+										<h4 className="text-2xl md:text-3xl font-bold text-text-primary group-hover:text-coffee transition-colors mb-4">
 											{featuredProject.title}
 										</h4>
 										<p className="text-text-muted leading-relaxed mb-6 max-w-2xl">
@@ -96,7 +96,7 @@ export default function Projects() {
 												(tech) => (
 													<span
 														key={tech}
-														className="text-sm font-mono px-3 py-1.5 rounded-lg bg-beige-deep/15 text-beige-accent border border-beige-deep/20"
+														className="text-sm font-mono px-3 py-1.5 rounded-lg bg-bg-2 text-text-muted border border-black/8"
 													>
 														{tech}
 													</span>
@@ -107,9 +107,9 @@ export default function Projects() {
 
 									{/* Arrow */}
 									<div className="flex-shrink-0">
-										<div className="w-14 h-14 rounded-xl bg-beige-deep/10 flex items-center justify-center group-hover:bg-beige-deep/20 transition-colors">
+										<div className="w-14 h-14 rounded-xl bg-beige-highlight/70 flex items-center justify-center group-hover:bg-beige-accent/70 transition-colors">
 											<svg
-												className="w-6 h-6 text-beige-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+												className="w-6 h-6 text-coffee group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
 												fill="none"
 												stroke="currentColor"
 												viewBox="0 0 24 24"
@@ -161,11 +161,11 @@ function ProjectCardBody({
 	showExternalLinkIcon: boolean;
 }) {
 	return (
-		<div className="relative h-full rounded-2xl p-6 bg-bg-1 border border-beige-deep/10 transition-all duration-200 hover:border-beige-deep/30">
+		<div className="relative h-full rounded-2xl p-6 bg-bg-1 border border-black/8 shadow-card transition-all duration-200 hover:border-coffee/30 hover:shadow-card-hover">
 			{/* Header */}
 			<div className="flex items-start justify-between mb-4">
 				{/* Folder Icon */}
-				<div className="w-12 h-12 rounded-xl bg-beige-deep/10 flex items-center justify-center text-beige-accent group-hover:bg-beige-deep/20 transition-colors">
+				<div className="w-12 h-12 rounded-xl bg-beige-highlight/70 flex items-center justify-center text-coffee group-hover:bg-beige-accent/70 transition-colors">
 					<svg
 						className="w-6 h-6"
 						fill="none"
@@ -184,7 +184,7 @@ function ProjectCardBody({
 				{/* External Link */}
 				{showExternalLinkIcon && (
 					<svg
-						className="w-5 h-5 text-text-dim group-hover:text-beige-highlight group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+						className="w-5 h-5 text-text-dim group-hover:text-coffee group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -200,7 +200,7 @@ function ProjectCardBody({
 			</div>
 
 			{/* Title */}
-			<h4 className="text-lg font-semibold text-text-primary mb-3 group-hover:text-beige-highlight transition-colors">
+			<h4 className="text-lg font-semibold text-text-primary mb-3 group-hover:text-coffee transition-colors">
 				{project.title}
 			</h4>
 
@@ -214,7 +214,7 @@ function ProjectCardBody({
 				{project.tech.map((tech) => (
 					<span
 						key={tech}
-						className="text-xs font-mono px-2.5 py-1 rounded-md bg-bg-2/50 text-text-dim group-hover:text-beige-accent transition-colors"
+						className="text-xs font-mono px-2.5 py-1 rounded-md bg-bg-2 text-text-dim group-hover:text-coffee transition-colors"
 					>
 						{tech}
 					</span>

@@ -106,7 +106,7 @@ export default function Experience() {
 					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
-					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
+					<h2 className="text-sm font-mono text-coffee tracking-wider mb-4">
 						02 — Experience
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary">
@@ -115,7 +115,7 @@ export default function Experience() {
 				</m.div>
 
 				{/* Editorial index */}
-				<div className="border-t border-beige-deep/10">
+				<div className="border-t border-black/8">
 					{experiences.map((exp, i) => (
 						<m.div
 							key={exp.id}
@@ -123,11 +123,11 @@ export default function Experience() {
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true, margin: "-80px" }}
 							transition={{ duration: 0.5, delay: i * 0.08 }}
-							className="group border-b border-beige-deep/10 py-10 md:grid md:grid-cols-[140px_1fr] md:gap-10 md:py-12"
+							className="group border-b border-black/8 py-10 md:grid md:grid-cols-[140px_1fr] md:gap-10 md:py-12"
 						>
 							{/* Left rail */}
 							<div className="mb-5 flex items-baseline gap-4 md:mb-0 md:block">
-								<span className="font-mono text-2xl font-semibold text-beige-deep/25 transition-colors group-hover:text-beige-deep/50 md:text-4xl">
+								<span className="font-mono text-2xl font-semibold text-beige-deep/40 transition-colors group-hover:text-coffee/80 md:text-4xl">
 									{String(i + 1).padStart(2, "0")}
 								</span>
 								<div className="md:mt-2">
@@ -135,8 +135,8 @@ export default function Experience() {
 										{exp.period}
 									</p>
 									{exp.status === "ACTIVE" && (
-										<span className="mt-1 inline-flex items-center gap-1.5 font-mono text-xs text-beige-highlight">
-											<span className="h-1.5 w-1.5 rounded-full bg-beige-highlight" />
+										<span className="mt-1 inline-flex items-center gap-1.5 font-mono text-xs text-coffee">
+											<span className="h-1.5 w-1.5 rounded-full bg-coffee" />
 											Now
 										</span>
 									)}
@@ -147,7 +147,7 @@ export default function Experience() {
 							<div>
 								<h4 className="text-xl font-semibold text-text-primary md:text-2xl">
 									{exp.title}{" "}
-									<span className="text-beige-highlight">
+									<span className="text-coffee">
 										· {exp.company}
 									</span>
 								</h4>
@@ -161,7 +161,7 @@ export default function Experience() {
 											key={j}
 											className="flex items-start gap-2"
 										>
-											<span className="mt-0.5 text-beige-highlight">
+											<span className="mt-0.5 text-coffee">
 												▹
 											</span>
 											<span className="text-sm leading-relaxed text-text-muted">
@@ -175,7 +175,7 @@ export default function Experience() {
 									{exp.technologies.map((tech) => (
 										<span
 											key={tech}
-											className="text-xs font-mono px-2.5 py-1 rounded-md border border-beige-deep/15 text-beige-accent"
+											className="text-xs font-mono px-2.5 py-1 rounded-md border border-black/10 text-text-muted"
 										>
 											{tech}
 										</span>

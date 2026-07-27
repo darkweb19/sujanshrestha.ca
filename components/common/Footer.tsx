@@ -22,19 +22,19 @@ export default function Footer() {
 					<div className="flex items-center gap-6">
 						<Link
 							href="/#home"
-							className="text-text-muted hover:text-beige-highlight transition-colors text-sm"
+							className="text-text-muted hover:text-coffee transition-colors text-sm"
 						>
 							Home
 						</Link>
 						<Link
 							href="/#projects"
-							className="text-text-muted hover:text-beige-highlight transition-colors text-sm"
+							className="text-text-muted hover:text-coffee transition-colors text-sm"
 						>
 							Projects
 						</Link>
 						<Link
 							href="/blogs"
-							className="text-text-muted hover:text-beige-highlight transition-colors text-sm"
+							className="text-text-muted hover:text-coffee transition-colors text-sm"
 						>
 							Blog
 						</Link>
@@ -42,7 +42,7 @@ export default function Footer() {
 							href="https://github.com/darkweb19"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="text-text-muted hover:text-beige-highlight transition-colors text-sm"
+							className="text-text-muted hover:text-coffee transition-colors text-sm"
 						>
 							GitHub
 						</a>
@@ -51,7 +51,7 @@ export default function Footer() {
 					{/* Back to top */}
 					<Link
 						href="/#home"
-						className="flex items-center gap-2 text-text-dim hover:text-beige-highlight hover:-translate-y-0.5 transition-all text-sm"
+						className="flex items-center gap-2 text-text-dim hover:text-coffee hover:-translate-y-0.5 transition-all text-sm"
 					>
 						<span>Back to top</span>
 						<svg

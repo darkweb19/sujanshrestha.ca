@@ -64,7 +64,7 @@ export default function ScheduleCallModal() {
 
 	const modal = isOpen ? (
 		<div
-			className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-2 backdrop-blur-sm sm:p-4"
+			className="fixed inset-0 z-[100] flex items-center justify-center bg-espresso/40 p-2 backdrop-blur-sm sm:p-4"
 			onMouseDown={(event) => {
 				if (event.target === event.currentTarget) setIsOpen(false);
 			}}
@@ -75,11 +75,11 @@ export default function ScheduleCallModal() {
 				aria-modal="true"
 				aria-labelledby={titleId}
 				aria-describedby={descriptionId}
-				className="flex h-[calc(100dvh-1rem)] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-beige-highlight/15 bg-bg-1 shadow-2xl shadow-black/50 sm:h-[calc(100dvh-2rem)]"
+				className="flex h-[calc(100dvh-1rem)] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-black/10 bg-bg-1 shadow-card-hover sm:h-[calc(100dvh-2rem)]"
 			>
-				<div className="flex shrink-0 items-start justify-between gap-6 border-b border-beige-highlight/10 px-5 py-3 sm:px-6">
+				<div className="flex shrink-0 items-start justify-between gap-6 border-b border-black/8 px-5 py-3 sm:px-6">
 					<div>
-						<p className="mb-1 font-mono text-xs tracking-wider text-beige-highlight">
+						<p className="mb-1 font-mono text-xs tracking-wider text-coffee">
 							AVAILABLE TO CONNECT
 						</p>
 						<h2
@@ -100,7 +100,7 @@ export default function ScheduleCallModal() {
 						ref={closeButtonRef}
 						type="button"
 						onClick={() => setIsOpen(false)}
-						className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-beige-highlight/10 text-text-muted transition-colors hover:bg-beige-highlight/10 hover:text-beige-highlight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-beige-highlight"
+						className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/10 text-text-muted transition-colors hover:bg-coffee/10 hover:text-coffee focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coffee"
 						aria-label="Close scheduling dialog"
 					>
 						<svg
@@ -136,7 +136,7 @@ export default function ScheduleCallModal() {
 				ref={triggerRef}
 				type="button"
 				onClick={() => setIsOpen(true)}
-				className="group inline-flex items-center gap-2 rounded-xl border border-beige-highlight/15 bg-beige-highlight/5 px-6 py-3.5 font-semibold text-beige-highlight transition-all duration-300 hover:bg-beige-highlight/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-beige-highlight"
+				className="group inline-flex items-center gap-2 rounded-xl border border-coffee/25 bg-bg-1 px-6 py-3.5 font-semibold text-coffee shadow-soft transition-all duration-300 hover:bg-beige-highlight/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coffee"
 			>
 				<span>Schedule a Call</span>
 				<svg

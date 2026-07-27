@@ -76,7 +76,7 @@ export default function Academics() {
 					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
-					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
+					<h2 className="text-sm font-mono text-coffee tracking-wider mb-4">
 						04 — Academics
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
@@ -99,7 +99,7 @@ export default function Academics() {
 					{/* Timeline line - animated fill */}
 					<m.div
 						style={{ height: lineHeight }}
-						className="absolute left-4 md:left-1/2 top-0 w-[2px] bg-gradient-to-b from-primary-start via-primary-end to-beige-highlight -translate-x-1/2 origin-top"
+						className="absolute left-4 md:left-1/2 top-0 w-[2px] bg-gradient-to-b from-espresso via-coffee to-beige-deep -translate-x-1/2 origin-top"
 						aria-hidden="true"
 					/>
 
@@ -160,8 +160,8 @@ function TimelineItem({
 				<div className="relative">
 					{/* Transition marker */}
 					{isTransition ? (
-						<div className="w-8 h-8 rounded-full bg-gradient-to-br from-beige-highlight to-primary-start flex items-center justify-center">
-							<span className="text-[10px] font-mono text-bg-0 font-bold">
+						<div className="w-8 h-8 rounded-full bg-gradient-to-br from-coffee to-espresso flex items-center justify-center">
+							<span className="text-[10px] font-mono text-bg-1 font-bold">
 								CA
 							</span>
 						</div>
@@ -169,9 +169,9 @@ function TimelineItem({
 						<div
 							className={`w-4 h-4 rounded-full ${
 								item.highlight
-									? "bg-beige-highlight"
+									? "bg-coffee"
 									: item.country === "canada"
-										? "bg-gradient-to-r from-beige-highlight to-primary-end"
+										? "bg-gradient-to-r from-coffee to-mocha"
 										: "bg-gradient-to-r from-primary-start to-primary-end"
 							}`}
 						/>
@@ -188,25 +188,23 @@ function TimelineItem({
 				}`}
 			>
 				<div
-					className={`glass rounded-xl p-6 ${
-						item.highlight ? "ring-1 ring-beige-highlight/30" : ""
-					} ${isTransition ? "ring-1 ring-beige-highlight/30" : ""}`}
+					className={`glass shadow-card rounded-xl p-6 ${
+						item.highlight ? "ring-1 ring-coffee/30" : ""
+					} ${isTransition ? "ring-1 ring-coffee/30" : ""}`}
 				>
 					{/* Country label & year */}
 					<div
 						className={`flex items-center gap-2 mb-2 ${isEven ? "md:justify-end" : ""}`}
 					>
 						<span
-							className="text-[10px] font-mono text-text-dim border border-beige-deep/20 rounded px-1.5 py-0.5"
+							className="text-[10px] font-mono text-text-dim border border-black/12 rounded px-1.5 py-0.5"
 							aria-label={item.country}
 						>
 							{item.country === "canada" ? "CA" : "NP"}
 						</span>
 						<time
 							className={`text-xs font-mono ${
-								item.highlight
-									? "text-beige-highlight"
-									: "text-primary-start"
+								item.highlight ? "text-coffee" : "text-mocha"
 							}`}
 						>
 							{item.year}
@@ -215,14 +213,12 @@ function TimelineItem({
 
 					<h4
 						className={`text-lg font-semibold mb-1 ${
-							item.highlight
-								? "text-beige-highlight"
-								: "text-text-primary"
+							item.highlight ? "text-coffee" : "text-text-primary"
 						}`}
 					>
 						{item.level}
 					</h4>
-					<p className="text-beige-accent text-sm mb-2">
+					<p className="text-text-muted text-sm mb-2">
 						{item.institution}
 					</p>
 					<p className="text-text-dim text-sm">{item.description}</p>

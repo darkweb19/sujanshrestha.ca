@@ -93,7 +93,7 @@ export default function Contact() {
 					transition={{ duration: 0.5 }}
 					className="text-center max-w-2xl mx-auto"
 				>
-					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
+					<h2 className="text-sm font-mono text-coffee tracking-wider mb-4">
 						05 — Contact
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
@@ -110,7 +110,7 @@ export default function Contact() {
 					<div className="mb-12">
 						<button
 							onClick={copyEmail}
-							className="group relative inline-flex items-center gap-3 px-8 py-5 glass-beige rounded-2xl text-lg font-medium text-beige-highlight transition-all duration-200 hover:bg-beige-highlight/10"
+							className="group relative inline-flex items-center gap-3 px-8 py-5 glass-beige shadow-card rounded-2xl text-lg font-medium text-espresso transition-all duration-200 hover:bg-beige-accent/50"
 						>
 							<svg
 								className="w-6 h-6"
@@ -128,9 +128,7 @@ export default function Contact() {
 							<span>{email}</span>
 							<span
 								className={`ml-2 text-sm ${
-									copied
-										? "text-beige-highlight"
-										: "text-text-dim"
+									copied ? "text-coffee" : "text-text-dim"
 								} transition-colors`}
 							>
 								{copied ? "Copied!" : "Click to copy"}
@@ -142,7 +140,7 @@ export default function Contact() {
 					<div className="mb-12">
 						<a
 							href={`mailto:${email}`}
-							className="text-primary-start hover:text-primary-end transition-colors underline underline-offset-4"
+							className="text-coffee hover:text-espresso transition-colors underline underline-offset-4"
 						>
 							Or send an email directly →
 						</a>
@@ -164,7 +162,7 @@ export default function Contact() {
 										? "noopener noreferrer"
 										: undefined
 								}
-								className="group flex items-center justify-center w-14 h-14 glass rounded-xl text-text-muted hover:text-beige-highlight hover:bg-beige-highlight/5 transition-all duration-200"
+								className="group flex items-center justify-center w-14 h-14 glass shadow-soft rounded-xl text-text-muted hover:text-coffee hover:bg-coffee/5 transition-all duration-200"
 								aria-label={link.name}
 							>
 								{link.icon}

@@ -30,7 +30,7 @@ export default function About() {
 					transition={{ duration: 0.5 }}
 					className="mb-16"
 				>
-					<h2 className="text-sm font-mono text-beige-highlight tracking-wider mb-4">
+					<h2 className="text-sm font-mono text-coffee tracking-wider mb-4">
 						01 — About
 					</h2>
 					<h3 className="text-4xl md:text-5xl font-bold text-text-primary mb-8">
@@ -48,10 +48,10 @@ export default function About() {
 					>
 						<div className="space-y-6">
 							{/* Main intro */}
-							<div className="glass rounded-2xl p-8">
+							<div className="glass shadow-card rounded-2xl p-8">
 								<p className="text-xl md:text-2xl text-text-primary leading-relaxed mb-6">
 									Hey — I&apos;m{" "}
-									<span className="text-beige-highlight font-semibold">
+									<span className="text-coffee font-semibold">
 										Sujan
 									</span>
 									. I build web apps that feel smooth, modern,
@@ -68,8 +68,8 @@ export default function About() {
 							</div>
 
 							{/* Philosophy */}
-							<div className="glass-beige rounded-2xl p-6">
-								<p className="text-beige-highlight text-lg font-medium mb-2">
+							<div className="glass-beige shadow-card rounded-2xl p-6">
+								<p className="text-espresso text-lg font-medium mb-2">
 									My Philosophy
 								</p>
 								<p className="text-text-muted text-md leading-relaxed">
@@ -95,7 +95,7 @@ export default function About() {
 							{skills.map((skill) => (
 								<span
 									key={skill}
-									className="px-3 py-1.5 rounded-lg border border-beige-deep/15 text-text-muted text-sm font-mono hover:text-beige-highlight hover:border-beige-deep/30 transition-colors"
+									className="px-3 py-1.5 rounded-lg border border-black/10 text-text-muted text-sm font-mono hover:text-coffee hover:border-coffee/40 transition-colors"
 								>
 									{skill}
 								</span>

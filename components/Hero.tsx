@@ -15,7 +15,7 @@ export default function Hero() {
 				<div className="order-2 lg:order-1">
 					<HeroTextAnimations>
 						{/* Greeting */}
-						<p className="text-beige-highlight font-mono text-sm tracking-wider mb-6">
+						<p className="text-coffee font-mono text-sm tracking-wider mb-6">
 							&#47;&#47; HELLO WORLD
 						</p>
 
@@ -29,8 +29,8 @@ export default function Hero() {
 
 						{/* Role badge */}
 						<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-beige mb-6">
-							<span className="w-2 h-2 rounded-full bg-beige-highlight" />
-							<span className="text-beige-accent text-sm font-medium">
+							<span className="w-2 h-2 rounded-full bg-coffee" />
+							<span className="text-espresso text-sm font-medium">
 								Full-Stack Software Engineer
 							</span>
 						</div>
@@ -38,11 +38,11 @@ export default function Hero() {
 						{/* Tagline */}
 						<p className="text-lg md:text-xl text-text-muted max-w-lg mb-10">
 							I create{" "}
-							<span className="text-beige-highlight font-semibold">
+							<span className="text-coffee font-semibold">
 								beautiful products
 							</span>{" "}
 							that{" "}
-							<span className="text-beige-highlight font-semibold">
+							<span className="text-coffee font-semibold">
 								empower people
 							</span>
 							. Based in Toronto, CA.
@@ -54,7 +54,7 @@ export default function Hero() {
 							<a
 								href="/Sujan.pdf"
 								download="Sujan_Shrestha_Resume.pdf"
-								className="group inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-primary-start to-primary-end text-bg-0 font-semibold rounded-xl transition-all duration-300 hover:opacity-90"
+								className="group inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-primary-start to-primary-end text-bg-1 font-semibold rounded-xl shadow-card transition-all duration-300 hover:opacity-90"
 							>
 								<span>Download CV</span>
 								<svg
@@ -84,7 +84,7 @@ export default function Hero() {
 						{/* Main image container */}
 						<div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96">
 							{/* Glass frame */}
-							<div className="absolute inset-0 rounded-2xl glass-beige" />
+							<div className="absolute inset-0 rounded-2xl glass-beige shadow-card" />
 
 							{/* Image — SSR'd, priority, instant paint */}
 							<div className="relative w-full h-full p-2">

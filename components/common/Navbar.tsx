@@ -63,17 +63,17 @@ export default function Navbar() {
 				transition={{ duration: 0.35, ease: "easeInOut" }}
 				className="relative"
 			>
-				<div className="glass rounded-full border border-glass-border flex items-center gap-1 pl-4 pr-2 py-2">
+				<div className="glass shadow-card rounded-full border border-glass-border flex items-center gap-1 pl-4 pr-2 py-2">
 					{/* Monogram */}
 					<Link
 						href="/#home"
-						className="font-mono text-sm font-semibold text-beige-highlight tracking-tight"
+						className="font-mono text-sm font-semibold text-coffee tracking-tight"
 					>
 						SS
 					</Link>
 
 					{/* Separator */}
-					<span className="hidden md:block h-4 w-px bg-beige-deep/20 mx-1" />
+					<span className="hidden md:block h-4 w-px bg-black/10 mx-1" />
 
 					{/* Desktop links */}
 					<div className="hidden md:flex items-center gap-0.5">
@@ -83,7 +83,7 @@ export default function Navbar() {
 								href={link.href}
 								className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
 									active === link.id
-										? "text-beige-highlight bg-beige-highlight/10"
+										? "text-coffee bg-coffee/10"
 										: "text-text-muted hover:text-text-primary"
 								}`}
 							>
@@ -95,7 +95,7 @@ export default function Navbar() {
 					{/* Blog */}
 					<Link
 						href="/blogs"
-						className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-beige-highlight hover:bg-beige-highlight/10 transition-colors"
+						className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-coffee hover:bg-coffee/10 transition-colors"
 					>
 						<span>Blog</span>
 						<svg
@@ -126,11 +126,11 @@ export default function Navbar() {
 									? { rotate: 45, y: 5 }
 									: { rotate: 0, y: 0 }
 							}
-							className="w-5 h-0.5 bg-beige-highlight rounded-full"
+							className="w-5 h-0.5 bg-text-primary rounded-full"
 						/>
 						<m.span
 							animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-							className="w-5 h-0.5 bg-beige-highlight rounded-full"
+							className="w-5 h-0.5 bg-text-primary rounded-full"
 						/>
 						<m.span
 							animate={
@@ -138,7 +138,7 @@ export default function Navbar() {
 									? { rotate: -45, y: -5 }
 									: { rotate: 0, y: 0 }
 							}
-							className="w-5 h-0.5 bg-beige-highlight rounded-full"
+							className="w-5 h-0.5 bg-text-primary rounded-full"
 						/>
 					</m.button>
 				</div>
@@ -154,7 +154,7 @@ export default function Navbar() {
 					transition={{ duration: 0.2 }}
 					className="md:hidden absolute left-1/2 -translate-x-1/2 mt-3 w-64"
 				>
-					<div className="glass rounded-2xl p-2 flex flex-col">
+					<div className="glass shadow-card rounded-2xl p-2 flex flex-col">
 						{navLinks.map((link) => (
 							<a
 								key={link.name}
@@ -162,8 +162,8 @@ export default function Navbar() {
 								onClick={() => setMobileOpen(false)}
 								className={`px-4 py-2.5 rounded-xl text-sm transition-colors ${
 									active === link.id
-										? "text-beige-highlight bg-beige-highlight/10"
-										: "text-text-muted hover:text-text-primary hover:bg-beige-highlight/5"
+										? "text-coffee bg-coffee/10"
+										: "text-text-muted hover:text-text-primary hover:bg-coffee/5"
 								}`}
 							>
 								{link.name}
@@ -172,7 +172,7 @@ export default function Navbar() {
 						<Link
 							href="/blogs"
 							onClick={() => setMobileOpen(false)}
-							className="px-4 py-2.5 rounded-xl text-sm font-medium text-beige-highlight hover:bg-beige-highlight/10 transition-colors"
+							className="px-4 py-2.5 rounded-xl text-sm font-medium text-coffee hover:bg-coffee/10 transition-colors"
 						>
 							Blog
 						</Link>

@@ -31,7 +31,7 @@ export function HeroParallax({ children }: { children: ReactNode }) {
 			{/* Background */}
 			<div className="absolute inset-0 bg-bg-0">
 				{/* Floating orb — CSS animation on desktop, stripped on mobile via media query. */}
-				<div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full bg-primary-start/10 blur-[80px] md:blur-[120px] hero-orb hero-orb-1" />
+				<div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full bg-beige-highlight/60 blur-[80px] md:blur-[120px] hero-orb hero-orb-1" />
 			</div>
 
 			{/* Parallax content */}
@@ -44,8 +44,8 @@ export function HeroParallax({ children }: { children: ReactNode }) {
 
 			{/* Scroll indicator */}
 			<div className="absolute bottom-8 left-1/2 -translate-x-1/2 hero-scroll-indicator">
-				<div className="w-6 h-10 rounded-full border-2 border-beige-accent/30 flex justify-center pt-2">
-					<div className="w-1 h-2 rounded-full bg-beige-accent hero-scroll-dot" />
+				<div className="w-6 h-10 rounded-full border-2 border-coffee/30 flex justify-center pt-2">
+					<div className="w-1 h-2 rounded-full bg-coffee hero-scroll-dot" />
 				</div>
 			</div>
 		</section>
