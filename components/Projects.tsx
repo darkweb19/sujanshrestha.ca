@@ -13,6 +13,14 @@ const projects = [
 		featured: true,
 	},
 	{
+		title: "Outpost",
+		description:
+			"Self-hosted, browser-accessible cloud environment for running Claude Code in isolated Docker sandboxes. Spin up disposable containers, drive them from a real terminal in the browser, and compare configuration profiles side by side — credentials never leave your infrastructure.",
+		tech: ["React", "Fastify", "Docker", "Drizzle ORM", "Fly.io"],
+		url: "https://github.com/useoutpost-dev/outpost",
+		featured: false,
+	},
+	{
 		title: "NeverComes",
 		description:
 			"A deadpan parody shopping & food-delivery app. Browse products, add to cart, checkout, and track your courier on a live map — the order never arrives. All the dopamine of buying, none of the receipt.",
