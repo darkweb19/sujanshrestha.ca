@@ -21,6 +21,14 @@ const projects = [
 		featured: false,
 	},
 	{
+		title: "DraftForge",
+		description:
+			"Local-first CLI that turns a rough Markdown idea into an architecture interview, recorded decisions, a phased implementation plan, and an agent-ready scaffold. A lead model decides but never implements, cheaper worker models execute bounded task contracts, and a reviewer gates every step.",
+		tech: ["Node.js", "CLI", "Anthropic API", "OpenAI API", "Codex CLI"],
+		url: "https://github.com/darkweb19/draftforge",
+		featured: false,
+	},
+	{
 		title: "NeverComes",
 		description:
 			"A deadpan parody shopping & food-delivery app. Browse products, add to cart, checkout, and track your courier on a live map — the order never arrives. All the dopamine of buying, none of the receipt.",
