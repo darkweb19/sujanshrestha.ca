@@ -20,22 +20,6 @@ const projects = [
 		url: "https://nevercomes.sujanshrestha.ca",
 		featured: false,
 	},
-	{
-		title: "Create-mytech CLI",
-		description:
-			"CLI tool to generate a boilerplate Full-Stack codebase, helping developers quickly scaffold projects.",
-		tech: ["TypeScript", "Node.js", "CLI"],
-		url: "https://www.npmjs.com/package/create-mytech",
-		featured: false,
-	},
-	{
-		title: "Finance Wanabee",
-		description:
-			"A Finance Management system that tracks expenses and provides basic functionality for managing finances.",
-		tech: ["Next.js", "Prisma", "PostgreSQL", "TypeScript"],
-		url: "https://finance.sujansthadev.com.np/",
-		featured: false,
-	},
 ];
 
 export default function Projects() {
