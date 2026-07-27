@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import MotionProvider from "@/components/common/MotionProvider";
 import "./globals.css";
@@ -63,6 +63,13 @@ export const metadata: Metadata = {
 			"max-snippet": -1,
 		},
 	},
+};
+
+/* The site is light-only. Pinning color-scheme stops browsers with a dark
+   OS preference from rendering native controls and scrollbars dark. */
+export const viewport: Viewport = {
+	themeColor: "#fafafa",
+	colorScheme: "light",
 };
 
 export default function RootLayout({

@@ -2,37 +2,45 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-	/* Backgrounds - Brighter warm tones */
-	--color-bg-0: #2c2721ff;
-	--color-bg-1: #221d19ff;
-	--color-bg-2: #252019;
+	/* Surfaces - neutral greys, no warm tint.
+	   bg-1 is pure white so cards lift off the page via shadow, not fill. */
+	--color-bg-0: #fafafa;
+	--color-bg-1: #ffffff;
+	--color-bg-2: #f4f4f5;
 
-	/* Primary - Coffee/Brown Gradient */
-	--color-primary-start: #b08968;
-	--color-primary-end: #c9a77c;
+	/* Primary - Coffee gradient (dark enough to carry white text) */
+	--color-primary-start: #6f4e37;
+	--color-primary-end: #b08968;
 
-	/* Beige / Cream Accent */
+	/* Beige / Cream - decoration only, never text */
 	--color-beige-highlight: #f3e7d3;
 	--color-beige-accent: #e7d3b0;
 	--color-beige-deep: #b08968;
 
-	/* Rich Brown tones */
+	/* Rich Brown tones - these carry accent text on light backgrounds */
 	--color-coffee: #6f4e37;
 	--color-espresso: #3c2415;
 	--color-mocha: #967259;
 
-	/* Text */
-	--color-text-primary: #f5f0e8;
-	--color-text-muted: #b8a898;
-	--color-text-dim: #8a7a6a;
+	/* Text - blacks and greys */
+	--color-text-primary: #0a0a0a;
+	--color-text-muted: #52525b;
+	--color-text-dim: #71717a;
 
 	/* Warm accent */
 	--color-accent-warm: #d4a574;
 
 	/* Glass */
-	--color-glass-bg: rgba(243, 231, 211, 0.03);
-	--color-glass-border: rgba(243, 231, 211, 0.08);
-	--color-glass-beige: rgba(243, 231, 211, 0.15);
+	--color-glass-bg: rgba(255, 255, 255, 0.72);
+	--color-glass-border: rgba(10, 10, 10, 0.08);
+	--color-glass-beige: rgba(243, 231, 211, 0.45);
+
+	/* Elevation - warm-tinted so the brown reads in the shadow itself */
+	--shadow-soft: 0 1px 2px rgba(10, 10, 10, 0.05);
+	--shadow-card: 0 1px 3px rgba(10, 10, 10, 0.06),
+		0 8px 24px -8px rgba(60, 36, 21, 0.1);
+	--shadow-card-hover: 0 2px 6px rgba(10, 10, 10, 0.07),
+		0 16px 40px -12px rgba(60, 36, 21, 0.16);
 
 	/* Font */
 	--font-sans: var(--font-geist-sans), system-ui, sans-serif;
@@ -53,17 +61,17 @@ body {
 
 /* ===== UTILITY CLASSES ===== */
 .gradient-text {
-	background: linear-gradient(135deg, #f3e7d3, #b08968, #e7d3b0);
+	background: linear-gradient(135deg, #3c2415, #6f4e37, #967259);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
 }
 
 .glass {
-	background: rgba(243, 231, 211, 0.03);
+	background: rgba(255, 255, 255, 0.72);
 	backdrop-filter: blur(12px);
 	-webkit-backdrop-filter: blur(12px);
-	border: 1px solid rgba(243, 231, 211, 0.08);
+	border: 1px solid rgba(10, 10, 10, 0.06);
 	/* Performance: contain layout for better isolation */
 	contain: layout style;
 }
@@ -82,10 +90,10 @@ body {
 }
 
 .glass-beige {
-	background: rgba(243, 231, 211, 0.03);
+	background: rgba(243, 231, 211, 0.45);
 	backdrop-filter: blur(12px);
 	-webkit-backdrop-filter: blur(12px);
-	border: 1px solid rgba(243, 231, 211, 0.15);
+	border: 1px solid rgba(176, 137, 104, 0.28);
 	contain: layout style;
 }
 
@@ -99,7 +107,7 @@ body {
 /* Selection */
 ::selection {
 	background: rgba(176, 137, 104, 0.3);
-	color: #f5f0e8;
+	color: #0a0a0a;
 }
 
 /* Scrollbar */
@@ -108,11 +116,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-	background: #0f0d0b;
+	background: #f4f4f5;
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #252019;
+	background: #d4d4d8;
 	border-radius: 4px;
 }
 
