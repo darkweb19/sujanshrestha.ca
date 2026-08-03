@@ -10,24 +10,32 @@ import ScheduleCallModal from "./ScheduleCallModal";
 export default function Hero() {
 	return (
 		<HeroParallax>
-			<div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-				{/* Left - Text Content */}
-				<div className="order-2 lg:order-1">
+			<div className="relative min-h-[calc(100vh-10rem)] lg:min-h-[680px] flex items-end lg:items-center">
+				{/* Portrait blends into the hero instead of sitting in a separate card. */}
+				<div className="hero-portrait" aria-hidden="true">
+					<Image
+						src="/images/sujan.jpg"
+						alt=""
+						fill
+						className="hero-portrait-image object-cover"
+						priority
+						fetchPriority="high"
+						sizes="(max-width: 1023px) 100vw, 760px"
+					/>
+				</div>
+
+				{/* Copy stays above the portrait's soft edge. */}
+				<div className="relative z-10 w-full max-w-xl pt-[48vh] pb-16 sm:pt-[52vh] lg:py-0">
 					<HeroTextAnimations>
-						{/* Greeting */}
 						<p className="text-coffee font-mono text-sm tracking-wider mb-6">
 							&#47;&#47; HELLO WORLD
 						</p>
 
-						{/* Name */}
 						<h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-							<span className="gradient-text">
-								Sujan Shrestha
-							</span>
+							<span className="gradient-text">Sujan Shrestha</span>
 							<br />
 						</h1>
 
-						{/* Role badge */}
 						<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-beige mb-6">
 							<span className="w-2 h-2 rounded-full bg-coffee" />
 							<span className="text-espresso text-sm font-medium">
@@ -35,7 +43,6 @@ export default function Hero() {
 							</span>
 						</div>
 
-						{/* Tagline */}
 						<p className="text-lg md:text-xl text-text-muted max-w-lg mb-10">
 							I create{" "}
 							<span className="text-coffee font-semibold">
@@ -48,9 +55,7 @@ export default function Hero() {
 							. Based in Toronto, CA.
 						</p>
 
-						{/* CTA Buttons */}
 						<div className="flex flex-wrap gap-4">
-							{/* Primary Button */}
 							<a
 								href="/Sujan.pdf"
 								download="Sujan_Shrestha_Resume.pdf"
@@ -72,35 +77,9 @@ export default function Hero() {
 								</svg>
 							</a>
 
-							{/* Scheduling CTA */}
 							<ScheduleCallModal />
 						</div>
 					</HeroTextAnimations>
-				</div>
-
-				{/* Right - Profile Image (SSR, no animation wrapper, instant LCP) */}
-				<div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-					<div className="relative">
-						{/* Main image container */}
-						<div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96">
-							{/* Glass frame */}
-							<div className="absolute inset-0 rounded-2xl glass-beige shadow-card" />
-
-							{/* Image — SSR'd, priority, instant paint */}
-							<div className="relative w-full h-full p-2">
-								<Image
-									src="/images/sujan.jpg"
-									alt="Sujan Shrestha — Full-Stack Software Engineer based in Toronto"
-									width={384}
-									height={384}
-									className="rounded-xl object-cover w-full h-full"
-									priority
-									fetchPriority="high"
-									sizes="(max-width: 640px) 256px, (max-width: 768px) 288px, 384px"
-								/>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</HeroParallax>

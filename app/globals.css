@@ -145,6 +145,65 @@ body {
 
 /* ===== HERO CSS ANIMATIONS (replaces JS-driven framer-motion) ===== */
 
+/* A borderless portrait layer with a soft, irregular fade into the page. */
+.hero-portrait {
+	position: absolute;
+	top: 50%;
+	right: clamp(-8rem, -7vw, -4rem);
+	width: min(64vw, 760px);
+	height: min(82vh, 800px);
+	min-height: 620px;
+	transform: translateY(-50%);
+	opacity: 0.88;
+	-webkit-mask-image: radial-gradient(
+		ellipse 68% 79% at 59% 47%,
+		#000 46%,
+		rgba(0, 0, 0, 0.82) 62%,
+		rgba(0, 0, 0, 0.3) 78%,
+		transparent 100%
+	);
+	mask-image: radial-gradient(
+		ellipse 68% 79% at 59% 47%,
+		#000 46%,
+		rgba(0, 0, 0, 0.82) 62%,
+		rgba(0, 0, 0, 0.3) 78%,
+		transparent 100%
+	);
+}
+
+.hero-portrait-image {
+	object-position: 48% center;
+	filter: saturate(0.78) contrast(0.94) brightness(1.03);
+}
+
+@media (max-width: 1023px) {
+	.hero-portrait {
+		top: 1rem;
+		right: -18%;
+		width: 118%;
+		height: 58vh;
+		min-height: 430px;
+		transform: none;
+		opacity: 0.72;
+		-webkit-mask-image: radial-gradient(
+			ellipse 66% 76% at 58% 42%,
+			#000 42%,
+			rgba(0, 0, 0, 0.7) 62%,
+			transparent 94%
+		);
+		mask-image: radial-gradient(
+			ellipse 66% 76% at 58% 42%,
+			#000 42%,
+			rgba(0, 0, 0, 0.7) 62%,
+			transparent 94%
+		);
+	}
+
+	.hero-portrait-image {
+		object-position: 48% 30%;
+	}
+}
+
 /* Floating orb drift — desktop only */
 @media (min-width: 769px) {
 	.hero-orb-1 {
