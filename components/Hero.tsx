@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { HeroParallax, HeroTextAnimations } from "./HeroAnimations";
 import ScheduleCallModal from "./ScheduleCallModal";
 
@@ -10,22 +9,8 @@ import ScheduleCallModal from "./ScheduleCallModal";
 export default function Hero() {
 	return (
 		<HeroParallax>
-			<div className="relative min-h-[calc(100vh-10rem)] lg:min-h-[680px] flex items-end lg:items-center">
-				{/* Portrait blends into the hero instead of sitting in a separate card. */}
-				<div className="hero-portrait" aria-hidden="true">
-					<Image
-						src="/images/sujan.jpg"
-						alt=""
-						fill
-						className="hero-portrait-image object-cover"
-						priority
-						fetchPriority="high"
-						sizes="(max-width: 1023px) 100vw, 760px"
-					/>
-				</div>
-
-				{/* Copy stays above the portrait's soft edge. */}
-				<div className="relative z-10 w-full max-w-xl pt-[48vh] pb-16 sm:pt-[52vh] lg:py-0">
+			<div className="relative min-h-[calc(100svh-10rem)] flex items-end pb-14 sm:items-center sm:pb-0">
+				<div className="relative z-10 w-full max-w-xl">
 					<HeroTextAnimations>
 						<p className="text-coffee font-mono text-sm tracking-wider mb-6">
 							&#47;&#47; HELLO WORLD

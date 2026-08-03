@@ -145,80 +145,54 @@ body {
 
 /* ===== HERO CSS ANIMATIONS (replaces JS-driven framer-motion) ===== */
 
-/* A borderless portrait layer with a soft, irregular fade into the page. */
-.hero-portrait {
-	position: absolute;
-	top: 50%;
-	right: clamp(-8rem, -7vw, -4rem);
-	width: min(64vw, 760px);
-	height: min(82vh, 800px);
-	min-height: 620px;
-	transform: translateY(-50%);
-	opacity: 0.88;
-	-webkit-mask-image: radial-gradient(
-		ellipse 68% 79% at 59% 47%,
-		#000 46%,
-		rgba(0, 0, 0, 0.82) 62%,
-		rgba(0, 0, 0, 0.3) 78%,
+/* Full-screen portrait with a quiet top-to-bottom fade into the page. */
+.hero-background-image-wrap {
+	opacity: 0.82;
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		#000 12%,
+		#000 78%,
 		transparent 100%
 	);
-	mask-image: radial-gradient(
-		ellipse 68% 79% at 59% 47%,
-		#000 46%,
-		rgba(0, 0, 0, 0.82) 62%,
-		rgba(0, 0, 0, 0.3) 78%,
+	mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		#000 12%,
+		#000 78%,
 		transparent 100%
 	);
 }
 
-.hero-portrait-image {
-	object-position: 48% center;
-	filter: saturate(0.78) contrast(0.94) brightness(1.03);
+.hero-background-image {
+	object-position: center 30%;
+	filter: blur(2px) saturate(0.76) contrast(0.92);
+	transform: scale(1.015);
 }
 
-@media (max-width: 1023px) {
-	.hero-portrait {
-		top: 1rem;
-		right: -18%;
-		width: 118%;
-		height: 58vh;
-		min-height: 430px;
-		transform: none;
-		opacity: 0.72;
-		-webkit-mask-image: radial-gradient(
-			ellipse 66% 76% at 58% 42%,
-			#000 42%,
-			rgba(0, 0, 0, 0.7) 62%,
-			transparent 94%
+.hero-background-overlay {
+	background: linear-gradient(
+		to right,
+		rgba(250, 250, 250, 0.96) 0%,
+		rgba(250, 250, 250, 0.86) 34%,
+		rgba(250, 250, 250, 0.38) 64%,
+		rgba(250, 250, 250, 0.14) 100%
+	);
+}
+
+@media (max-width: 639px) {
+	.hero-background-image {
+		object-position: center center;
+	}
+
+	.hero-background-overlay {
+		background: linear-gradient(
+			to bottom,
+			rgba(250, 250, 250, 0.08) 0%,
+			rgba(250, 250, 250, 0.18) 42%,
+			rgba(250, 250, 250, 0.86) 70%,
+			var(--color-bg-0) 100%
 		);
-		mask-image: radial-gradient(
-			ellipse 66% 76% at 58% 42%,
-			#000 42%,
-			rgba(0, 0, 0, 0.7) 62%,
-			transparent 94%
-		);
-	}
-
-	.hero-portrait-image {
-		object-position: 48% 30%;
-	}
-}
-
-/* Floating orb drift — desktop only */
-@media (min-width: 769px) {
-	.hero-orb-1 {
-		animation: orb-drift-1 8s ease-in-out infinite;
-		will-change: transform;
-	}
-}
-
-@keyframes orb-drift-1 {
-	0%,
-	100% {
-		transform: translate(0, 0);
-	}
-	50% {
-		transform: translate(50px, 30px);
 	}
 }
 

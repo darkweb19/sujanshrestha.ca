@@ -1,11 +1,12 @@
 "use client";
 
 import { m, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import { useRef, type ReactNode } from "react";
 
 /**
- * Thin client wrapper that adds parallax scroll effect to Hero content.
- * The heavy content (image, text) is rendered server-side and passed as children.
+ * Thin client wrapper for the hero background and parallax content.
+ * Next.js still includes the priority image in the initial server-rendered HTML.
  */
 export function HeroParallax({ children }: { children: ReactNode }) {
 	const containerRef = useRef<HTMLElement>(null);
@@ -28,10 +29,20 @@ export function HeroParallax({ children }: { children: ReactNode }) {
 			id="home"
 			className="relative min-h-screen flex items-center overflow-hidden"
 		>
-			{/* Background */}
-			<div className="absolute inset-0 bg-bg-0">
-				{/* Floating orb — CSS animation on desktop, stripped on mobile via media query. */}
-				<div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full bg-beige-highlight/60 blur-[80px] md:blur-[120px] hero-orb hero-orb-1" />
+			{/* Full-bleed portrait, softly blended into the page. */}
+			<div className="absolute inset-0 bg-bg-0" aria-hidden="true">
+				<div className="hero-background-image-wrap absolute inset-0">
+					<Image
+						src="/images/sujan.jpg"
+						alt=""
+						fill
+						className="hero-background-image object-cover"
+						priority
+						fetchPriority="high"
+						sizes="100vw"
+					/>
+				</div>
+				<div className="hero-background-overlay absolute inset-0" />
 			</div>
 
 			{/* Parallax content */}
