@@ -166,7 +166,7 @@ body {
 
 .hero-background-image {
 	object-position: center 30%;
-	filter: blur(2px) saturate(0.76) contrast(0.92);
+	filter: blur(4px) saturate(0.76) contrast(0.92);
 	transform: scale(1.015);
 }
 
