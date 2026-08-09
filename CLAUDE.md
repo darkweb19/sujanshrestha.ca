@@ -20,7 +20,14 @@ Single-page personal portfolio built on **Next.js 16 (App Router), React 19, Tai
 - **`app/page.tsx`** is the whole homepage. It composes section components in order (`Hero`, `About`, `Experience`, `Projects`, `Academics`, `Contact`) between `Navbar` and `Footer`. Everything below the fold is `next/dynamic`-imported with a `min-h-[50vh]` placeholder to keep the initial bundle small — keep new below-the-fold sections on that pattern.
 - **Sections = client components.** Each `components/*.tsx` section is `"use client"` and drives its own scroll-reveal animations with Framer Motion. Each renders a `<section id="...">` whose id matches a hash link.
 - **Navigation is hash-based.** `components/common/Navbar.tsx` holds `navLinks` pointing at `#home`, `#about`, `#experience`, `#projects`, `#academics`, `#contact`. Adding or renaming a section means updating both the section's `id` and this list. Smooth scrolling comes from `scroll-smooth` on `<html>` (layout) + `scroll-behavior` in globals.css — a past bug had scroll getting stuck mid-page, so test anchor jumps after touching scroll behavior.
-- **`app/blog/page.tsx`** is the only other route — a static list rendered from a hardcoded `blogPosts` array. No CMS; posts are edited inline.
+- **`app/blogs/`** is the blog, a file-based markdown system (no CMS). Each post is a folder
+  `app/blogs/<slug>/` containing a **`blog.md`** (frontmatter `title` / `date` "YYYY-MM-DD" /
+  `description` / `tags[]` + GFM body) and a fixed boilerplate **`page.tsx`** that calls
+  `renderMarkdownPage(dir)` from **`lib/blog.ts`** (gray-matter + remark → syntax-highlighted
+  HTML, rendered statically at build time). The listing (`app/blogs/page.tsx`) and `sitemap.ts`
+  **auto-discover** any folder containing a `blog.md`, so adding a post = adding a folder, nothing
+  to register. To add one: copy an existing folder, replace `blog.md`, keep `page.tsx` verbatim.
+  (An older `app/blog/page.tsx` hardcoded-array stub predates this system; `app/blogs/` is canonical.)
 
 ## Styling & design system
 
@@ -37,7 +44,7 @@ Code style: tabs for indentation, double quotes, `@/*` path alias maps to repo r
 SEO is a first-class concern and spread across several files — update them together when identity/URL changes:
 - `app/layout.tsx` — global `metadata` (Open Graph, Twitter, `metadataBase` = https://sujanshrestha.ca).
 - `app/page.tsx` — inline JSON-LD `Person` structured data.
-- `app/sitemap.ts` and `app/robots.ts` — generated sitemap/robots. Add new routes to the sitemap array.
+- `app/sitemap.ts` and `app/robots.ts` — generated sitemap/robots. Blog posts are auto-added (it scans `app/blogs/*` for `blog.md`); only non-blog routes need adding to the sitemap array by hand.
 
 ## Assets
 
