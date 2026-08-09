@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<meta name="color-scheme" content="dark" />
+		<title>PUBG Stream Overlay</title>
+		<style>
+			:root {
+				--accent: #f7b733;
+				--accent-rgb: 247, 183, 51;
+				--ink: #f7f4eb;
+				--panel: rgba(8, 10, 10, 0.88);
+				--line: rgba(247, 244, 235, 0.26);
+				--edge: clamp(16px, 2.2vw, 42px);
+				--unit: clamp(10px, 1.05vw, 20px);
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				overflow: hidden;
+				background: transparent;
+			}
+
+			body {
+				color: var(--ink);
+				font-family: "Arial Narrow", "Roboto Condensed", Impact, sans-serif;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				-webkit-font-smoothing: antialiased;
+			}
+
+			.overlay {
+				position: relative;
+				width: 100vw;
+				height: 100vh;
+				isolation: isolate;
+				pointer-events: none;
+			}
+
+			.vignette {
+				position: absolute;
+				inset: 0;
+				z-index: -1;
+				background:
+					linear-gradient(180deg, rgba(0, 0, 0, 0.26), transparent 18%, transparent 78%, rgba(0, 0, 0, 0.42)),
+					linear-gradient(90deg, rgba(0, 0, 0, 0.2), transparent 13%, transparent 87%, rgba(0, 0, 0, 0.2));
+			}
+
+			.topbar {
+				position: absolute;
+				top: max(var(--edge), env(safe-area-inset-top));
+				left: max(var(--edge), env(safe-area-inset-left));
+				right: max(var(--edge), env(safe-area-inset-right));
+				display: flex;
+				align-items: flex-start;
+				justify-content: space-between;
+				gap: calc(var(--unit) * 2);
+			}
+
+			.identity {
+				display: flex;
+				align-items: stretch;
+				filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.42));
+			}
+
+			.identity-mark {
+				position: relative;
+				width: clamp(8px, 0.65vw, 13px);
+				background: var(--accent);
+				box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.65);
+				clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
+			}
+
+			.identity-copy {
+				position: relative;
+				min-width: clamp(210px, 22vw, 420px);
+				padding: calc(var(--unit) * 0.7) calc(var(--unit) * 1.25) calc(var(--unit) * 0.76);
+				background: var(--panel);
+				border-top: 1px solid var(--line);
+				border-bottom: 1px solid rgba(var(--accent-rgb), 0.38);
+				clip-path: polygon(0 0, 95% 0, 100% 24%, 100% 100%, 0 100%);
+			}
+
+			.eyebrow,
+			.session-label {
+				color: var(--accent);
+				font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+				font-size: clamp(8px, 0.62vw, 12px);
+				line-height: 1;
+				letter-spacing: 0.2em;
+			}
+
+			.name {
+				max-width: 40vw;
+				margin-top: calc(var(--unit) * 0.28);
+				overflow: hidden;
+				font-size: clamp(20px, 2.25vw, 44px);
+				line-height: 0.95;
+				letter-spacing: 0.045em;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
+			.live {
+				display: flex;
+				align-items: center;
+				gap: calc(var(--unit) * 0.6);
+				padding: calc(var(--unit) * 0.58) calc(var(--unit) * 0.9);
+				background: var(--panel);
+				border: 1px solid rgba(255, 255, 255, 0.18);
+				box-shadow: inset 3px 0 0 var(--accent), 0 8px 18px rgba(0, 0, 0, 0.32);
+				font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+				font-size: clamp(9px, 0.78vw, 15px);
+				line-height: 1;
+				letter-spacing: 0.18em;
+			}
+
+			.live-dot {
+				width: clamp(7px, 0.58vw, 11px);
+				aspect-ratio: 1;
+				border-radius: 50%;
+				background: #ff3b3b;
+				box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.7);
+				animation: pulse 1.8s infinite;
+			}
+
+			.corner {
+				position: absolute;
+				width: clamp(48px, 6vw, 116px);
+				height: clamp(48px, 6vw, 116px);
+				opacity: 0.78;
+			}
+
+			.corner::before,
+			.corner::after {
+				position: absolute;
+				content: "";
+				background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.12));
+				box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.24);
+			}
+
+			.corner::before {
+				width: 100%;
+				height: 2px;
+			}
+
+			.corner::after {
+				width: 2px;
+				height: 100%;
+				background: linear-gradient(180deg, var(--accent), rgba(var(--accent-rgb), 0.12));
+			}
+
+			.corner-bl {
+				bottom: max(var(--edge), env(safe-area-inset-bottom));
+				left: max(var(--edge), env(safe-area-inset-left));
+				transform: rotate(-90deg);
+			}
+
+			.corner-tr {
+				top: max(var(--edge), env(safe-area-inset-top));
+				right: max(var(--edge), env(safe-area-inset-right));
+				transform: rotate(90deg);
+				display: none;
+			}
+
+			.lower-third {
+				position: absolute;
+				right: max(var(--edge), env(safe-area-inset-right));
+				bottom: max(var(--edge), env(safe-area-inset-bottom));
+				display: flex;
+				align-items: stretch;
+				filter: drop-shadow(0 9px 22px rgba(0, 0, 0, 0.48));
+			}
+
+			.session-copy {
+				min-width: clamp(240px, 27vw, 520px);
+				padding: calc(var(--unit) * 0.7) calc(var(--unit) * 1.25);
+				background: var(--panel);
+				border-top: 1px solid rgba(var(--accent-rgb), 0.4);
+				border-bottom: 1px solid var(--line);
+				clip-path: polygon(6% 0, 100% 0, 100% 100%, 0 100%, 0 31%);
+				text-align: right;
+			}
+
+			.session-title {
+				max-width: 38vw;
+				margin-top: calc(var(--unit) * 0.28);
+				overflow: hidden;
+				font-size: clamp(16px, 1.55vw, 30px);
+				line-height: 1;
+				letter-spacing: 0.07em;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
+			.session-notch {
+				width: clamp(6px, 0.5vw, 10px);
+				background: var(--accent);
+				box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.5);
+				clip-path: polygon(0 0, 100% 18%, 100% 100%, 0 100%);
+			}
+
+			.scanline {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				height: 2px;
+				background: linear-gradient(90deg, transparent 5%, var(--accent) 23%, transparent 42%, transparent 100%);
+				opacity: 0.5;
+				animation: scan 7s ease-in-out infinite;
+			}
+
+			@keyframes pulse {
+				0% { box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.72); }
+				65%, 100% { box-shadow: 0 0 0 10px rgba(255, 59, 59, 0); }
+			}
+
+			@keyframes scan {
+				0%, 100% { transform: translateX(-22%); opacity: 0.18; }
+				50% { transform: translateX(42%); opacity: 0.65; }
+			}
+
+			@media (max-aspect-ratio: 4 / 3) {
+				:root {
+					--edge: clamp(12px, 3.2vw, 28px);
+				}
+
+				.identity-copy {
+					min-width: min(64vw, 360px);
+				}
+
+				.name {
+					max-width: 54vw;
+				}
+
+				.live span:last-child {
+					display: none;
+				}
+
+				.session-copy {
+					min-width: min(72vw, 430px);
+				}
+
+				.session-title {
+					max-width: 58vw;
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.live-dot,
+				.scanline {
+					animation: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main class="overlay" aria-label="PUBG livestream overlay">
+			<div class="vignette" aria-hidden="true"></div>
+
+			<header class="topbar">
+				<div class="identity">
+					<div class="identity-mark" aria-hidden="true"></div>
+					<div class="identity-copy">
+						<div class="eyebrow" id="game">PUBG Mobile</div>
+						<div class="name" id="name">Sujan</div>
+					</div>
+				</div>
+
+				<div class="live" aria-label="Live broadcast">
+					<span class="live-dot" aria-hidden="true"></span>
+					<span>Live</span>
+				</div>
+			</header>
+
+			<div class="corner corner-bl" aria-hidden="true"></div>
+			<div class="corner corner-tr" aria-hidden="true"></div>
+
+			<footer class="lower-third">
+				<div class="session-copy">
+					<div class="session-label" id="label">Squad Session</div>
+					<div class="session-title" id="title">Road to Chicken Dinner</div>
+				</div>
+				<div class="session-notch" aria-hidden="true"></div>
+			</footer>
+
+			<div class="scanline" aria-hidden="true"></div>
+		</main>
+
+		<script>
+			(() => {
+				const params = new URLSearchParams(window.location.search);
+				const fields = ["name", "game", "label", "title"];
+
+				for (const field of fields) {
+					const value = params.get(field)?.trim();
+					if (value) document.getElementById(field).textContent = value.slice(0, 48);
+				}
+
+				const accent = params.get("accent");
+				if (/^[0-9a-f]{6}$/i.test(accent || "")) {
+					const red = Number.parseInt(accent.slice(0, 2), 16);
+					const green = Number.parseInt(accent.slice(2, 4), 16);
+					const blue = Number.parseInt(accent.slice(4, 6), 16);
+					document.documentElement.style.setProperty("--accent", `#${accent}`);
+					document.documentElement.style.setProperty("--accent-rgb", `${red}, ${green}, ${blue}`);
+				}
+			})();
+		</script>
+	</body>
+</html>
