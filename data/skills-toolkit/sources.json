@@ -1,0 +1,56 @@
+{
+  "repository": "https://github.com/darkweb19/skills",
+  "commit": "02e3bc090208bebb8cbf0ddc1985c51235c67b8f",
+  "skills": [
+    {
+      "slug": "senior-frontend",
+      "name": "Frontend Design",
+      "category": "Design"
+    },
+    {
+      "slug": "cto-advisor",
+      "name": "CTO Advisor",
+      "category": "Leadership"
+    },
+    {
+      "slug": "code-reviewer",
+      "name": "Code Review",
+      "category": "Engineering"
+    },
+    {
+      "slug": "focused-fix",
+      "name": "Debugging",
+      "category": "Engineering"
+    },
+    {
+      "slug": "security-pen-testing",
+      "name": "Security Audit",
+      "category": "Security"
+    },
+    {
+      "slug": "senior-qa",
+      "name": "Testing",
+      "category": "Quality"
+    },
+    {
+      "slug": "api-design-reviewer",
+      "name": "API Design",
+      "category": "Architecture"
+    },
+    {
+      "slug": "performance-profiler",
+      "name": "Performance Optimization",
+      "category": "Engineering"
+    },
+    {
+      "slug": "codebase-onboarding",
+      "name": "Documentation",
+      "category": "Documentation"
+    },
+    {
+      "slug": "database-designer",
+      "name": "Database Architecture",
+      "category": "Architecture"
+    }
+  ]
+}

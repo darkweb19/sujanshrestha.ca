@@ -30,6 +30,13 @@
 	/* Warm accent */
 	--color-accent-warm: #d4a574;
 
+	/* Interaction primitives shared by portfolio and Lab. */
+	--color-focus: #6f4e37;
+	--color-scrollbar-track: #f4f4f5;
+	--color-scrollbar-thumb: #a1a1aa;
+	--color-scrollbar-hover: #967259;
+	--color-scrollbar-active: #6f4e37;
+
 	/* Glass */
 	--color-glass-bg: rgba(255, 255, 255, 0.72);
 	--color-glass-border: rgba(10, 10, 10, 0.08);
@@ -110,22 +117,66 @@ body {
 	color: #0a0a0a;
 }
 
-/* Scrollbar */
+/* Keep keyboard focus visible throughout the portfolio and Lab. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+	outline: 2px solid var(--color-focus);
+	outline-offset: 3px;
+}
+
+button:enabled,
+summary {
+	cursor: pointer;
+}
+
+/* Scrollbars use the same neutral surfaces and coffee interaction palette. */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
+}
+
 ::-webkit-scrollbar {
 	width: 8px;
+	height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-	background: #f4f4f5;
+	background: var(--color-scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #d4d4d8;
+	background: var(--color-scrollbar-thumb);
 	border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background: #b08968;
+	background: var(--color-scrollbar-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+	background: var(--color-scrollbar-active);
+}
+
+@media (forced-colors: active) {
+	* {
+		scrollbar-color: auto;
+	}
+
+	:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+		outline-color: Highlight;
+	}
+
+	::-webkit-scrollbar-track {
+		background: Canvas;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: ButtonText;
+	}
+
+	::-webkit-scrollbar-thumb:hover,
+	::-webkit-scrollbar-thumb:active {
+		background: Highlight;
+	}
 }
 
 /* Reduced motion */

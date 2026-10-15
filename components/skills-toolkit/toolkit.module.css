@@ -1,0 +1,145 @@
+.toolkit { padding-top: 140px; padding-bottom: 48px; --toolkit-line: var(--color-glass-border); }
+.toolkit *, .dialog * { box-sizing: border-box; }
+:where(.toolkit, .dialog) :is(button, input, select, textarea) { font: inherit; }
+.toolkit :is(button, a, input, select, textarea, summary):focus-visible, .dialog :is(button, a, input, select, textarea, summary, pre):focus-visible { outline: 2px solid var(--color-coffee); outline-offset: 3px; }
+.pageHeading { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding-bottom: 38px; border-bottom: 1px solid var(--toolkit-line); margin-bottom: 34px; }
+.backLink { display: inline-flex; color: var(--color-text-muted); font-size: 13px; margin-bottom: 30px; }
+.backLink:hover, .sourceLink:hover { color: var(--color-coffee); }
+.eyebrow { color: var(--color-coffee); text-transform: uppercase; letter-spacing: .12em; font: 500 11px/1.5 var(--font-mono); margin: 0 0 10px; }
+.pageHeading h1 { font-size: clamp(32px, 4.8vw, 48px); font-weight: 650; letter-spacing: -.045em; line-height: 1.15; margin: 0 0 16px; }
+.pageHeading h1 span { color: var(--color-coffee); }
+.intro { color: var(--color-text-muted); font-size: 15px; line-height: 1.75; margin: 0; }
+.sourceLink { display: flex; gap: 12px; font-size: 12px; color: var(--color-text-muted); white-space: nowrap; padding-bottom: 4px; }
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) 352px; align-items: start; gap: 32px; }
+.library { min-width: 0; }
+.sectionHeading { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 20px; }
+.sectionHeading h2, .archiveHeader h2 { font-size: 20px; font-weight: 600; letter-spacing: -.035em; margin: 0; }
+.sectionHeading .help { margin-top: 5px; margin-bottom: 0; }
+.button { min-height: 38px; display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 9px 14px; border: 1px solid var(--color-glass-border); border-radius: 9px; font-size: 12px; line-height: 1.4; font-weight: 550; text-decoration: none; cursor: pointer; transition: background .15s, border-color .15s; }
+.button:disabled { cursor: not-allowed; opacity: .45; }
+.primary { background: var(--color-coffee); border-color: var(--color-coffee); color: white; }
+.primary:hover:enabled { background: var(--color-espresso); border-color: var(--color-espresso); }
+.secondary { background: var(--color-bg-1); color: var(--color-text-primary); }
+.secondary:hover:enabled, a.secondary:hover { border-color: var(--color-coffee); background: var(--color-bg-0); }
+.quiet { background: transparent; border-color: transparent; color: var(--color-coffee); padding: 5px 7px; min-height: 32px; }
+.quiet:hover:enabled { background: var(--color-bg-2); }
+.danger { background: var(--color-bg-1); border-color: #a33d321f; color: #9e3026; }
+.danger:hover:enabled { background: #fef2f2; border-color: #9e3026; }
+.filters { display: grid; grid-template-columns: minmax(0, 1fr) 165px; gap: 10px; }
+.searchField { position: relative; }
+.searchIcon { position: absolute; top: 13px; left: 13px; color: var(--color-text-dim); pointer-events: none; }
+.toolkit input:not([type=checkbox]), .toolkit select, .toolkit textarea, .dialog input:not([type=checkbox]), .dialog select, .dialog textarea { width: 100%; min-width: 0; border: 1px solid var(--color-glass-border); background: var(--color-bg-1); color: var(--color-text-primary); border-radius: 9px; padding: 12px; font-size: 13px; line-height: 1.5; }
+.toolkit select, .dialog select { cursor: pointer; padding-right: 28px; }
+.toolkit .searchField input { padding-left: 39px; padding-right: 38px; }
+.searchField input::-webkit-search-cancel-button { display: none; }
+.clearSearch { position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; border: none; border-radius: 6px; background: transparent; color: var(--color-text-muted); font-size: 21px; cursor: pointer; }
+.clearSearch:hover { background: var(--color-bg-2); }
+.selectionToolbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 14px 0; font-size: 11px; font-weight: 500; }
+.selectionToolbar > div { display: flex; gap: 3px; }
+.selectionToolbar .button { font-size: 11px; }
+.skillGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.skillCard { min-width: 0; display: flex; flex-direction: column; border: 1px solid var(--color-glass-border); background: var(--color-bg-1); border-radius: 14px; padding: 18px; box-shadow: var(--shadow-soft); }
+.skillCard:hover { border-color: #6f4e3745; }
+.skillSelected { border-color: var(--color-coffee); box-shadow: inset 0 0 0 1px var(--color-coffee); }
+.skillCardHeading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 17px; }
+.toolkit input[type=checkbox], .dialog input[type=checkbox] { width: 17px; height: 17px; flex: 0 0 17px; margin: 0; accent-color: var(--color-coffee); cursor: pointer; }
+.tag { color: var(--color-coffee); background: var(--color-bg-2); border-radius: 5px; padding: 4px 7px; font-size: 10px; font-weight: 500; line-height: 1.35; }
+.skillCard h3 { margin: 0 0 9px; font-size: 15px; line-height: 1.4; font-weight: 600; letter-spacing: -.025em; }
+.skillCard h3 label { cursor: pointer; }
+.skillDescription { font-size: 12px; line-height: 1.7; color: var(--color-text-muted); margin: 0 0 20px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.skillCardFooter { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--color-glass-border); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.skillSource { font-size: 10px; line-height: 1.55; color: var(--color-text-muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.skillSource > span { display: block; color: var(--color-text-dim); }
+.skillCardFooter .button { font-size: 11px; padding-right: 0; }
+.archivePanel { border: 1px solid var(--color-glass-border); border-radius: 16px; background: var(--color-bg-1); padding: 24px; box-shadow: var(--shadow-card); position: sticky; top: 30px; }
+.archiveHeader { margin-bottom: 25px; }
+.archiveHeader .muted { font-size: 12px; line-height: 1.7; margin-bottom: 0; }
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.field label, .promptInputs > label:first-child, .promptOutput label, .importForm label, .dialog > label { font-size: 12px; font-weight: 550; }
+.archiveMeta { display: flex; justify-content: space-between; margin: 23px 0 12px; font-size: 11px; font-weight: 500; }
+.tree { min-height: 210px; max-height: 400px; overflow: auto; background: var(--color-bg-0); border: 1px solid var(--color-glass-border); border-radius: 10px; padding: 16px 12px; color: var(--color-text-muted); font: 11px/1.95 var(--font-mono); }
+.treeRoot { font-weight: 600; color: var(--color-espresso); }
+.treeBranch { margin-left: 7px; padding-left: 16px; border-left: 1px solid #6f4e3726; }
+.tree ul { list-style: none; padding-left: 16px; margin: 0; }
+.tree > .treeBranch > ul { padding-left: 0; }
+.tree summary { cursor: pointer; color: var(--color-espresso); white-space: nowrap; padding: 3px 0; }
+.tree summary:hover { color: var(--color-coffee); }
+.treeCount { color: var(--color-text-dim); font-size: 9px; font-weight: 400; margin-left: 5px; }
+.treeFile { white-space: nowrap; padding: 2px 0; display: inline-block; }
+.treeEmpty { font: 12px/1.8 var(--font-sans); color: var(--color-text-dim); margin-top: 18px; padding-right: 16px; }
+.download { margin-top: 18px; width: 100%; min-height: 44px; }
+.downloadNote { font-size: 10px; text-align: center; color: var(--color-text-dim); line-height: 1.6; margin: 10px 0 22px; }
+.installation { padding-top: 17px; border-top: 1px solid var(--color-glass-border); font-size: 12px; }
+.installation summary, .validation summary { cursor: pointer; font-weight: 500; color: var(--color-coffee); line-height: 1.5; }
+.installation ol { padding-left: 18px; color: var(--color-text-muted); font-size: 12px; line-height: 1.8; }
+.installation li { margin-bottom: 8px; }
+.validation { margin-top: 12px; font-size: 11px; }
+.issueList { font-size: 11px; line-height: 1.7; padding-left: 18px; color: var(--color-text-muted); }
+.issueList li { margin: 6px 0; overflow-wrap: anywhere; }
+.promptPanel { margin-top: 44px; padding: 28px; border: 1px solid var(--color-glass-border); background: var(--color-bg-1); border-radius: 16px; box-shadow: var(--shadow-soft); }
+.promptPanel .sectionHeading { margin-bottom: 0; }
+.promptPanel .sectionHeading .eyebrow { margin-bottom: 5px; }
+.promptPanel > .muted { font-size: 13px; margin: 12px 0 24px; }
+.promptGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.promptInputs, .promptOutput { min-width: 0; }
+.requirements { height: 125px; resize: none; margin-top: 9px; }
+.confirmCheck { display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--color-text-muted); line-height: 1.7; margin: 16px 0 8px; }
+.toolkit .confirmCheck input { margin-top: 3px; }
+.confirmCheck code { color: var(--color-espresso); font: 11px var(--font-mono); overflow-wrap: anywhere; }
+.promptInputs > .button { margin-top: 12px; }
+.toolkit .promptText { height: 240px; resize: none; font-family: var(--font-mono); font-size: 11px; }
+.promptOutput .previewToolbar { margin-bottom: 6px; }
+.promptOutput .actions { margin-top: 12px; }
+.muted { color: var(--color-text-muted); }
+.help { font-size: 11px; line-height: 1.7; color: var(--color-text-muted); margin: 8px 0 12px; }
+.privacyNote { text-align: center; font-size: 11px; line-height: 1.8; color: var(--color-text-dim); padding: 20px 24px 0; }
+.feedback { font-size: 12px; line-height: 1.75; background: var(--color-bg-2); color: var(--color-espresso); padding: 13px 16px; border-radius: 9px; margin: 0 0 18px; overflow-wrap: anywhere; }
+.error { color: #9e3026; background: #fff1f0; border: 1px solid #9e302620; }
+.warning { color: var(--color-coffee); font-size: 11px; line-height: 1.7; }
+.empty { border: 1px dashed var(--color-glass-border); padding: 42px 24px; border-radius: 14px; text-align: center; color: var(--color-text-muted); font-size: 13px; line-height: 1.7; }
+.empty h3 { color: var(--color-text-primary); font-size: 16px; margin: 0 0 7px; }
+.empty p { margin-bottom: 20px; }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.dialog { position: fixed; inset: 0; margin: auto; width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow: auto; padding: 24px; border: 1px solid var(--color-glass-border); border-radius: 18px; background: var(--color-bg-1); color: var(--color-text-primary); box-shadow: 0 20px 80px #0002; }
+.dialog::backdrop { background: #18151366; backdrop-filter: blur(3px); }
+.dialogWide { width: min(850px, calc(100vw - 32px)); }
+.dialogHeading { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 16px; }
+.dialogHeading h2 { font-size: 21px; font-weight: 600; letter-spacing: -.03em; margin: 0; }
+.dialog > p { font-size: 13px; line-height: 1.75; }
+.importForm { border-top: 1px solid var(--color-glass-border); margin-top: 25px; padding-top: 22px; }
+.importForm h3 { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+.importForm label { display: block; margin-bottom: 8px; }
+.importForm input[type=file] { font-size: 12px; padding: 10px; }
+.importForm input[type=file]::file-selector-button { border: none; border-radius: 5px; background: var(--color-bg-2); padding: 7px 10px; margin-right: 10px; cursor: pointer; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+.previewMeta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; font-size: 11px; color: var(--color-text-muted); }
+.previewToolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin: 22px 0 12px; }
+.previewToolbar .field { flex: 1; }
+.previewToolbar select { max-width: 500px; }
+.source, .dialog .codeEditor { display: block; width: 100%; height: 340px; overflow: auto; padding: 18px; border: 1px solid var(--color-glass-border); border-radius: 10px; background: var(--color-bg-0); color: var(--color-text-primary); font: 11px/1.9 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; tab-size: 2; }
+.codeEditor { resize: none; margin-top: 9px; }
+.expandedSource { height: 65dvh; }
+.toolkit .expandedEditor, .dialog .expandedEditor { height: 60dvh; }
+.previewFooter { display: flex; justify-content: space-between; gap: 12px; align-items: center; border-top: 1px solid var(--color-glass-border); padding-top: 18px; margin-top: 22px; }
+.previewFooter .actions { margin: 0; }
+.confirmInline { padding: 20px; background: var(--color-bg-0); border-radius: 12px; }
+.confirmInline h3 { font-size: 16px; font-weight: 600; }
+.confirmInline p { color: var(--color-text-muted); font-size: 13px; }
+@media (max-width: 1050px) { .workspace { grid-template-columns: minmax(0, 1fr) 310px; gap: 22px; } .archivePanel { padding: 20px; } .skillGrid { grid-template-columns: 1fr; } .skillDescription { -webkit-line-clamp: 2; } .skillCard { padding: 18px; } .skillCardHeading { margin-bottom: 12px; } }
+@media (max-width: 760px) { .toolkit { padding-top: 112px; } .pageHeading { align-items: flex-start; flex-direction: column; gap: 20px; margin-bottom: 26px; padding-bottom: 26px; } .backLink { margin-bottom: 24px; } .workspace { grid-template-columns: 1fr; gap: 26px; } .archivePanel { position: static; } .skillGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .skillCard { padding: 15px; } .skillDescription { -webkit-line-clamp: 3; } .promptPanel { margin-top: 26px; padding: 21px; } .promptGrid { grid-template-columns: 1fr; gap: 24px; } .privacyNote { padding-inline: 0; } .tree { max-height: 350px; } .desktopBreak { display: none; } }
+@media (max-width: 450px) { .toolkit { padding-inline: 18px; } .skillGrid { grid-template-columns: 1fr; } .filters { grid-template-columns: 1fr; } .selectionToolbar { align-items: flex-start; flex-direction: column; gap: 4px; } .selectionToolbar > div { margin-left: -7px; } .sectionHeading { gap: 8px; } .sectionHeading > .button { padding-inline: 10px; } .skillCardHeading { margin-bottom: 13px; } .skillDescription { -webkit-line-clamp: 3; } .dialog { padding: 20px; max-height: calc(100dvh - 24px); } .dialogHeading h2 { font-size: 19px; } .previewFooter { align-items: flex-start; flex-direction: column; } .previewToolbar { gap: 5px; } .previewToolbar > .button { padding-inline: 4px; font-size: 11px; } .source { height: 50dvh; } }
+@media (prefers-reduced-motion: reduce) { .button { transition: none; } }
+@media (forced-colors: active) { .skillSelected { outline: 2px solid Highlight; } .tag, .tree { border: 1px solid CanvasText; } }
+
+.mobileArchiveLink { display: none; }
+.archiveHeader h2 { scroll-margin-top: 95px; }
+@media (max-width: 760px) { .mobileArchiveLink { display: inline-block; margin-left: 10px; color: var(--color-coffee); text-decoration: underline; text-underline-offset: 3px; } }
+
+/* Imported metadata can be a single unbroken string; keep the working layout bounded. */
+.skillCard h3 { min-width: 0; overflow-wrap: anywhere; }
+.tag { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dialogHeading h2 { min-width: 0; overflow-wrap: anywhere; }
+.dialogHeading > .button { flex-shrink: 0; }
+.previewMeta { min-width: 0; overflow-wrap: anywhere; }
+.previewMeta > span { min-width: 0; max-width: 100%; }
+.categoryField { min-width: 0; }

@@ -62,6 +62,13 @@ export default function Navbar() {
 				animate={hidden ? "hidden" : "visible"}
 				transition={{ duration: 0.35, ease: "easeInOut" }}
 				className="relative"
+				onFocusCapture={() => setHidden(false)}
+				onKeyDown={(event) => {
+					if (event.key === "Escape" && mobileOpen) {
+						setMobileOpen(false);
+						document.getElementById("mobile-menu-toggle")?.focus();
+					}
+				}}
 			>
 				<div className="glass shadow-card rounded-full border border-glass-border flex items-center gap-1 pl-4 pr-2 py-2">
 					{/* Monogram */}
@@ -92,6 +99,13 @@ export default function Navbar() {
 						))}
 					</div>
 
+					<Link
+						href="/lab/codex"
+						className="hidden md:inline-flex px-3 py-1.5 rounded-full text-sm font-medium text-text-muted hover:text-coffee hover:bg-coffee/10 transition-colors"
+					>
+						Lab
+					</Link>
+
 					{/* Blog */}
 					<Link
 						href="/blogs"
@@ -118,7 +132,10 @@ export default function Navbar() {
 						whileTap={{ scale: 0.95 }}
 						onClick={() => setMobileOpen(!mobileOpen)}
 						className="md:hidden flex flex-col gap-1 p-1.5"
+						id="mobile-menu-toggle"
 						aria-label="Toggle menu"
+						aria-expanded={mobileOpen}
+						aria-controls="mobile-menu"
 					>
 						<m.span
 							animate={
@@ -143,8 +160,9 @@ export default function Navbar() {
 					</m.button>
 				</div>
 
-				{/* Mobile dropdown */}
-				<m.div
+				{/* Mobile dropdown is removed when closed so its links cannot receive focus. */}
+				{mobileOpen && <m.div
+					id="mobile-menu"
 					initial={false}
 					animate={
 						mobileOpen
@@ -170,6 +188,13 @@ export default function Navbar() {
 							</a>
 						))}
 						<Link
+							href="/lab/codex"
+							onClick={() => setMobileOpen(false)}
+							className="px-4 py-2.5 rounded-xl text-sm font-medium text-coffee hover:bg-coffee/10 transition-colors"
+						>
+							Lab
+						</Link>
+						<Link
 							href="/blogs"
 							onClick={() => setMobileOpen(false)}
 							className="px-4 py-2.5 rounded-xl text-sm font-medium text-coffee hover:bg-coffee/10 transition-colors"
@@ -177,7 +202,7 @@ export default function Navbar() {
 							Blog
 						</Link>
 					</div>
-				</m.div>
+				</m.div>}
 			</m.nav>
 		</div>
 	);

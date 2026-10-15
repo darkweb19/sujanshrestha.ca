@@ -19,7 +19,7 @@ export default function Footer() {
 					</div>
 
 					{/* Quick Links */}
-					<div className="flex items-center gap-6">
+					<div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3">
 						<Link
 							href="/#home"
 							className="text-text-muted hover:text-coffee transition-colors text-sm"
@@ -37,6 +37,12 @@ export default function Footer() {
 							className="text-text-muted hover:text-coffee transition-colors text-sm"
 						>
 							Blog
+						</Link>
+						<Link
+							href="/lab/codex"
+							className="text-text-muted hover:text-coffee transition-colors text-sm"
+						>
+							Lab
 						</Link>
 						<a
 							href="https://github.com/darkweb19"
