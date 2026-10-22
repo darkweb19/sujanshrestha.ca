@@ -1,0 +1,5 @@
+# Local cloud setup: authorize locked native-tool installation scripts.
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true

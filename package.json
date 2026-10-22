@@ -7,11 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test tests/*.test.ts"
+    "test": "tsx --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "db:init": "tsx scripts/db-init.ts",
+    "db:backup": "tsx scripts/db-backup.ts",
+    "skills:sync": "tsx scripts/sync-all-skills.ts",
+    "test:e2e": "node tests/redesign-browser.cjs",
+    "start:railway": "tsx scripts/db-start.ts"
   },
   "dependencies": {
     "fflate": "^0.8.3",
-    "framer-motion": "^12.29.2",
     "gray-matter": "^4.0.3",
     "next": "16.1.6",
     "react": "19.2.3",
@@ -26,7 +31,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.20",
-    "@types/node": "^20",
+    "@types/node": "^24.19.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
@@ -39,5 +44,9 @@
     ">0.3%",
     "not dead",
     "not op_mini all"
-  ]
+  ],
+  "engines": {
+    "node": ">=24.14.0 <25"
+  },
+  "packageManager": "pnpm@11.25.0"
 }

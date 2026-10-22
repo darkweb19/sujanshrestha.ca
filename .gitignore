@@ -55,3 +55,7 @@ next-env.d.ts
 /.cursor/skills
 /.github/skills
 /.gemini/skills
+
+# Local development SQLite and generated QA evidence
+/.local/
+/qa-artifacts/
