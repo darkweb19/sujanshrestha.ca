@@ -1,5 +1,4 @@
 import type { HarnessAdapter, SkillPackage } from "@/lib/skills-toolkit/types";
-import { BUILTIN_SKILL_MANIFEST } from "@/lib/skills-toolkit/catalog";
 import styles from "./toolkit.module.css";
 
 type Node = { children: Map<string, Node> };
@@ -23,7 +22,7 @@ export default function ArchiveTree({ skills, harness }: { skills: SkillPackage[
 	return <div className={styles.tree} aria-label={`ZIP file tree for ${harness.name}`}>
 		<div className={styles.treeRoot}>{parts[0]}/</div>
 		<div className={styles.treeBranch}><div>{parts.slice(1).join("/")}/</div>
-			{skills.length ? <ul>{skills.map(skill => <li key={skill.id}><details open={skills.length < 4}><summary>{skill.slug}/ <span className={styles.treeCount}>{skill.files.length || BUILTIN_SKILL_MANIFEST[skill.slug]?.fileCount || 0} files</span></summary><FileNodes paths={skill.files.length ? skill.files.map(file => file.path) : BUILTIN_SKILL_MANIFEST[skill.slug]?.paths ?? ["SKILL.md"]} /></details></li>)}</ul> : <p className={styles.treeEmpty}>Select skills to build your archive.</p>}
+			{skills.length ? <ul>{skills.map(skill => <li key={skill.id}><details open={skills.length < 4}><summary>{skill.slug}/ <span className={styles.treeCount}>{skill.files.length} files</span></summary><FileNodes paths={skill.files.length ? skill.files.map(file => file.path) : ["SKILL.md"]} /></details></li>)}</ul> : <p className={styles.treeEmpty}>Select skills to build your archive.</p>}
 		</div>
 	</div>;
 }
