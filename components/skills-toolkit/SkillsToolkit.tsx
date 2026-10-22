@@ -159,7 +159,7 @@ export default function SkillsToolkit({ initial, initialQuery = "", initialCateg
 		if (!legacy?.length) return;
 		setBusy(true); setError("");
 		try {
-			imported(await labRequest<{ skills: SkillPackage[] }>("/api/skills/import", { method: "POST", body: JSON.stringify({ packages: legacy.map(skill => ({ files: skill.files })) }) }, session.csrfToken));
+			imported(await labRequest<{ skills: SkillPackage[] }>("/api/skills/import", { method: "POST", body: JSON.stringify({ packages: legacy.map(skill => ({ files: skill.files, source: skill.source })) }) }, session.csrfToken));
 			setLegacy(null);
 		} catch (cause) { setError(messageOf(cause, "Could not import your previous skills. Browser copies remain unchanged.")); }
 		finally { setBusy(false); }
