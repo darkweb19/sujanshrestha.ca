@@ -5,8 +5,12 @@ Captured from the final production build in Chromium, with reduced motion. These
 - [Home, desktop 1440px](home-desktop.png)
 - [Home, tablet 768px](home-tablet.png)
 - [Home, mobile 375px](home-mobile.png)
+- [Home work section, desktop 1440px](home-work-desktop.png)
+- [Home work section, mobile 375px](home-work-mobile.png)
 - [Skills Lab, desktop 1440px](lab-desktop.png)
 - [Skills Lab, mobile 375px](lab-mobile.png)
 - [Article, desktop 1440px](article-desktop.png)
+
+Home captures were refreshed for the [portrait/type refinement](../homepage-refinement.md). Lab and article captures document the preceding full redesign.
 
 The public live website is a separate deployment. These screenshots document `feat/redesign`; no production deployment is implied.
