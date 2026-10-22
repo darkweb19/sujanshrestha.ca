@@ -1,19 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import MotionProvider from "@/components/common/MotionProvider";
 import "./globals.css";
-
-const geistSans = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-	display: "swap",
-});
-
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
-	display: "swap",
-});
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://sujanshrestha.ca"),
@@ -68,7 +54,7 @@ export const metadata: Metadata = {
 /* The site is light-only. Pinning color-scheme stops browsers with a dark
    OS preference from rendering native controls and scrollbars dark. */
 export const viewport: Viewport = {
-	themeColor: "#fafafa",
+	themeColor: "#ffffff",
 	colorScheme: "light",
 };
 
@@ -79,12 +65,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className="scroll-smooth">
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-				suppressHydrationWarning
-			>
-				<MotionProvider>{children}</MotionProvider>
-			</body>
+			<body>
+                <a className="skip-link" href="#main-content">Skip to content</a>
+                {children}
+            </body>
 		</html>
 	);
 }

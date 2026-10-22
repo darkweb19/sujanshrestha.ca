@@ -195,3 +195,11 @@ textarea { resize: none; }
  ::-webkit-scrollbar-track { background: Canvas; } ::-webkit-scrollbar-thumb { background: ButtonText; }
  ::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active { background: Highlight; }
 }
+.schedule-dialog { margin: auto; padding: 0; width: min(900px,calc(100% - 32px)); max-height: calc(100dvh - 32px); border: 1px solid var(--color-glass-border); border-radius: 12px; color: var(--color-text-primary); box-shadow: var(--shadow-card-hover); }
+.schedule-dialog::backdrop { background: #00000066; }
+.schedule-header { display: flex; gap: 16px; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--color-glass-border); }
+.schedule-header h2 { font-size: 23px; font-weight: 500; letter-spacing: -.03em; }
+.schedule-header p { color: var(--color-text-muted); font-size: 14px; margin-top: 6px; }
+.schedule-calendar { width: 100%; height: min(60dvh,650px); border: 0; background: white; }
+.schedule-fallback { padding: 16px 24px; font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
+.schedule-fallback a { text-decoration: underline; text-underline-offset: 3px; }
