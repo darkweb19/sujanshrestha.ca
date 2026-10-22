@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Persistent database and backups must never be checked in
+/data/
+/*.sqlite
+/*.sqlite-*
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Optional local native skill discovery aliases; canonical skills are in .agents/skills
+/.claude/skills
+/.cursor/skills
+/.github/skills
+/.gemini/skills

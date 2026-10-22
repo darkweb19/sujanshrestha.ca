@@ -1,0 +1,6 @@
+---
+description: "Sujan portfolio redesign: canonical agent contract and shared skills"
+alwaysApply: true
+---
+
+Read repository root `AGENTS.md`, then `docs/portfolio-redesign-brief.md`. All usable skill packages are stored only under `.agents/skills/<slug>/SKILL.md`. Read relevant skills explicitly for each task. Do not install duplicate copies into Cursor's skills tree; for optional native discovery run `node scripts/link-agent-skills.mjs` to point `.cursor/skills` to the same canonical folder. Main agent owns design and code review; delegate only to available subagent tools and nonoverlapping file sets.
