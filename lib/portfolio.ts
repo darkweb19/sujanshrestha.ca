@@ -129,8 +129,7 @@ export const education = [
 	{
 		level: "Diploma in Computer System Technician",
 		institution: "Loyalist College, Toronto",
-		description:
-			"Currently pursuing diploma in Computer System Technician.",
+		description: "Currently pursuing diploma in Computer System Technician.",
 		year: "2024 - Present",
 		country: "canada",
 		highlight: true,
