@@ -6,6 +6,12 @@ export const metadata: Metadata = {
 	description:
 		"Thoughts on technology, software development, and the journey of building things that matter.",
 	alternates: { canonical: "/blogs" },
+	twitter: {
+		card: "summary_large_image",
+		title: "Writing by Sujan Shrestha",
+		description:
+			"Thoughts on technology, software development, and the journey of building things that matter.",
+	},
 	openGraph: {
 		url: "/blogs",
 		title: "Writing by Sujan Shrestha",

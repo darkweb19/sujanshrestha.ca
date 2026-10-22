@@ -135,6 +135,7 @@ textarea {
 	gap: 32px;
 }
 .brand-link {
+	min-height: 44px;
 	display: inline-flex;
 	flex-shrink: 0;
 	align-items: center;
