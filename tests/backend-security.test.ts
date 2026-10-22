@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
+import { zipSync, strToU8 } from "fflate";
 import { migrate, openDatabase } from "../lib/db/connection";
 import { login, logout, rateLimit, requireAdmin, requireOrigin, sessionFor } from "../lib/server/auth";
 import { importPublicGitHub, parseGitHubUrl } from "../lib/server/github-import";
@@ -66,6 +67,21 @@ test("server import rejects unauthenticated writes and persists validated owner 
 	const publicRead = await packageRoute(new Request("http://localhost:3000/api/skills/user%3Aserver-upload"), { params: Promise.resolve({ id: "user:server-upload" }) });
 	assert.equal(publicRead.status, 200);
 	assert.equal((await publicRead.json()).description, "Cross-browser persistence fixture.");
+});
+
+test("owner multipart ZIP imports retain supporting bytes and reject traversal archives", async () => {
+	const session = login(request({ "x-real-ip": "multipart-fixture" }), process.env.LAB_ADMIN_PASSWORD);
+	const cookie = session.cookie.split(";")[0];
+	const headers = { Origin: "http://localhost:3000", cookie, "X-CSRF-Token": session.csrfToken };
+	const text = "---\nname: zipped-upload\ndescription: Uploaded complete package.\n---\nInstructions.\n";
+	const form = new FormData();
+	form.append("files", new File([Buffer.from(zipSync({ "zipped-upload/SKILL.md": strToU8(text), "zipped-upload/assets/reference.bin": new Uint8Array([0, 1, 255]) }))], "complete.zip"));
+	const imported = await importRoute(new Request("http://localhost:3000/api/skills/import", { method: "POST", headers, body: form }));
+	assert.equal(imported.status, 201);
+	const value = await imported.json();
+	assert.equal(value.skills[0].files.find((file: { path: string }) => file.path === "assets/reference.bin").content, "AAH/");
+	const malicious = new FormData(); malicious.append("files", new File([Buffer.from(zipSync({ "../outside": strToU8("bad"), "SKILL.md": strToU8(text) }))], "unsafe.zip"));
+	assert.equal((await importRoute(new Request("http://localhost:3000/api/skills/import", { method: "POST", headers, body: malicious }))).status, 400);
 });
 
 test("GitHub URLs reject credentials, SSRF hosts, ports and unsafe encodings", () => {

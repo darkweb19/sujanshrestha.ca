@@ -1,4 +1,4 @@
-import { checkedPackage, importUserSkills } from "@/lib/db/catalog";
+import { checkedPackage, checkedUserPackage, importUserSkills } from "@/lib/db/catalog";
 import { importSkillZip } from "@/lib/skills-toolkit/archive";
 import { bytesToSkillFile, skillFileBytes } from "@/lib/skills-toolkit/validation";
 import type { SkillPackage } from "@/lib/skills-toolkit/types";
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 			if (typeof data.githubUrl === "string") skills = await importPublicGitHub(data.githubUrl);
 			else {
 				if (!Array.isArray(data.packages) || !data.packages.length || data.packages.length > 20) throw new HttpError(400, "Import 1–20 complete skill packages.");
-				skills = data.packages.map((value) => checkedPackage(value, { kind: "local", label: "Owner import" }));
+				skills = data.packages.map(checkedUserPackage);
 			}
 		}
 		if (!skills.length || skills.length > 20) throw new HttpError(400, "Import at most 20 skills at once.");

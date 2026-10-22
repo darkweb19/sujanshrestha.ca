@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { backup } from "node:sqlite";
-import { checkedPackage, deleteUserSkill, getSkill, importUserSkills, listSkills, putSkill, updateUserSkill } from "../lib/db/catalog";
+import { checkedPackage, checkedUserPackage, deleteUserSkill, getSkill, importUserSkills, listSkills, putSkill, updateUserSkill } from "../lib/db/catalog";
 import { migrate, openDatabase, transaction } from "../lib/db/connection";
 import { parseSkillFiles } from "../lib/skills-toolkit/validation";
 
@@ -71,6 +71,14 @@ test("untrusted upload metadata is reparsed; unsafe paths, aliases and binary SK
 	assert.throws(() => checkedPackage(unsafe, unsafe.source), /traversal/);
 	assert.throws(() => checkedPackage({ files: [{ path: "SKILL.md", encoding: "base64", content: "AAEC" }] }, unsafe.source), /UTF-8/);
 	assert.throws(() => checkedPackage({ files: [{ path: "SKILL.md", encoding: "utf8", content: "---\nname: test\ndescription: &desc hello\ncategory: *desc\n---\n" }] }, unsafe.source), /aliases/);
+});
+
+test("legacy owner imports preserve safe provenance and reject managed ownership claims", () => {
+	const value = skill("source-provenance");
+	value.source = { kind: "github", label: "Original public GitHub source", url: "https://github.com/example/skills/tree/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/source-provenance" };
+	assert.deepEqual(checkedUserPackage(value).source, value.source);
+	assert.throws(() => checkedUserPackage({ ...value, source: { kind: "builtin", label: "Forged upstream" } }), /source metadata/);
+	assert.throws(() => checkedUserPackage({ ...value, source: { ...value.source, url: "https://user:secret@github.com/example/skills" } }), /source URL/);
 });
 
 test("SQLite backup API produces a consistent independently readable database", async () => {

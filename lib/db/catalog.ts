@@ -66,6 +66,25 @@ export function checkedPackage(value: unknown, source: SkillSource): SkillPackag
 	return skill;
 }
 
+/** Preserve explicit owner-provided provenance without granting managed ownership. */
+export function checkedUserPackage(value: unknown): SkillPackage {
+	const item = value && typeof value === "object" ? value as Record<string, unknown> : {};
+	const origin = item.source;
+	if (origin === undefined) return checkedPackage(value, { kind: "local", label: "Owner import" });
+	if (!origin || typeof origin !== "object" || Array.isArray(origin)) throw new Error("Invalid skill source metadata.");
+	const fields = origin as Record<string, unknown>;
+	if ((fields.kind !== "local" && fields.kind !== "github") || typeof fields.label !== "string" || !fields.label.trim() || fields.label.length > 512 || /[\u0000-\u001f\u007f]/.test(fields.label)) throw new Error("Invalid skill source metadata.");
+	const source: SkillSource = { kind: fields.kind, label: fields.label };
+	if (fields.url !== undefined) {
+		if (source.kind !== "github" || typeof fields.url !== "string" || fields.url.length > 2048) throw new Error("Invalid skill source URL.");
+		let url: URL;
+		try { url = new URL(fields.url); } catch { throw new Error("Invalid skill source URL."); }
+		if (url.protocol !== "https:" || url.hostname !== "github.com" || url.username || url.password || url.port || url.search || url.hash) throw new Error("Invalid skill source URL.");
+		source.url = url.href;
+	}
+	return checkedPackage(value, source);
+}
+
 export function packageHash(skill: SkillPackage): string {
 	return hash(JSON.stringify([...skill.files].sort((a, b) => a.path.localeCompare(b.path)).map((file) => [file.path, file.encoding, hash(skillFileBytes(file))])));
 }
