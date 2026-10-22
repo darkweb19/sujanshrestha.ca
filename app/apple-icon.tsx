@@ -1,13 +1,13 @@
 import { ImageResponse } from "next/og";
-
-export const size = {
-	width: 180,
-	height: 180,
-};
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
-
-// Placeholder apple icon design — needs owner sign-off before ship.
 export default async function Icon() {
+	const monogram = await readFile(
+		path.join(process.cwd(), "public/brand/monogram.svg"),
+		"base64",
+	);
 	return new ImageResponse(
 		(
 			<div
@@ -17,24 +17,17 @@ export default async function Icon() {
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
-					backgroundImage: "linear-gradient(135deg, #6f4e37, #b08968)",
-					borderRadius: 0,
+					background: "white",
 				}}
 			>
-				<div
-					style={{
-						fontSize: 110,
-						fontWeight: 700,
-						color: "#ffffff",
-						display: "flex",
-					}}
-				>
-					S
-				</div>
+				<img
+					src={`data:image/svg+xml;base64,${monogram}`}
+					width={88}
+					height={110}
+					alt=""
+				/>
 			</div>
 		),
-		{
-			...size,
-		},
+		size,
 	);
 }

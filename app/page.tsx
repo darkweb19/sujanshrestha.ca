@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import Hero from "@/components/Hero";
@@ -8,6 +9,8 @@ import Projects from "@/components/Projects";
 import Academics from "@/components/Academics";
 import Contact from "@/components/Contact";
 import Writing from "@/components/Writing";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 // JSON-LD Structured Data for SEO
 const jsonLd = {
@@ -76,12 +79,24 @@ export default function Home() {
 			{/* JSON-LD Structured Data */}
 			<script
 				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify({
+						"@context": "https://schema.org",
+						"@graph": [
+							jsonLd,
+							{
+								"@type": "WebSite",
+								name: "Sujan Shrestha",
+								url: "https://sujanshrestha.ca",
+							},
+						],
+					}),
+				}}
 			/>
 
 			{/* Main Content */}
 			<Navbar />
-			<main id="main-content">
+			<main tabIndex={-1} id="main-content">
 				<Hero />
 				<About />
 				<Projects />

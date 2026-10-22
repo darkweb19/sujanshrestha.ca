@@ -1,14 +1,14 @@
 import { ImageResponse } from "next/og";
-
-export const alt = "Sujan Shrestha — Full-Stack Software Engineer";
-export const size = {
-	width: 1200,
-	height: 630,
-};
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+export const alt = "Sujan Shrestha — Full-Stack Software Engineer, Toronto";
+export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-
-// Placeholder OG image design — needs owner sign-off before ship.
 export default async function Image() {
+	const monogram = await readFile(
+		path.join(process.cwd(), "public/brand/monogram.svg"),
+		"base64",
+	);
 	return new ImageResponse(
 		(
 			<div
@@ -17,49 +17,54 @@ export default async function Image() {
 					height: "100%",
 					display: "flex",
 					flexDirection: "column",
-					alignItems: "center",
-					justifyContent: "center",
-					backgroundColor: "#fafafa",
-					backgroundImage:
-						"linear-gradient(to bottom, rgba(243,231,211,0.85), rgba(243,231,211,0))",
-					position: "relative",
+					justifyContent: "space-between",
+					padding: 64,
+					background: "#ffffff",
+					color: "#171717",
 				}}
 			>
 				<div
 					style={{
-						fontSize: 90,
-						fontWeight: 700,
-						color: "#0a0a0a",
 						display: "flex",
+						justifyContent: "space-between",
+						alignItems: "center",
 					}}
 				>
-					Sujan Shrestha
+					<img
+						src={`data:image/svg+xml;base64,${monogram}`}
+						width={40}
+						height={50}
+						alt=""
+					/>
+					<span style={{ fontSize: 22, color: "#555555" }}>
+						sujanshrestha.ca
+					</span>
 				</div>
-				<div
-					style={{
-						fontSize: 36,
-						color: "#6f4e37",
-						marginTop: 20,
-						display: "flex",
-					}}
-				>
-					Full-Stack Software Engineer
-				</div>
-				<div
-					style={{
-						fontSize: 24,
-						color: "#71717a",
-						marginTop: 32,
-						fontFamily: "monospace",
-						display: "flex",
-					}}
-				>
-					sujanshrestha.ca
+				<div style={{ display: "flex", flexDirection: "column" }}>
+					<div
+						style={{
+							display: "flex",
+							fontSize: 112,
+							letterSpacing: -7,
+							fontWeight: 600,
+							lineHeight: 1.05,
+						}}
+					>
+						Sujan Shrestha.
+					</div>
+					<div
+						style={{
+							display: "flex",
+							fontSize: 30,
+							color: "#555555",
+							marginTop: 32,
+						}}
+					>
+						Full-Stack Software Engineer · Toronto, CA
+					</div>
 				</div>
 			</div>
 		),
-		{
-			...size,
-		},
+		size,
 	);
 }

@@ -3,6 +3,13 @@ import "./globals.css";
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://sujanshrestha.ca"),
+	icons: {
+		icon: [
+			{ url: "/favicon.ico", sizes: "any" },
+			{ url: "/icon.svg", type: "image/svg+xml" },
+		],
+		apple: "/apple-icon",
+	},
 	title: {
 		default: "Sujan Shrestha | Full-Stack Software Engineer",
 		template: "%s | Sujan Shrestha",
@@ -66,9 +73,11 @@ export default function RootLayout({
 	return (
 		<html lang="en" className="scroll-smooth">
 			<body>
-                <a className="skip-link" href="#main-content">Skip to content</a>
-                {children}
-            </body>
+				<a className="skip-link" href="#main-content">
+					Skip to content
+				</a>
+				{children}
+			</body>
 		</html>
 	);
 }

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import type { Metadata } from "next";
+import Link from "next/link";
 import matter from "gray-matter";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
@@ -47,14 +48,23 @@ export async function renderMarkdownPage(dir: string): Promise<RenderedBlog> {
 		.use(rehypeHighlight)
 		.use(rehypeStringify)
 		.process(content);
-	const html = String(processed);
+	const html = String(processed).replace(
+		/<pre>/g,
+		'<pre tabindex="0" aria-label="Code sample, scroll horizontally when needed">',
+	);
 
+	const slug = path.basename(dir);
+	const canonical = `https://sujanshrestha.ca/blogs/${slug}`;
 	const metadata: Metadata = {
+		alternates: { canonical },
 		title: frontmatter.title,
 		description: frontmatter.description,
 		keywords: frontmatter.tags,
 		openGraph: {
 			type: "article",
+			url: canonical,
+			publishedTime: frontmatter.date || undefined,
+			authors: ["Sujan Shrestha"],
 			title: frontmatter.title,
 			description: frontmatter.description,
 		},
@@ -66,30 +76,45 @@ export async function renderMarkdownPage(dir: string): Promise<RenderedBlog> {
 	};
 
 	function Content() {
+		const schema = {
+			"@context": "https://schema.org",
+			"@type": "BlogPosting",
+			headline: frontmatter.title,
+			description: frontmatter.description,
+			datePublished: frontmatter.date || undefined,
+			url: canonical,
+			mainEntityOfPage: canonical,
+			image: "https://sujanshrestha.ca/opengraph-image",
+			author: {
+				"@type": "Person",
+				name: "Sujan Shrestha",
+				url: "https://sujanshrestha.ca",
+			},
+		};
 		return (
-			<main className="min-h-screen bg-bg-0 pt-32 pb-24">
-				<div className="section-container">
-					<header className="mb-10">
-						<h1 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
-							{frontmatter.title}
-						</h1>
-						<div className="flex flex-wrap items-center gap-4 text-sm text-text-dim font-mono">
-							{frontmatter.date && <span>{frontmatter.date}</span>}
-							{frontmatter.tags.map((tag) => (
-								<span
-									key={tag}
-									className="px-3 py-1 rounded-full bg-beige-highlight/70 text-espresso"
-								>
-									{tag}
-								</span>
-							))}
-						</div>
-					</header>
-					<article
-						className="prose max-w-none"
-						dangerouslySetInnerHTML={{ __html: html }}
-					/>
-				</div>
+			<main tabIndex={-1} id="main-content" className="article-layout">
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+					}}
+				/>
+				<Link className="article-back" href="/blogs">
+					← All writing
+				</Link>
+				<header>
+					<h1>{frontmatter.title}</h1>
+					<div className="article-meta">
+						{frontmatter.date && <time>{frontmatter.date}</time>}
+						{frontmatter.tags.map((tag) => (
+							<span key={tag}>{tag}</span>
+						))}
+					</div>
+				</header>
+				<article
+					className="prose max-w-none"
+					dangerouslySetInnerHTML={{ __html: html }}
+				/>
 			</main>
 		);
 	}
