@@ -60,8 +60,21 @@ function verifyArchive(filename, root, skill) {
     assert.ok(catalog.total > 10, 'Full upstream catalog extends beyond the original ten');
     assert.ok(catalog.skills.length && catalog.skills.length <= 50);
     for (const skill of catalog.skills) assert.ok(!skill.files || skill.files.length === 0, 'Catalog does not send package bodies');
-    const denied = await context.request.post(baseURL + '/api/skills/import', { headers: { Origin: origin }, data: { packages: [] } });
-    assert.ok([401, 403].includes(denied.status()) || (denied.status() === 503 && (await denied.json()).error === 'Owner access requires HTTPS.'), 'Anonymous catalog writes are denied');
+    const denied = await context.request.post(baseURL + '/api/skills/import', {
+      headers: { Origin: origin },
+      data: { packages: [{ files: [{ path: 'SKILL.md', encoding: 'utf8', content: '---\nname: qa-anonymous-denial\ndescription: An otherwise valid package that anonymous visitors must never save.\n---\nReview the task and report evidence.\n' }] }] },
+    });
+    const deniedBody = await denied.json();
+    const sessionResponse = await context.request.get(baseURL + '/api/lab/session');
+    const sessionState = await sessionResponse.json();
+    const managementDisabled = denied.status() === 503 && (
+      deniedBody.error === 'Owner access requires HTTPS.' ||
+      (!sessionState.configured && deniedBody.error === 'Owner access is not configured.')
+    );
+    assert.ok([401, 403].includes(denied.status()) || managementDisabled, 'Anonymous catalog writes are denied or management is explicitly disabled');
+    assert.equal(sessionState.authenticated, false, 'Public test context has no owner session');
+    const afterDenied = await context.request.get(baseURL + '/api/skills?pageSize=1');
+    assert.equal((await afterDenied.json()).total, catalog.total, 'Denied valid upload does not change SQLite');
     const empty = await context.request.get(baseURL + '/api/skills?q=no-skill-should-match-this-qa-query');
     assert.equal((await empty.json()).total, 0);
     checks.push('Database catalog is paginated, metadata-only, contains more than ten skills, searches correctly, and refuses anonymous writes');
