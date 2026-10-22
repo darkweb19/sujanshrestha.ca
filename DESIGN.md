@@ -1,96 +1,74 @@
 ---
-version: alpha
+version: beta
 colors:
-  background: "#fafafa"
+  background: "#ffffff"
   surface: "#ffffff"
-  subtle: "#f4f4f5"
-  primary: "#6f4e37"
-  accent: "#3c2415"
-  text: "#0a0a0a"
-  muted: "#52525b"
-  dim: "#71717a"
+  subtle: "#f5f5f5"
+  primary: "#171717"
+  accent: "#333333"
+  text: "#171717"
+  muted: "#555555"
+  dim: "#666666"
 typography:
   sans:
-    fontFamily: "Geist, system-ui, sans-serif"
+    fontFamily: "Arial, Helvetica, system-ui, sans-serif"
   mono:
-    fontFamily: "Geist Mono, monospace"
+    fontFamily: "SFMono-Regular, Consolas, monospace"
 rounded:
-  control: "9px"
-  card: "14px"
-  panel: "16px"
+  control: "8px"
+  card: "12px"
+  panel: "12px"
 spacing:
-  card: "18px"
+  card: "20px"
   panel: "24px"
-  column: "32px"
-components:
-  skillCard:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.card}"
-  archivePanel:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.accent}"
-    rounded: "{rounded.panel}"
-  sourcePreview:
-    backgroundColor: "{colors.subtle}"
-    textColor: "{colors.text}"
-  description:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.muted}"
-  fileMetadata:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.dim}"
+  column: "40px"
 ---
 
 # Sujan Shrestha — design context
 
 ## Overview
 
-This is a personal engineering portfolio with a small practical toolkit at `/lab/codex`. Preserve its existing identity: neutral surfaces, coffee accents, generous whitespace, Geist typography, rounded cards, and the shared monogram navigation and footer. The toolkit is a product surface inside this portfolio, not a new brand or marketplace.
+A personal engineering portfolio for prospective collaborators and employers, with a practical Skills Lab for developers. English, international audience; Toronto is the actual location. The current redesign brief supersedes the former coffee palette and browser-only persistence policy. Facts and published content remain unchanged; see `docs/content-baseline.md`.
 
-The toolkit serves a developer selecting trusted coding instructions and packaging them for their next repository. Its memorable element is the live archive tree: the exact destination directories and supporting files remain tangible throughout selection. Keep the headline modest and the working interface prominent. Avoid large marketing claims, decorative metrics, new logos, emoji, gradients across application panels, and excessive motion.
-
-The audience and interface language are English; there is no evidence of a Japan-specific market or regulated domain. User-imported Unicode content must remain readable and preserved.
+The chosen direction is a personal studio folio: expressive, tightly spaced name typography, the supplied sculptural S monogram, an honest portrait, and a work index with complete project descriptions. Two alternatives and critique live in `docs/design-directions.md`. The lead selects the folio because name, real work, and chronology remain the strongest evidence of an individual engineer. Avoid decorative terminal UI, fake metrics, gradients, glass effects, repeated marketing cards and automatic reveal animations.
 
 ## Colors
 
-`app/globals.css` is the canonical runtime token source. Frontmatter snapshots its existing palette; change this document and the runtime tokens together when a durable system decision changes. Palette mappings: background → `--color-bg-0`, surface → `--color-bg-1`, subtle → `--color-bg-2`, primary → `--color-coffee`, accent → `--color-espresso`, text → `--color-text-primary`, muted → `--color-text-muted`, dim → `--color-text-dim`.
-
-Toolkit components reference these tokens through `components/skills-toolkit/toolkit.module.css`; they do not create a separate theme. Coffee carries primary actions, folder names, and selected borders. White text appears only on the dark coffee action fill. Neutral muted text carries descriptions; dim text is reserved for secondary file counts and notes. Errors use restrained dark red text on a pale red surface; error meaning is also written explicitly.
+`app/globals.css` is the canonical runtime source. Frontmatter records its normative palette. Mapping: background → `--color-bg-0`, surface → `--color-bg-1`, subtle → `--color-bg-2`, primary → `--color-coffee` (legacy compatibility alias), accent → `--color-espresso`, text → `--color-text-primary`, muted → `--color-text-muted`, dim → `--color-text-dim`. Legacy coffee/beige names resolve to neutral values; new components use semantic portfolio classes or text/background tokens. There is one theme for portfolio, writing, and Lab. Error text remains dark red with textual explanation. Focus is a 2px near-black outline with 4px offset.
 
 ## Typography
 
-The existing root layout loads Geist Sans and Geist Mono. Runtime families remain `--font-sans` and `--font-mono`, with system fallbacks. Use Sans for navigation, labels, descriptions, and actions; Mono for archive paths and full source. The toolkit title is 32–48px, section headings 20px, card headings 15px, body copy 12–15px, and utility metadata 10–12px. Small utility text stays secondary; primary task controls and long-form editing remain legible.
+No runtime font requests. Arial/Helvetica/system sans provides an immediately rendered neutral grotesque with a compact bold display treatment. Utility paths/source alone use SFMono-Regular/Consolas/monospace. The wordmark is the supplied SVG, not a new text logo. H1: fluid 64–144px, -0.075em tracking, 0.94 line-height; section headings: 36–64px, -0.055em; body: 16–20px, 1.65 line-height; controls: minimum 14px. Blog prose uses a readable 72ch measure. Display type does not replace labels or hide facts.
 
 ## Layout
 
-Reuse `.section-container` (1200px maximum, 24px horizontal padding). On desktop the working surface pairs a flexible library with a 352px archive panel and 32px gap. The library shows two cards per row when space permits, falling back to one in the intermediate width range. Below 760px the archive follows the library in document order; below 450px cards and filters are single-column. Dialogs fit the viewport and scroll internally; long paths and source content do not push page width.
+A 1200px maximum container uses 56px desktop and 24px mobile gutters. Header is an opaque, stable 88px row. The hero pairs name/role/actions with an inset portrait; mobile becomes a deliberate text-first composition. Selected projects are a linked index, with a quiet highlighted first project and full descriptions. Employment uses date rail + complete role content. Education uses compact reverse chronological rows, preserving overlapping ongoing programs. Writing uses a distinct article list. Section rhythm is fluid 72–128px.
 
-The prompt composer follows the selection/export workflow. A two-column task/prompt layout becomes one column on smaller screens. Textareas have controlled height, no drag resize, and an explicit expand action for long prompts and files. Scrolling is owned by the global stylesheet; both standard scrollbar properties and the WebKit fallback use the same semantic tokens. Platform scrollbar geometry and native select popup geometry are accepted.
+At 375px: single-column name, portrait below introduction, one-column timelines and Lab panels; no horizontal page overflow. At 768px: two-column hero, dates retain a separate rail where room allows. Wide desktop: asymmetric hero and structured project index. All content exists in initial HTML; no invisible reveal states, lazy section shells, or viewport-dependent omissions.
 
 ## Elevation & Depth
 
-Use existing `--shadow-soft` for cards and `--shadow-card` for the archive. Borders provide primary grouping. A dialog is the only substantial overlay and has a muted backdrop. Do not introduce glass effects inside the working surface; the existing navigation keeps its established treatment.
+Borders and neutral surfaces establish hierarchy. No decorative shadows on portfolio sections. Modal overlays alone receive shadow and a dim backdrop. The Lab archive is a working panel, not a simulated terminal.
 
 ## Shapes
 
-Controls use 9px radii, skill cards 14px, working panels 16px, and dialogs 18px. Selection adds a coffee outline without changing card geometry. Keep tags compact and quietly squared; they are categories, not competing actions.
+8px controls, 12px panels/dialog content; portrait uses a restrained 8px crop. Projects and chronological entries are document rows. Selected controls change borders/background without affecting geometry. The monogram keeps its original proportions and ample clear space.
 
 ## Components
 
-Canonical toolkit primitives live in `ToolkitPrimitives.tsx`: Button, Feedback, and Dialog. Form fields share scoped CSS. Native selects own keyboard behavior and platform popups; a native modal dialog owns focus containment and Escape semantics. Dialog mount captures and later restores the triggering focus. App-owned confirmation content controls removal and unsaved-change disposal.
+Shared shell: `Navbar`, `Footer`, global `.section-container`, `.portfolio-section`, `.section-heading`, `.action`. Portfolio sections are Server Components; mobile navigation, copy-email and scheduling are small client islands. `ToolkitPrimitives.tsx` owns Lab Button/Feedback/Dialog. Native selects intentionally accept OS popup geometry and keyboard semantics. Native modal dialogs own focus containment; close restores focus.
 
-Button hierarchy: coffee fill for the next principal action, bordered white for supporting actions, quiet coffee text for local utilities, and dark red outlined actions for removal. Every actionable element has a visible focus indicator. Disabled controls state a prerequisite through adjacent context or an explicit count; asynchronous operations preserve inputs and selections.
+Lab data comes from SQLite through server queries and API handlers; public users browse/export, authenticated owner actions persist changes. See `UX-CONTRACT.md` for behavior and `docs/railway-sqlite.md` for permissions and persistence. Imported text is displayed as text, and script assets remain inert.
 
-Source previews display complete text through React text nodes, never arbitrary HTML. Binary supporting files are retained but never rendered as text or executed. The tree is an interactive, keyboard-operable disclosure hierarchy rather than an imitation terminal.
+## Motion
 
-Motion is limited to short color changes and the existing site shell. Reduced-motion preferences disable these changes. Forced-color mode preserves selected-card outlines and tree/tag boundaries.
+Only short interaction color/opacity transitions; no scroll-linked effects. Reduced-motion disables smooth scrolling and transitions. Global scrollbars are visible, tokenized and forced-colors compatible. Stable image aspect ratios, explicit sizes, and system fonts avoid layout shifts.
 
 ## Do's and Don'ts
 
-- Reuse site tokens and shared shell components; preserve all existing portfolio routes.
-- Make archive directory mappings and selected counts concrete and current.
-- Keep source attribution, license files, and supporting files available.
-- Show import and validation failures near the initiating operation with a recovery action.
-- Do not claim downloading a ZIP installs anything or that opening Codex submits a prompt.
-- Do not add authentication, server persistence, analytics, or a new application identity for this personal tool.
+- Preserve every role, date, institution, technology, project description and destination.
+- Keep whole project descriptions visible and genuine content in SSR HTML.
+- Prefer direct labels and honest states over decorative metrics and claims.
+- Keep dark text on light surfaces; make keyboard focus at least as clear as hover.
+- Never execute uploaded/imported scripts or expose admin credentials to the client.
+- Do not deploy or alter production infrastructure as part of this branch work.
