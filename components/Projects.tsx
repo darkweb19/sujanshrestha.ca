@@ -1,4 +1,5 @@
 import { projects } from "@/lib/portfolio";
+import Arrow from "@/components/common/Arrow";
 export default function Projects() {
 	return (
 		<section id="projects" className="portfolio-section projects-section">
@@ -14,13 +15,13 @@ export default function Projects() {
 							href={project.url}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="project-row"
+							className={`project-row ${project.featured ? "project-feature" : ""}`}
 							aria-label={`${project.title} — open project`}
 						>
 							<h3>
 								{project.title}
 								{project.featured && (
-									<span className="block text-sm font-normal tracking-normal text-text-dim mt-3">
+									<span className="project-feature-label">
 										Featured project
 									</span>
 								)}
@@ -33,8 +34,8 @@ export default function Projects() {
 									))}
 								</div>
 							</div>
-							<span className="project-arrow" aria-hidden="true">
-								↗
+							<span className="project-arrow">
+								<Arrow size={20} />
 							</span>
 						</a>
 					))}

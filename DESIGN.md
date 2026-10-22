@@ -33,7 +33,7 @@ spacing:
 
 A personal engineering portfolio for prospective collaborators and employers, with a practical Skills Lab for developers. English, international audience; Toronto is the actual location. The current redesign brief supersedes the former coffee palette and browser-only persistence policy. Facts and published content remain unchanged; see `docs/content-baseline.md`.
 
-The chosen direction is a personal studio folio: expressive, tightly spaced name typography, the supplied sculptural S monogram, an honest portrait, and a work index with complete project descriptions. Two alternatives and critique live in `docs/design-directions.md`. The lead selects the folio because name, real work, and chronology remain the strongest evidence of an individual engineer. Avoid decorative terminal UI, fake metrics, gradients, glass effects, repeated marketing cards and automatic reveal animations.
+The chosen direction is a personal studio folio: expressive, tightly spaced name typography, the supplied sculptural S monogram, an honest portrait, and a work index with complete project descriptions. Two alternatives and critique live in `docs/design-directions.md`. The lead selects the folio because name, real work, and chronology remain the strongest evidence of an individual engineer. Avoid decorative terminal UI, fake metrics, gradients, glass effects, repeated marketing cards and repeated scroll-reveal animations. The homepage now spends its visual emphasis on an integrated portrait/type canvas, following explicit user feedback that the boxed-right portrait felt generic.
 
 ## Colors
 
@@ -41,13 +41,13 @@ The chosen direction is a personal studio folio: expressive, tightly spaced name
 
 ## Typography
 
-No runtime font requests. Arial/Helvetica/system sans provides an immediately rendered neutral grotesque with a compact bold display treatment. Utility paths/source alone use SFMono-Regular/Consolas/monospace. The wordmark is the supplied SVG, not a new text logo. H1: fluid 64–144px, -0.075em tracking, 0.94 line-height; section headings: 36–64px, -0.055em; body: 16–20px, 1.65 line-height; controls: minimum 14px. Blog prose uses a readable 72ch measure. Display type does not replace labels or hide facts.
+No runtime font requests. Arial/Helvetica/system sans provides an immediately rendered neutral grotesque with a compact bold display treatment. Utility paths/source alone use SFMono-Regular/Consolas/monospace. The wordmark is the supplied SVG, not a new text logo. Homepage H1: independent fluid name lines up to 270px, -0.08em tracking, 0.84 line-height; section headings: 36–64px, -0.055em; body: 16–20px, 1.65 line-height; controls: minimum 14px. Blog prose uses a readable 72ch measure. Display type does not replace labels or hide facts.
 
 ## Layout
 
-A 1200px maximum container uses 56px desktop and 24px mobile gutters. Header is an opaque, stable 88px row. The hero pairs name/role/actions with an inset portrait; mobile becomes a deliberate text-first composition. Selected projects are a linked index, with a quiet highlighted first project and full descriptions. Employment uses date rail + complete role content. Education uses compact reverse chronological rows, preserving overlapping ongoing programs. Writing uses a distinct article list. Section rhythm is fluid 72–128px.
+A 1200px maximum container uses 56px desktop and 24px mobile gutters. Header is an opaque, stable 88px row. The homepage hero is a shared typographic canvas: an unframed monochrome portrait intersects the name, with a fine white keyline protecting the surname over the silhouette. The role/location rail and introduction/actions retain clear, separate reading areas. The original photograph is used directly with a CSS silhouette crop; facial pixels are preserved. Selected projects form a dark linked index, with an oversized first project and full descriptions. Employment uses date rail + complete role content. Education uses compact reverse chronological rows, preserving overlapping ongoing programs. Writing uses a distinct article list. Section rhythm is fluid 72–128px.
 
-At 375px: single-column name, portrait below introduction, one-column timelines and Lab panels; no horizontal page overflow. At 768px: two-column hero, dates retain a separate rail where room allows. Wide desktop: asymmetric hero and structured project index. All content exists in initial HTML; no invisible reveal states, lazy section shells, or viewport-dependent omissions.
+At 375px: the portrait sits between two responsive name lines, with introduction/actions in natural flow beneath the composition; one-column timelines and Lab panels; no horizontal page overflow. At 768px: the integrated hero scales as one canvas and actions follow the introduction; dates retain a separate rail where room allows. Wide desktop: asymmetric hero and structured project index. All content exists in initial HTML; no invisible reveal states, lazy section shells, or viewport-dependent omissions.
 
 ## Elevation & Depth
 
@@ -55,7 +55,7 @@ Borders and neutral surfaces establish hierarchy. No decorative shadows on portf
 
 ## Shapes
 
-8px controls, 12px panels/dialog content; portrait uses a restrained 8px crop. Projects and chronological entries are document rows. Selected controls change borders/background without affecting geometry. The monogram keeps its original proportions and ample clear space.
+8px shared controls, 12px panels/dialog content; the homepage portrait has no frame, radius or separate card. Homepage primary actions use a capsule shape; its CV link is quiet. Projects and chronological entries are document rows. Selected controls change borders/background without affecting geometry. The monogram keeps its original proportions and ample clear space.
 
 ## Components
 
@@ -65,7 +65,7 @@ Lab data comes from SQLite through server queries and API handlers; public users
 
 ## Motion
 
-Only short interaction color/opacity transitions; no scroll-linked effects. Reduced-motion disables smooth scrolling and transitions. Global scrollbars are visible, tokenized and forced-colors compatible. Stable image aspect ratios, explicit sizes, and system fonts avoid layout shifts.
+Homepage refinement authorizes one brief transform-only name/portrait entrance, plus bounded pointer depth (8px horizontal/5px vertical) on fine-pointer hover devices. SSR content is always visible; no opacity-zero reveals, looping animations or scroll hijacking. Pointer work pauses offscreen, and reduced motion is fully static. Other routes retain short interaction color transitions. Reduced-motion disables smooth scrolling and transitions. Global scrollbars are visible, tokenized and forced-colors compatible. Stable image aspect ratios, explicit sizes, and system fonts avoid layout shifts.
 
 ## Do's and Don'ts
 
