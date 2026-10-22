@@ -53,6 +53,7 @@ export default function SkillsToolkit({ initial, initialQuery = "", initialCateg
 	const [busy, setBusy] = useState(false);
 	const search = useRef<HTMLInputElement>(null);
 	const firstSearch = useRef(true);
+	const previousQuery = useRef(initialQuery);
 	const harness = getHarness(harnessId);
 	const selected = useMemo(() => selectedIds.flatMap(id => loaded[id] ? [loaded[id]] : known[id] ? [{ ...known[id], files: [] }] : []), [selectedIds, known, loaded]);
 	const preview = previewId ? loaded[previewId] : undefined;
@@ -73,9 +74,11 @@ export default function SkillsToolkit({ initial, initialQuery = "", initialCateg
 	}, []);
 	useEffect(() => { void checkSession(); }, [checkSession]);
 	useEffect(() => {
-		if (composing) return;
+		if (composing) { setLoading(false); return; }
 		if (firstSearch.current) { firstSearch.current = false; return; }
 		const controller = new AbortController();
+		const queryChanged = query !== previousQuery.current;
+		previousQuery.current = query;
 		const timer = setTimeout(() => {
 			setLoading(true); setCatalogError("");
 			const params = new URLSearchParams({ page: String(page), pageSize: String(initial.pageSize) });
@@ -88,9 +91,9 @@ export default function SkillsToolkit({ initial, initialQuery = "", initialCateg
 				if (result.page !== page) setPage(result.page);
 			}).catch(cause => { if (!controller.signal.aborted) setCatalogError(messageOf(cause, "Could not load skills. Please try again.")); })
 				.finally(() => { if (!controller.signal.aborted) setLoading(false); });
-		}, query === "" || page !== catalog.page || refresh ? 0 : 300);
+		}, queryChanged && query !== "" ? 300 : 0);
 		return () => { clearTimeout(timer); controller.abort(); };
-	}, [query, category, page, composing, refresh, initial.pageSize, catalog.page]);
+	}, [query, category, page, composing, refresh, initial.pageSize]);
 	const hydrate = useCallback(async (skills: SkillPackage[]) => {
 		const packages = await Promise.all(skills.map(skill => skill.files.length ? Promise.resolve(skill as LoadedSkill) : loadCatalogSkill(skill.id)));
 		setLoaded(previous => ({ ...previous, ...Object.fromEntries(packages.map(skill => [skill.id, skill])) }));
@@ -165,20 +168,20 @@ export default function SkillsToolkit({ initial, initialQuery = "", initialCateg
 		try { setSession(await labRequest<OwnerSession>("/api/lab/session", { method: "DELETE" }, session.csrfToken)); setMessage("Signed out. Public browsing and downloads remain available."); }
 		catch (cause) { setError(messageOf(cause, "Could not sign out. Try again.")); }
 	}
-	return <main className={`${styles.toolkit} section-container`} id="main-content">
+	return <main className={`${styles.toolkit} section-container`} id="main-content" tabIndex={-1}>
 		<header className={styles.pageHeading}><div><Link href="/#projects" className={styles.backLink}>Back to my work</Link><p className={styles.eyebrow}>Lab / AI tools</p><h1>Skills Toolkit</h1><p className={styles.intro}>Good instructions travel.<br />Build a collection for your next repository.</p></div><div className={styles.headingAside}><a href="https://github.com/darkweb19/skills" target="_blank" rel="noopener noreferrer" className={styles.sourceLink}>Explore the source collection <ExternalArrow /></a><p>Codex, Claude Code, Cursor, and Copilot.<br />Original instructions. Complete packages.</p></div></header>
 		{message && <Feedback>{message}</Feedback>}{error && !remove && !legacy && <Feedback error>{error}</Feedback>}
 		{sessionError && <Feedback error>{sessionError} <Button variant="quiet" onClick={() => void checkSession()}>Retry owner access</Button></Feedback>}
 		<div className={styles.workspace}>
 		<section className={styles.library} aria-labelledby="library-heading">
 			<div className={styles.sectionHeading}><div><h2 id="library-heading">Skills library</h2><p className={styles.help}>{catalog.total} {catalog.total === 1 ? "package" : "packages"} in the collection</p></div>{session.authenticated ? <Button onClick={() => setImportOpen(true)} disabled={busy}>Import skill <span aria-hidden="true">+</span></Button> : <Button variant="quiet" onClick={() => setOwnerOpen(true)} disabled={!sessionReady}>Owner sign in</Button>}</div>
-			<div className={styles.filters}><div className={styles.searchField}><label className={styles.srOnly} htmlFor="skill-search">Search skills</label><span aria-hidden="true" className={styles.searchIcon}><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg></span><input ref={search} id="skill-search" type="search" value={query} onCompositionStart={() => setComposing(true)} onCompositionEnd={() => setComposing(false)} onKeyDown={event => { if (event.key === "Enter" && !event.nativeEvent.isComposing) { event.preventDefault(); setRefresh(value => value + 1); } }} onChange={event => { setQuery(event.target.value); setPage(1); }} placeholder="Search skills…" />{query && <button type="button" className={styles.clearSearch} aria-label="Clear search" onClick={() => { setQuery(""); setPage(1); search.current?.focus(); }}>×</button>}</div><div className={styles.categoryField}><label className={styles.srOnly} htmlFor="skill-category">Filter by category</label><select id="skill-category" value={category} onChange={event => { setCategory(event.target.value); setPage(1); }}><option value="all">All categories</option>{catalog.categories.map(item => <option key={item}>{item}</option>)}</select></div></div>
+			<div className={styles.filters}><div className={styles.searchField}><label className={styles.srOnly} htmlFor="skill-search">Search skills</label><span aria-hidden="true" className={styles.searchIcon}><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg></span><input ref={search} id="skill-search" type="search" maxLength={200} value={query} onCompositionStart={() => setComposing(true)} onCompositionEnd={() => setComposing(false)} onKeyDown={event => { if (event.key === "Enter" && !event.nativeEvent.isComposing) { event.preventDefault(); setRefresh(value => value + 1); } }} onChange={event => { setQuery(event.target.value); setPage(1); }} placeholder="Search skills…" />{query && <button type="button" className={styles.clearSearch} aria-label="Clear search" onClick={() => { setQuery(""); setPage(1); search.current?.focus(); }}>×</button>}</div><div className={styles.categoryField}><label className={styles.srOnly} htmlFor="skill-category">Filter by category</label><select id="skill-category" value={category} onChange={event => { setCategory(event.target.value); setPage(1); }}><option value="all">All categories</option>{catalog.categories.map(item => <option key={item}>{item}</option>)}</select></div></div>
 			<div className={styles.selectionToolbar}><span role="status">{selected.length} selected <span className={styles.muted}>· {loading ? "Updating…" : `${catalog.total} results`}</span> <a href="#archive-heading" className={styles.mobileArchiveLink}>View archive</a></span><div><Button variant="quiet" onClick={() => changeSelection([...new Set([...selectedIds, ...catalog.skills.map(skill => skill.id)])])} disabled={!catalog.skills.length || busy || loading}>Select all shown</Button><Button variant="quiet" disabled={!selected.length || busy} onClick={() => changeSelection([])}>Clear selection</Button></div></div>
 			{catalogError && <Feedback error>{catalogError} <Button variant="quiet" onClick={() => setRefresh(value => value + 1)}>Retry library</Button></Feedback>}
 			<div aria-busy={loading} className={styles.results}>
 			{catalog.skills.length ? <div className={styles.skillGrid}>{catalog.skills.map(skill => <article key={skill.id} className={`${styles.skillCard} ${selectedIds.includes(skill.id) ? styles.skillSelected : ""}`}>
-				<div className={styles.skillCardHeading}><input id={`select-${skill.id}`} type="checkbox" disabled={busy} checked={selectedIds.includes(skill.id)} onChange={() => toggle(skill)} aria-label={`Select ${skill.name}`} /><span className={styles.tag}>{skill.category}</span></div>
-				<div className={styles.skillBody}><h3><label htmlFor={`select-${skill.id}`}>{skill.name}</label></h3><p className={styles.skillDescription}>{skill.description}</p><div className={styles.skillCardFooter}><span className={styles.skillSource}>{skill.managed ? "Source collection" : "Owner import"}<span>{skill.fileCount} files</span></span><Button variant="quiet" disabled={previewBusy === skill.id || busy} onClick={() => void showPreview(skill)} aria-label={`Preview ${skill.name}`}>{previewBusy === skill.id ? "Loading…" : "Preview"} <ExternalArrow /></Button></div></div>
+				<div className={styles.skillCardHeading}><input id={`select-${skill.id}`} type="checkbox" disabled={busy} checked={selectedIds.includes(skill.id)} onChange={() => toggle(skill)} aria-label={`Select ${skill.name}`} /></div>
+				<div className={styles.skillBody}><div className={styles.skillTitle}><h3><label htmlFor={`select-${skill.id}`}>{skill.name}</label></h3><span className={styles.tag}>{skill.category}</span></div><p className={styles.skillDescription}>{skill.description}</p><div className={styles.skillCardFooter}><span className={styles.skillSource}>{skill.managed ? "Source collection" : "Owner import"}<span>{skill.fileCount} files</span></span><Button variant="quiet" disabled={previewBusy === skill.id || busy} onClick={() => void showPreview(skill)} aria-label={`Preview ${skill.name}`}>{previewBusy === skill.id ? "Loading…" : "Preview"} <ExternalArrow /></Button></div></div>
 			</article>)}</div> : !catalogError && <div className={styles.empty}><h3>No skills match your filters</h3><p>Try another search or browse the complete collection.</p><Button onClick={() => { setQuery(""); setCategory("all"); setPage(1); search.current?.focus(); }}>Reset filters</Button></div>}
 			</div>
 			<nav className={styles.pagination} aria-label="Skills library pages"><Button disabled={page <= 1 || loading} onClick={() => setPage(value => value - 1)}>Previous</Button><span>Page {page} of {pages}</span><Button disabled={page >= pages || loading} onClick={() => setPage(value => value + 1)}>Next</Button></nav>

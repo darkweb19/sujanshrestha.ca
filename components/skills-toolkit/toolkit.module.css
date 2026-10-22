@@ -169,11 +169,13 @@
 .skillSelected { box-shadow: inset 3px 0 var(--color-text-primary); background: var(--color-bg-2); padding-left: 12px; }
 .skillCardHeading { display: contents; }
 .skillCardHeading input { margin-top: 4px !important; grid-column: 1; grid-row: 1; }
-.skillCardHeading .tag { grid-column: 2; grid-row: 2; justify-self: start; margin-top: -5px; }
+.skillTitle { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; margin-bottom: 10px; }
+.skillTitle h3 { margin-bottom: 0; }
+.skillTitle .tag { max-width: 45%; flex-shrink: 0; }
 .skillBody { min-width: 0; grid-column: 2; grid-row: 1; }
 .skillCard h3 { font-size: 18px; font-weight: 550; margin-bottom: 10px; }
-.skillDescription { display: block; font-size: 14px; line-height: 1.7; margin-bottom: 12px; -webkit-line-clamp: unset; overflow: visible; overflow-wrap: anywhere; }
-.skillCardFooter { border: none; padding-top: 0; margin-bottom: 22px; align-items: center; }
+.skillDescription { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; font-size: 14px; line-height: 1.7; margin-bottom: 12px; overflow: hidden; overflow-wrap: anywhere; }
+.skillCardFooter { border: none; padding-top: 0; margin-bottom: 0; align-items: center; }
 .skillSource { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; }
 .skillSource > span { display: inline; }
 .skillCardFooter .button { font-size: 14px; min-height: 40px; }
@@ -214,4 +216,4 @@
 .legacyList li { padding: 12px 0; display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--toolkit-line); font-size: 14px; overflow-wrap: anywhere; }
 @media (max-width: 1050px) { .workspace { grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; } .archivePanel { padding: 22px; } .filters { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .toolkit { padding-top: 40px; } .pageHeading { padding-top: 16px; padding-bottom: 30px; gap: 24px; } .backLink { margin-bottom: 28px; } .workspace { grid-template-columns: 1fr; } .headingAside { max-width: none; } .headingAside p { display: none; } .skillCard { grid-template-columns: 24px minmax(0, 1fr); gap: 10px; } .archivePanel { position: static; } .promptPanel { margin-top: 40px; padding: 28px 0; } .promptGrid { grid-template-columns: 1fr; gap: 28px; } .libraryNotes { align-items: flex-start; flex-direction: column; } .filters { grid-template-columns: minmax(0, 1fr) 165px; } }
-@media (max-width: 450px) { .toolkit { padding-inline: 20px; } .filters { grid-template-columns: 1fr; } .sectionHeading { align-items: flex-start; } .sectionHeading > .button { font-size: 13px; } .selectionToolbar { flex-direction: column; align-items: flex-start; } .skillCard { padding-top: 22px; padding-bottom: 20px; } .skillCard h3 { font-size: 17px; } .dialog { padding: 22px; } .dialogHeading h2 { font-size: 22px; } .previewToolbar > .button { font-size: 13px; } .pagination { gap: 8px; } .pagination .button { padding-inline: 10px; } }
+@media (max-width: 450px) { .toolkit { padding-inline: 20px; } .filters { grid-template-columns: 1fr; } .sectionHeading { align-items: flex-start; } .sectionHeading > .button { font-size: 13px; } .selectionToolbar { flex-direction: column; align-items: flex-start; } .skillCard { padding-top: 22px; padding-bottom: 20px; } .skillCard h3 { font-size: 17px; } .skillTitle { align-items: flex-start; flex-direction: column; gap: 8px; } .skillTitle .tag { max-width: 100%; } .dialog { padding: 22px; } .dialogHeading h2 { font-size: 22px; } .previewToolbar > .button { font-size: 13px; } .pagination { gap: 8px; } .pagination .button { padding-inline: 10px; } }
