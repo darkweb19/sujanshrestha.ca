@@ -1,5 +1,5 @@
 ---
-version: beta
+version: alpha
 colors:
   background: "#ffffff"
   surface: "#ffffff"
@@ -18,6 +18,9 @@ rounded:
   control: "8px"
   card: "12px"
   panel: "12px"
+omitted:
+  - section: components
+    reason: "Shared component contracts are documented in prose; runtime CSS owns their token references."
 spacing:
   card: "20px"
   panel: "24px"

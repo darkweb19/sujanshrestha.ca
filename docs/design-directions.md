@@ -146,3 +146,7 @@ Spacing derives from 4/8px increments. Container maximum approximately 1200px; d
 ## Evidence required before acceptance
 
 Compare the implementation against the frozen ledger and route list; capture desktop, tablet and narrow screenshots; inspect the real open menu/dialog and catalog selection; test keyboard and reduced motion; run project checks and actual Lighthouse measurements. Report measured outcomes and operational prerequisites honestly. No production infrastructure change or deployment is authorized by this design decision.
+
+## Implemented direction
+
+The lead selected Concept A and implemented its neutral personal-studio masthead, inset portrait, complete project index and date-aligned records. Runtime tokens and typography are documented in the root DESIGN.md; the Lab and article templates share that system. Review the [desktop, tablet, mobile, Lab and article screenshots](screenshots/README.md) captured from the final production build. The photograph, career/project/education records, posts and resume remain authentic baseline content.

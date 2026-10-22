@@ -1,3 +1,5 @@
+> Historical browser-local toolkit report. The current SQLite redesign and measured acceptance evidence are documented in [redesign-verification.md](redesign-verification.md), [railway-sqlite.md](railway-sqlite.md), and the root UX-CONTRACT.md.
+
 # Skills Toolkit verification
 
 The toolkit is served at `/lab/codex`. The portfolio navigation and footer include a discreet Lab link, and the route appears in the sitemap. Existing portfolio and blog layouts retain their original components and theme.

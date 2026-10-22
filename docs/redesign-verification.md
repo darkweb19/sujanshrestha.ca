@@ -24,7 +24,7 @@ Browser groups exercise keyboard skip-to-main, immediate portfolio content witho
 
 Owner browser groups exercise actual sign-in and Markdown/ZIP upload forms, CSRF rejection, safe URL rejection, editing, persisted content in a fresh browser context after reload, deletion cancellation and explicit confirmation. ZIP upload retains binary bytes `00 01 02 ff` and supporting JavaScript as inert files. Temporary imported fixtures were removed after the tests; no user data was deleted.
 
-The 16 backend tests additionally verify migration repeatability, reopen persistence, transactional rollback, managed/user separation, idempotent sync, stale-write rejection, credential rotation, persistent rate limits, bounded streaming bodies, hostile paths, archive validation and consistent backup. Backend integration separately verified an actual public GitHub import through the inherited proxy with TLS verification, and the full upstream sync contains 200 valid packages / 1,498 files / 16,222,879 bytes. A second sync left all 200 unchanged and an independently reopened backup passed SQLite integrity checking. Actual Railway-mounted-volume restart behavior remains a deployment check.
+The 16 backend tests additionally verify migration repeatability, reopen persistence, transactional rollback, managed/user separation, idempotent sync, stale-write rejection, credential rotation, persistent rate limits, bounded streaming bodies, hostile paths, archive validation and consistent backup. Backend integration separately verified an actual public GitHub import through the inherited proxy with TLS verification, and the full upstream sync contains 200 valid packages / 1,498 files / 16,222,879 bytes. A second sync left all 200 unchanged and an independently reopened backup passed SQLite integrity checking. A fresh empty-path production start also ran migrations and seeded 200 packages before returning healthy; a second production process retained all 200 without re-seeding. Actual Railway-mounted-volume ownership and restart behavior remain deployment checks.
 
 ## Content preservation
 
@@ -64,7 +64,11 @@ The SEO skill's authored evidence-matrix health score was 92.5/100; weakest cate
 
 The final axe WCAG A/AA-tagged scans found zero automated violations on home, blog index and Lab at all three widths. The home is fully visible without animation, neutral contrast is readable, keyboard focus and skip link work, dialogs contain focus, and the original tiny identity hit target has been replaced by generous branded navigation. The editorial masthead, authentic inset portrait, distinct project index and chronological records create a coherent personal portfolio. At 375px, the name, actions, portrait and timelines reflow without clipped controls or horizontal page overflow. The Lab's compact list, clear source previews and quiet archive workspace fit the same visual language.
 
-**Remaining required correction:** both article templates still produce an axe `scrollable-region-focusable` finding for horizontally scrolling syntax-highlighted code. At 375px the reverse-proxy article has four affected code blocks; the Supabase article has one. Some remain at wider widths. `app/globals.css` gives `.prose code.hljs` horizontal overflow, while the generated element has no keyboard focus target. Make that scrolling element focusable, or move overflow to one focusable `<pre>` owner, preserve visible focus, then rebuild and rerun the article scans. QA reported this to the main implementation owner; it was not changed by the QA agent outside its assigned files.
+The final article correction moves horizontal overflow to one keyboard-focusable `<pre>` owner with an accessible label. A fresh production scan of both articles at 375/768/1440px returned zero axe violations and zero horizontal page overflow. A genuine overflowing block at 375px was focused and scrolled with ArrowRight; the measured scroll offset increased. Evidence: `/workspace/qa-artifacts/redesign-final-articles`.
+
+After consolidating the Lab stylesheet, 12 library/preview/owner-disabled/legacy-recovery states across 375/768/1440px returned zero axe violations, overflow or browser errors. Desktop/tablet computed geometry stayed identical; mobile form controls intentionally increased to 16px text to avoid focus zoom. The final production public browser suite passed all 8 groups, explicitly omitting owner checks. A fresh configured development owner run passed all 11 groups with 0 skipped and 0 uncaught errors, including actual Markdown/ZIP uploads, editing, cross-context persistence and confirmed removal. The anonymous-write check now sends an otherwise valid package and verifies SQLite count is unchanged; intentionally disabled management is accepted only with its explicit safe configuration response.
+
+Reviewed viewport screenshots are [committed alongside the documentation](screenshots/README.md).
 
 Automated axe/Lighthouse scores do not certify full WCAG conformance. Physical mobile devices, Safari, screen readers and a complete 200% zoom matrix were not covered by this Chromium-based run.
 
@@ -86,9 +90,12 @@ For the owner suite, start a development server on localhost with a private nonp
 
 Optional host audit tools can be selected using `PLAYWRIGHT_MODULE`, `CHROMIUM_PATH`, `AXE_MODULE` and `LIGHTHOUSE_CLI`. The measurement script never claims a missing axe installation ran.
 
-## Prioritized remaining work
+## Deployment and follow-up work
 
-1. Fix and revalidate keyboard-scrolling article code blocks before declaring accessibility acceptance complete.
-2. Main integration must commit its outstanding application/configuration/design-document changes, reconcile the old browser-only UX documentation, and push the complete branch. QA committed only its assigned files.
-3. Follow Railway's documented single-instance volume, startup/sync, secure credentials, HTTPS, backup and restore checklist. Verify actual volume persistence and owner Secure-cookie behavior after deployment is separately authorized.
-4. Collect field CWV and perform Safari/screen-reader/physical-device review after release; keep synthetic and field evidence distinct.
+1. Follow Railway's documented single-instance volume, startup/sync, secure credentials, HTTPS, backup and restore checklist. Verify actual volume persistence and owner Secure-cookie behavior after deployment is separately authorized.
+2. Collect field CWV and perform Safari/screen-reader/physical-device review after release; keep synthetic and field evidence distinct.
+
+
+## Final static review
+
+`npx -p @google/design.md designmd lint DESIGN.md` completed with 0 errors and 0 warnings. The premium UI project audit ran in strict mode with 0 findings; runtime tokens map through the documented stylesheet owners. The complete source was formatted and passed lint, typecheck, 74 tests and a production build. `.dockerignore` excludes databases, fixture credentials, environment files and local caches from image inputs. No production infrastructure or secrets were changed. The Docker image itself and a real Railway volume remain unexecuted deployment validations; local startup/seed/restart was exercised directly.

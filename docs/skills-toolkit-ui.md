@@ -1,3 +1,5 @@
+> Historical browser-local toolkit report. The current SQLite redesign and measured acceptance evidence are documented in [redesign-verification.md](redesign-verification.md), [railway-sqlite.md](railway-sqlite.md), and the root UX-CONTRACT.md.
+
 # Toolkit UI implementation review
 
 The existing site is a Next.js App Router portfolio, not an application shell. There was no existing Codex route, application-wide form primitive, notification service, select abstraction, or design contract to reuse. The implementation retains the shared Navbar/Footer, Geist families, coffee/espresso tokens, neutral backgrounds, rounded surfaces, and `.section-container` sizing. It adds one product route and scoped CSS rather than replacing the portfolio shell or adding a UI framework.
