@@ -1,55 +1,60 @@
-# Skills Toolkit interaction contract
+# Skills Lab interaction contract
 
-Scope: `/lab/codex` is a browser-local developer tool. Existing portfolio navigation and footer retain their established ownership. English is the supported product language. Imported text and paths preserve Unicode; locale-specific forms and dates are not part of this workflow.
+Scope: `/lab/codex` is a public, server-rendered SQLite catalog with owner-only management. English is the supported interface language. Complete imported bytes, Unicode and source metadata remain intact. The redesign brief supersedes the old browser-only storage policy.
+
+## Business sources
+
+| Rule | Authoritative source | UI consequence |
+| --- | --- | --- |
+| Public reads; owner writes only | `docs/portfolio-redesign-brief.md`, `AGENTS.md` security rules | Browsing, preview and exports require no account; import/edit/delete require owner sign-in |
+| Managed/user namespaces; persistent packages | Same brief, `lib/db/connection.ts` constraints | Upstream packages are read-only; user packages editable with revision checks |
+| Persistent single-instance SQLite | Same brief, `docs/railway-sqlite.md` | Successful imports visible after reload and across browsers; unavailable DB gives retry state |
+| Existing browser data preserved | Same brief | Explicit recover/backup/migrate flow; no automatic IndexedDB deletion |
 
 ## Canonical UI map
 
 | Capability | Canonical owner | Source of truth | Allowed variants | Verification |
 | --- | --- | --- | --- | --- |
-| Card selection | `SkillsToolkit.tsx` selected IDs | This contract | Individual, all filtered, clear all | Browser selection and archive flows |
-| Select/Listbox | Native `select`, shared scoped form styling | DESIGN.md + this contract | Harness, category, package file | Keyboard/native popup, browser selection |
-| Form | `ImportSkills.tsx`, `SkillPreview.tsx`, `PromptLauncher.tsx` | Package validation module + this contract | Import, edit, task prompt | Invalid input, retained values, edit/save |
-| Scrollbar | `app/globals.css` | DESIGN.md / shared runtime tokens | Page, source, archive, dialog overflow | Narrow viewport overflow and computed style |
-| Feedback | `ToolkitPrimitives.tsx` Feedback | This contract | Persistent status, alert | Import, download, copy, storage failure |
-| Dialog | `ToolkitPrimitives.tsx` Dialog | This contract | Import, full source/edit, removal | Focus containment, Escape, return focus |
-| CRUD | `storage.ts` + toolkit import/editor/removal flow | SkillPackage validation + IndexedDB transaction | Imported packages only | Refresh persistence, edit, confirm/remove |
+| Card selection | `SkillsToolkit.tsx` selected IDs | This contract | Individual, all shown, clear | Four-harness ZIP browser checks |
+| Select/Listbox | Native `select`, shared toolkit form CSS | DESIGN.md + this contract | Harness, category, file | Native keyboard/popup accepted |
+| Form | `ImportSkills.tsx`, `SkillPreview.tsx`, `PromptLauncher.tsx`, owner sign-in in `SkillsToolkit.tsx` | `validation.ts`, server auth/API | Import, edit, task, sign-in | Invalid input, preserved values, upload/edit browser flows |
+| Scrollbar | `app/globals.css` | DESIGN.md runtime tokens | Page, source, archive, dialog | Narrow layout and computed style |
+| Feedback | `ToolkitPrimitives.tsx` Feedback | This contract | Inline status, alert | Import, download, session and network errors |
+| Dialog | `ToolkitPrimitives.tsx` Dialog | This contract | Import, preview/editor, removal, sign-in | Focus, Escape, return focus |
+| CRUD | `client-api.ts`, `lib/db/catalog.ts`, `app/api/skills` | Brief + schema + server auth | User packages only; managed reads | Browser cross-context persistence + backend transaction/revision tests |
 
-The product explicitly accepts operating-system select popup geometry and keyboard behavior. No custom combobox or separate notification provider is necessary for this route. Feedback is inline rather than transient so failures remain actionable.
+Native selects intentionally accept OS-owned popup geometry/keyboard semantics. Inline feedback remains visible and actionable; no separate transient toast provider is needed. Shared buttons, feedback, dialog and native field styling are reused across owner workflows.
 
-## Selection and archive
+## Catalog, search and selection
 
-Initial selection is empty. Search matches name, slug, description, category, and source label. Category and search combine. Search clear restores focus to the search input. Zero results explains how to reset filters. Selection is independent of filtering, so hidden selected items still appear in the archive and count.
+The server renders the first page of minimal catalog metadata from SQLite. Complete source bodies are never embedded in initial catalog HTML/client modules. Database search matches name/description; category combines with query. Pages contain 12 results. Search commits to URL query parameters after 300ms; IME composition is respected, requests are canceled or ignored when superseded, and clear resets immediately and restores input focus. Back/forward navigation restores query/category/page. No results offers clear/reset; DB/network failures offer retry without representing unavailable data as a successful empty library.
 
-Select all chooses all currently shown items and retains prior hidden selections; its label becomes “Select all shown” when filtered. Clear selection clears the whole set. Selecting or editing packages and changing harness resets installation confirmation. The selected set, target harness, file count, and directory tree update together. A tree folder disclosure exposes every available supporting-file path. Built-in file manifests keep this complete before lazy source content loads.
+Selection begins empty and is independent of query/page. Select all shown adds this page while retaining other selections; Clear selection clears all. Full selected packages load lazily so the tree, count and exports have actual supporting-file paths. Selection changes and harness changes invalidate installation confirmation and generated prompts. Pending operations retain appropriate controls and explicit busy feedback.
 
-Download uses only selected packages. It hydrates built-in source, performs package/selection/harness validation, and generates the ZIP in the browser. Validation errors block export; compatibility warnings remain visible and no source metadata or instructions are silently removed. The selected set and harness are frozen while an export is pending. On failure the selection remains intact, an error explains recovery, and another download attempt retries hydration. The resulting archive places the adapter's `.agents`, `.claude`, `.cursor`, or `.github` directory at its root. Download feedback never claims installation.
+## Archive and prompt
 
-## Import and storage
+Exports freeze the selected set and harness while validating/loading packages. Failure retains selection and gives retry. ZIP root paths come from canonical harness adapters: `.agents`, `.claude`, `.cursor`, or `.github`. Every selected supporting byte is retained; compatibility warnings remain visible. Downloading a ZIP never claims installation.
 
-Import accepts Markdown files, complete ZIP skill packages, and public GitHub URLs. Metadata and all paths are validated before storage. Limits, duplicate skill slugs, unsafe paths, invalid frontmatter, unavailable supporting files, and network/API failures receive explicit feedback. ZIP imports retain files inside each discovered skill folder; unrelated repository-level files are excluded. No imported script executes during import, preview, storage, or export.
+Prompt requirements are mandatory and a missing task receives focused feedback. Prompt paths derive from the adapter, not duplicated UI path maps. Until the user explicitly asserts installation in the target repository, generated text requires verification/installation. Task, selection, harness and confirmation changes mark an existing prompt stale. Clipboard failure preserves and focuses editable text. Codex Web is a plain external link without prompt or installation query parameters.
 
-Local batches are checked before reading: at most 20 uploads and 10 MB combined input. Each parsed source is checked against the aggregate 25 MB unpacked / 256 package-file limit and duplicate folders before another source is processed. New imports save atomically only after the complete batch validates, then join the library. Duplicate slugs are rejected rather than overwriting a built-in or previously imported package. The modal retains chosen files and URL on failure. Its alert is associated with the affected field using `aria-describedby`/`aria-invalid`; focus returns to that field for correction. Pending GitHub fetches expose Cancel import and abort when the modal closes. Imports remain in IndexedDB on the same browser/origin. Storage initialization failure leaves the built-in library usable, disables import, and offers Retry browser storage; it does not represent unread imports as missing or overwrite them.
+## Authentication and persistent import
 
-Source labels, complete raw text, all filenames, source links when present, and file counts are available in preview. Binary supporting files are retained and identified explicitly. An external source link is limited to HTTPS GitHub or raw GitHub hosts. React renders source as escaped text.
+Owner sign-in uses a masked password input. Password and session secret are configured securely on the server, never bundled or persisted in browser storage. If configuration is absent, management stays disabled with explanation. Session cookies are HttpOnly/SameSite=Strict, Secure in production; production requires an exact HTTPS origin. Every write validates session, Origin and CSRF on the server; UI hiding is not authorization. Expired sessions leave draft/source input intact and offer sign-in/retry. Rate limits and bounded request sizes apply server-side.
 
-## Editing and removal
+Owner import accepts 1–20 Markdown/ZIP uploads or a public HTTPS GitHub URL. The server validates file/archive paths, metadata, byte/file counts, UTF-8 entrypoints and package completeness before one atomic SQLite transaction. Limits: 10MB raw multipart files, 256 aggregate package files, 25MB expanded, 2MB/file. Unsafe ZIP paths/symlinks/encryption/bombs, unsupported GitHub hosts/redirects, malformed fields and duplicates receive explicit text errors. Imported scripts remain inert throughout storage/preview/export. Fixed GitHub API/raw origins, immutable commit and blob hashes provide provenance.
 
-Only imported packages can be edited or removed. The source dialog supports editing any UTF-8 package file while retaining other text/binary files. YAML frontmatter must stay valid and its `name` slug stays unchanged when editing. A new slug requires importing a separate package; do not infer a rename operation. Save validates and updates storage using the prior import timestamp for stale-tab conflict protection. Failures preserve the draft. Success updates the canonical package and tree and clears the dirty comparison.
+Failure preserves files/URL/editor input for correction; errors are associated with affected fields and keyboard focus returns for correction. Canceling an in-flight browser operation must not claim rollback of a possibly completed server transaction: reload the catalog before retrying an uncertain import. Successful imports update the canonical library immediately and remain visible in a fresh browser. Upstream-managed and owner-imported namespaces cannot overwrite each other.
 
-While saving, closing/discard/removal actions are disabled. Closing a dirty editor shows app-owned Discard changes / Keep editing controls. Navigating away with unsaved changes invokes the browser's beforeunload data-protection mechanism. Removing a package requires an app-owned confirmation and an explicit Remove skill action; failure leaves the package present and retryable. Success removes its selection and persisted entry. A browser refresh must reflect saved imports and removals.
+## Editing, removal and legacy recovery
 
-## Prompt workflow
+Only authenticated owner-managed `user:` packages can be edited/removed. Source editors retain all other files, require valid frontmatter and preserve slug identity. Renaming requires a new import. Saving supplies the prior numeric revision; stale edits fail without overwriting current DB content. Successful save replaces the source/tree and clears dirty state; errors preserve the draft.
 
-The user supplies task requirements, selects skills and a harness, then generates an editable prompt. Task requirements are required and a missing task receives a focused error. Skill references derive only from adapter `skillRoot`, never repeated hardcoded path maps in UI components. Until the user explicitly confirms installation in the target repository, generated text states that installation must be checked/completed first. Downloading is not evidence of installation. Changing selection, task, adapter, or confirmation marks existing generated text as stale and asks the user to regenerate.
+Dirty close offers Keep editing / Discard changes; document navigation uses the narrow beforeunload protection. Removal uses an app-owned confirmation naming the package. Cancel retains it; confirmed deletion uses the revision, removes selection and persists after reload. Closing/destructive controls are disabled during writes. Managed upstream packages expose no editing affordances and the server also rejects such writes.
 
-Copy prompt writes only the currently displayed editable text. Clipboard denial preserves the text and focuses it for manual copying. Open Codex Web is a plain `https://chatgpt.com/codex` link in a new tab with no prompt/installation query parameters. Other harnesses provide installation instructions and copyable prompts without invented launcher integrations.
+Browser-local imports are never silently discarded. Recover browser imports explicitly reads the previous IndexedDB store, previews recovered entries, permits a backup ZIP for every visitor, and allows the authenticated owner to migrate a validated batch into SQLite. Migration does not automatically erase the local originals. Source provenance and binary/supporting bytes survive recovery.
 
-## Accessibility and responsive behavior
+## Accessibility, layout and verification
 
-All inputs have explicit labels; selection checkboxes include skill names. Counts, pending progress, and success messages are status regions; errors are alerts. Interactive elements have a shared visible focus treatment. Native modal dialogs trap keyboard focus, handle Escape via app close logic, and restore focus to their trigger on close. Removal confirmation has an equally available safe action. No browser `alert`, `confirm`, or `prompt` is used.
+Native semantic controls, explicit labels, visible focus, status/alert announcements and native dialog focus containment are mandatory. Escape and focus restoration work. Dialogs stay within viewport; long source/path text never expands page width. Small screens stack library/archive. Reduced motion and forced colors follow shared runtime styles. No meaning or action is hover-only; no browser alert/confirm/prompt is used.
 
-Source and archive panes scroll without horizontal page overflow. Long source wraps safely while preserving text. Small screens stack the work areas; dialogs fit the viewport. Reduced motion and forced colors remain supported through runtime CSS. No hover-only operation is required.
-
-## Verification evidence
-
-`tests/toolkit-browser.cjs` owns real-browser checks and evidence for selection, harness changes, exact ZIP downloads, import/persistence/edit/removal, prompt interaction, modal keyboard behavior, and responsive layout. `tests/archive.test.ts` and import/harness tests own package boundaries and exact generated archive paths. See `docs/skills-toolkit-ui.md` for the implementation review and actual validation report; never infer runtime success from the presence of this contract.
+`tests/redesign-browser.cjs` owns current real-browser public and owner workflows; `tests/toolkit-browser.cjs` remains its compatible entrypoint. Owner tests require a privately supplied local fixture and are explicitly skipped when unavailable. `tests/backend*.test.ts` and existing archive/harness/catalog tests own security, transactions, persistence, exact file bytes and stale writes. `scripts/measure-portfolio.cjs` records actual axe/Lighthouse/screenshots. See `docs/redesign-verification.md`; static audits never establish browser correctness.

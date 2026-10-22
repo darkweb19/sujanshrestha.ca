@@ -1,19 +1,34 @@
 {
   "profile": "product-admin",
-  "sourceRoots": ["app/lab/codex", "components/skills-toolkit"],
+  "sourceRoots": [
+    "app/lab/codex",
+    "components/skills-toolkit"
+  ],
   "locale": "en",
   "canonicalMap": "UX-CONTRACT.md",
-  "requiredCapabilities": ["Select/Listbox", "Form", "Scrollbar", "CRUD"],
-  "ownership": { "Select/Listbox": "native" },
-  "requiredCommands": ["unit", "e2e", "lint", "typecheck"],
+  "requiredCapabilities": [
+    "Select/Listbox",
+    "Form",
+    "Scrollbar",
+    "CRUD"
+  ],
+  "ownership": {
+    "Select/Listbox": "native"
+  },
+  "requiredCommands": [
+    "unit",
+    "e2e",
+    "lint",
+    "typecheck"
+  ],
   "commands": {
     "unit": "npm test",
-    "e2e": "node tests/toolkit-browser.cjs",
+    "e2e": "node tests/redesign-browser.cjs",
     "lint": "npm run lint",
     "typecheck": "npx tsc --noEmit"
   },
   "evidence": {
-    "crudFullFlow": "tests/toolkit-browser.cjs",
-    "failurePaths": "tests/toolkit-browser.cjs"
+    "crudFullFlow": "tests/redesign-browser.cjs",
+    "failurePaths": "tests/redesign-browser.cjs"
   }
 }
