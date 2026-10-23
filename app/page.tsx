@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import Hero from "@/components/Hero";
+import SmoothScroll from "@/components/home/SmoothScroll";
 
 import About from "@/components/About";
 import Experience from "@/components/Experience";
@@ -95,6 +96,7 @@ export default function Home() {
 			/>
 
 			{/* Main Content */}
+			<SmoothScroll />
 			<Navbar />
 			<main tabIndex={-1} id="main-content">
 				<Hero />

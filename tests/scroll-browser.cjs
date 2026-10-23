@@ -1,0 +1,60 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Production browser acceptance for optional wheel easing. */
+const assert = require('node:assert/strict');
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || '/opt/codex/cua_node/lib/node_modules/playwright');
+const baseURL = process.env.TOOLKIT_BASE_URL || 'http://localhost:3000';
+(async () => {
+ const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
+ const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
+ await page.addInitScript(() => {
+  const request = window.requestAnimationFrame.bind(window), cancel = window.cancelAnimationFrame.bind(window), active = new Set();
+  window.__rafCallbacks = 0; window.__activeFrames = () => active.size;
+  window.requestAnimationFrame = callback => { const id = request(time => { active.delete(id); window.__rafCallbacks++; callback(time); }); active.add(id); return id; };
+  window.cancelAnimationFrame = id => { active.delete(id); cancel(id); };
+ });
+ const native = options => page.evaluate(options => document.querySelector('main').dispatchEvent(new WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: 120, ...options })), options);
+ try {
+  await page.goto(baseURL, { waitUntil: 'networkidle' });
+  await page.mouse.move(200, 180); await page.mouse.wheel(0, 400);
+  await page.waitForTimeout(40);
+  const midway = await page.evaluate(() => scrollY); assert.ok(midway > 0 && midway < 400, `Coarse wheel eases: ${midway}`);
+  await page.waitForFunction(() => Math.abs(scrollY - 400) <= 1 && window.__activeFrames() === 0);
+  const count = await page.evaluate(() => window.__rafCallbacks); await page.waitForTimeout(150);
+  assert.equal(await page.evaluate(() => window.__rafCallbacks), count, 'No idle animation loop');
+  await native({ deltaY: 120 });
+  assert.equal(await native({ deltaY: 120, cancelable: false }), true, 'Noncancelable events remain native');
+  assert.equal(await page.evaluate(() => window.__activeFrames()), 0, 'Noncancelable events stop active easing');
+  assert.equal(await native({ ctrlKey: true }), true, 'Browser zoom stays native');
+  assert.equal(await native({ shiftKey: true }), true, 'Horizontal gestures stay native');
+  assert.equal(await native({ deltaY: 12.5 }), true, 'Precise trackpad wheel stays native');
+  assert.equal(await native({ deltaX: 200, deltaY: 50 }), true, 'Horizontal wheel stays native');
+  await page.evaluate(() => { const panel = document.createElement('div'); panel.id = 'qa-nested-scroll'; panel.style.cssText = 'position:fixed;top:100px;right:20px;width:180px;height:140px;overflow:auto;background:white;z-index:99'; panel.innerHTML = '<div style="height:800px">Nested scroll fixture</div>'; document.body.append(panel); });
+  const before = await page.evaluate(() => scrollY); await page.mouse.move(1300, 150); await page.mouse.wheel(0, 200); await page.waitForTimeout(150);
+  assert.ok(await page.locator('#qa-nested-scroll').evaluate(e => e.scrollTop > 0));
+  assert.equal(await page.evaluate(() => scrollY), before); await page.locator('#qa-nested-scroll').evaluate(e => e.remove());
+  await page.waitForTimeout(450); await page.mouse.move(200, 180); await page.mouse.wheel(0, 400); await page.waitForTimeout(30);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const stopped = await page.evaluate(() => scrollY); await page.waitForTimeout(180);
+  assert.equal(await page.evaluate(() => scrollY), stopped); assert.equal(await page.evaluate(() => window.__activeFrames()), 0);
+  assert.equal(await native({ deltaY: 120 }), true, 'Reduced motion removes wheel interception');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.locator('main').focus(); await page.keyboard.press('PageDown'); await page.waitForTimeout(200);
+  assert.equal(await page.evaluate(() => window.__activeFrames()), 0, 'Keyboard paging remains native');
+  await page.setViewportSize({ width: 375, height: 700 });
+  await page.getByRole('button', { name: 'Preview YouTube Extractor', exact: true }).click();
+  const modal = page.getByRole('dialog'); await modal.waitFor();
+  const modalBefore = await page.evaluate(() => scrollY);
+  await page.locator('.browser-content').hover(); await page.mouse.wheel(0, 300); await page.waitForTimeout(200);
+  assert.ok(await page.locator('.browser-content').evaluate(e => e.scrollTop > 0));
+  assert.equal(await page.evaluate(() => scrollY), modalBefore); assert.equal(await page.evaluate(() => window.__activeFrames()), 0);
+  await page.keyboard.press('Escape');
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+  assert.equal(await native({ deltaY: 120 }), true, 'Document edge is not trapped');
+  assert.equal(await page.evaluate(() => window.__activeFrames()), 0);
+  const touch = await browser.newContext({ isMobile: true, hasTouch: true, reducedMotion: 'no-preference', viewport: { width: 375, height: 700 } });
+  const phone = await touch.newPage(); await phone.goto(baseURL, { waitUntil: 'networkidle' });
+  assert.equal(await phone.evaluate(() => document.body.dispatchEvent(new WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: 120 }))), true);
+  await touch.close();
+  console.log('PASS: eased coarse wheels settle without idle frames; precision/zoom/horizontal/keyboard/touch/reduced-motion/nested/dialog/edge behavior stays native.');
+ } finally { await browser.close(); }
+})().catch(error => { console.error(error); process.exitCode = 1; });
