@@ -28,6 +28,7 @@ export default function Hero() {
 							fill
 							sizes="(max-width: 640px) 600px, (max-width: 1000px) 780px, 900px"
 							priority
+							fetchPriority="high"
 						/>
 					</div>
 				</div>
