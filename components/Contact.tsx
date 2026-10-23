@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Arrow from "./common/Arrow";
 export default function Contact() {
 	const [message, setMessage] = useState("");
 	const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -46,14 +47,14 @@ export default function Contact() {
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								GitHub ↗
+								GitHub <Arrow size={14} />
 							</a>
 							<a
 								href="https://linkedin.com/in/sujansthadev"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								LinkedIn ↗
+								LinkedIn <Arrow size={14} />
 							</a>
 							<a href="/blogs">Blog</a>
 						</div>
