@@ -1171,3 +1171,34 @@ textarea {
 .hero-summary { max-width: 365px; }
 .hero-actions > .hero-cv { background: transparent; }
 .hero-first::selection, .hero-last::selection { background: var(--color-peach); }
+
+/* Progressive reading keeps the full professional record close at hand. */
+.about-section { padding-block: 64px 88px; }
+.about-section .section-heading { margin-bottom: 0; }
+.content-disclosure { border-top: 1px solid var(--color-glass-border); }
+.content-disclosure > summary { list-style: none; min-height: 48px; }
+.content-disclosure > summary::-webkit-details-marker { display: none; }
+.content-disclosure > summary:hover { color: var(--color-brand-deep); }
+.content-disclosure > summary:active { background: var(--color-bg-2); }
+.disclosure-mark { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid currentColor; border-radius: 50%; font-size: 22px; font-weight: 400; transition: transform 180ms; flex-shrink: 0; }
+.content-disclosure[open] > summary .disclosure-mark { transform: rotate(45deg); }
+.disclosure-body { color: var(--color-text-muted); line-height: 1.7; padding-bottom: 28px; }
+.disclosure-body p + p { margin-top: 16px; }
+.about-disclosure { margin-top: 28px; }
+.about-disclosure > summary { display: flex; align-items: center; justify-content: space-between; padding-block: 12px; font-size: 14px; }
+.about-disclosure .tech-list { margin-top: 20px; }
+.career-list > li:last-child { border-bottom: 1px solid var(--color-glass-border); }
+.career-disclosure > summary { display: grid; grid-template-columns: 1fr 2fr 40px; align-items: center; gap: 28px; padding-block: 24px; }
+.career-heading { display: grid; gap: 3px; }
+.career-heading .timeline-role, .career-heading .timeline-company { margin: 0; }
+.career-heading .timeline-company { color: var(--color-text-muted); font-size: 15px; }
+.current-role { display: block; color: var(--color-brand-deep); margin-top: 4px; }
+.career-body { margin-left: calc((100% - 96px) / 3 + 28px); padding-right: 68px; }
+@media (max-width: 640px) {
+ .about-section { padding-block: 48px 64px; }
+ .career-disclosure > summary { grid-template-columns: minmax(0,1fr) 32px; gap: 12px; }
+ .career-disclosure .timeline-date { grid-column: 1 / -1; font-size: 12px; }
+ .current-role { display: inline; margin-left: 10px; }
+ .career-heading .timeline-role { font-size: 20px; }
+ .career-body { margin-left: 0; padding-right: 0; }
+}
