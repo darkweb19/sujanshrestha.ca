@@ -34,7 +34,7 @@ export default function Hero() {
 			</HeroCanvas>
 			<div className="hero-introduction">
 				<p className="hero-summary">
-					I create beautiful products that empower people. Based in Toronto, CA.
+					I create beautiful products that empower people.
 				</p>
 				<div className="hero-actions">
 					<Link href="/#projects" className="action action-primary">
@@ -51,7 +51,7 @@ export default function Hero() {
 				</div>
 			</div>
 			<div className="hero-bottom">
-				<span>From thoughtful interfaces to the systems behind them.</span>
+				<span>Interfaces, systems, and everything between.</span>
 				<Link href="/lab/codex">
 					Explore the Skills Lab <Arrow />
 				</Link>

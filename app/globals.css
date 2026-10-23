@@ -228,6 +228,7 @@ textarea {
 	letter-spacing: -0.08em;
 }
 .hero-first {
+	color: var(--color-brand);
 	position: absolute;
 	top: 28px;
 	left: -9px;
@@ -241,7 +242,7 @@ textarea {
 	z-index: 3;
 	font-size: clamp(110px, 16.2vw, 234px);
 	color: var(--color-text-primary);
-	-webkit-text-stroke: 3px white;
+	-webkit-text-stroke: 3px var(--color-bg-0);
 	paint-order: stroke fill;
 }
 .hero-cutout {
@@ -347,7 +348,7 @@ textarea {
 .hero-cutout img {
 	object-fit: contain;
 	object-position: top center;
-	filter: grayscale(1) contrast(1.1) brightness(0.86);
+	filter: saturate(0.85) contrast(1.03);
 }
 
 .hero-introduction {
@@ -450,6 +451,7 @@ textarea {
 	font-size: 14px;
 }
 .hero-bottom a {
+	color: var(--color-brand-deep);
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
@@ -1161,3 +1163,11 @@ textarea {
 	text-decoration: underline;
 	text-underline-offset: 3px;
 }
+
+/* The accepted portrait/type canvas carries the new cobalt identity. */
+.hero-rail p:first-child {
+ color: var(--color-brand-deep);
+}
+.hero-summary { max-width: 365px; }
+.hero-actions > .hero-cv { background: transparent; }
+.hero-first::selection, .hero-last::selection { background: var(--color-peach); }
