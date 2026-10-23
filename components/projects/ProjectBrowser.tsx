@@ -53,14 +53,16 @@ export default function ProjectBrowser({
 				</button>
 			</header>
 			<div className="browser-toolbar">
-				<div className="browser-modes" aria-label="Project view">
+				<div className="browser-modes" role="group" aria-label="Project view">
 					{project.embed && (
 						<button
 							type="button"
 							aria-pressed={mode === "preview"}
 							onClick={() => {
-								setStatus("opening");
-								setMode("preview");
+								if (mode !== "preview") {
+									setStatus("opening");
+									setMode("preview");
+								}
 							}}
 						>
 							Live preview
@@ -108,6 +110,11 @@ export default function ProjectBrowser({
 									project.id === "framevault"
 										? { ...project, image: "/images/projects/framevault.png" }
 										: project
+								}
+								imageAlt={
+									project.id === "framevault"
+										? "FrameVault public sign-in screen"
+										: undefined
 								}
 								large
 							/>

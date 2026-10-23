@@ -5,16 +5,18 @@ import type { PortfolioProject } from "@/lib/portfolio";
 export default function ProjectMedia({
 	project,
 	large = false,
+	imageAlt,
 }: {
 	project: PortfolioProject;
 	large?: boolean;
+	imageAlt?: string;
 }) {
 	if (project.image)
 		return (
 			<span className="project-screenshot">
 				<Image
 					src={project.image}
-					alt={`${project.title} public homepage screenshot`}
+					alt={imageAlt || `${project.title} public homepage screenshot`}
 					fill
 					sizes={
 						large

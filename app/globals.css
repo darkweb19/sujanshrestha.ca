@@ -14,19 +14,19 @@
 	--color-text-muted: #526075;
 	--color-text-dim: #5b677b;
 	/* Compatibility aliases for established toolkit and article components. */
-	--color-coffee: #3155e7;
-	--color-espresso: #2342bd;
-	--color-mocha: #526075;
-	--color-primary-start: #3155e7;
-	--color-primary-end: #2342bd;
-	--color-beige-highlight: #edf0f9;
-	--color-beige-accent: #e7defa;
-	--color-beige-deep: #5b677b;
-	--color-accent-warm: #526075;
-	--color-glass-bg: #ffffff;
+	--color-coffee: var(--color-brand);
+	--color-espresso: var(--color-brand-deep);
+	--color-mocha: var(--color-text-muted);
+	--color-primary-start: var(--color-brand);
+	--color-primary-end: var(--color-brand-deep);
+	--color-beige-highlight: var(--color-bg-2);
+	--color-beige-accent: var(--color-lilac);
+	--color-beige-deep: var(--color-text-dim);
+	--color-accent-warm: var(--color-text-muted);
+	--color-glass-bg: var(--color-bg-1);
 	--color-glass-border: #d7dfea;
-	--color-glass-beige: #edf0f9;
-	--color-focus: #3155e7;
+	--color-glass-beige: var(--color-bg-2);
+	--color-focus: var(--color-brand);
 	--color-scrollbar-track: #edf0f9;
 	--color-scrollbar-thumb: #8998b0;
 	--color-scrollbar-hover: #526075;
@@ -626,7 +626,7 @@ textarea {
 	font-size: clamp(48px, 7vw, 88px);
 }
 .contact-intro {
-	color: #bdbdbd;
+	color: var(--color-text-muted);
 	max-width: 530px;
 	font-size: 18px;
 	line-height: 1.7;
@@ -2024,12 +2024,10 @@ textarea {
 }
 @keyframes project-backdrop-arrive {
 	from {
-		background-color: #17233b20;
-		backdrop-filter: blur(0);
+		opacity: 0;
 	}
 	to {
-		background-color: #17233b70;
-		backdrop-filter: blur(6px);
+		opacity: 1;
 	}
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2055,4 +2053,35 @@ textarea {
 		opacity: 0.9;
 		backdrop-filter: none;
 	}
+}
+
+/* Keep complete window chrome and authored diagrams inside their color mounts. */
+.mini-browser {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.mini-browser .mini-chrome {
+	flex-shrink: 0;
+}
+.mini-browser .project-screenshot,
+.mini-browser .project-illustration {
+	flex: 1;
+	min-height: 0;
+	aspect-ratio: auto;
+	width: 100%;
+}
+.project-illustration {
+	width: 100%;
+	min-width: 0;
+}
+
+/* Colored surfaces use ink; muted body text is reserved for light surfaces. */
+.contact-section .section-kicker,
+.contact-section .contact-intro,
+.contact-section [role="status"] {
+	color: var(--color-text-primary);
+}
+.project-live-frame {
+	display: block;
 }

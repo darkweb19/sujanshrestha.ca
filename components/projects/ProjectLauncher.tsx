@@ -1,8 +1,7 @@
 "use client";
 import { useState, type ReactNode } from "react";
-import dynamic from "next/dynamic";
+import ProjectBrowser from "./ProjectBrowser";
 import type { PortfolioProject } from "@/lib/portfolio";
-const ProjectBrowser = dynamic(() => import("./ProjectBrowser"));
 export default function ProjectLauncher({
 	project,
 	children,
