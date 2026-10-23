@@ -5,9 +5,7 @@ export default function Writing() {
 		<section id="writing" className="portfolio-section section-container">
 			<header className="section-heading">
 				<h2 className="section-kicker">Writing</h2>
-				<p className="section-title">
-					Field notes.
-				</p>
+				<p className="section-title">Field notes.</p>
 			</header>
 			{getPosts().map((post) => (
 				<Link
