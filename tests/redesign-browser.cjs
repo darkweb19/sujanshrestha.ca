@@ -137,20 +137,24 @@ function verifyArchive(filename, root, skill) {
     checks.push('Mobile navigation opens by button and Escape closes it with focus restored');
 
     if (process.env.LAB_TEST_PASSWORD) {
-      await page.getByRole('button', { name: 'Owner sign in', exact: true }).click();
+      await page.getByRole('button', { name: 'Upload skills', exact: true }).click();
       await page.getByLabel('Owner password', { exact: true }).fill(process.env.LAB_TEST_PASSWORD);
       await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-      await page.getByRole('button', { name: 'Import skill', exact: true }).waitFor();
+      const uploadDialog = page.getByRole('dialog', { name: 'Upload skills', exact: true });
+      await uploadDialog.waitFor();
+      assert.ok(await uploadDialog.getByLabel('SKILL.md or ZIP archives', { exact: true }).isVisible());
+      await uploadDialog.getByRole('button', { name: 'Close dialog', exact: true }).click();
+      checks.push('Visible upload entry leads through owner sign-in directly to the actual file field');
       const session = await (await context.request.get(baseURL + '/api/lab/session')).json();
       assert.equal(session.authenticated, true); assert.ok(session.csrfToken);
 
       const zipSlug = `qa-zip-${Date.now()}`;
       const zipPath = path.join(artifacts, 'owner-complete.zip');
       execFileSync('python', ['-c', 'import sys,zipfile\nwith zipfile.ZipFile(sys.argv[1],"w") as z:\n z.writestr(sys.argv[2]+"/SKILL.md","---\\nname: "+sys.argv[2]+"\\ndescription: Complete ZIP acceptance fixture.\\n---\\n# ZIP fixture\\n")\n z.writestr(sys.argv[2]+"/assets/sample.bin",bytes([0,1,2,255]))\n z.writestr(sys.argv[2]+"/scripts/example.js","window.__importExecuted=true;")\n', zipPath, zipSlug]);
-      await page.getByRole('button', { name: 'Import skill', exact: true }).click();
+      await page.getByRole('button', { name: 'Upload skills', exact: true }).click();
       await page.getByLabel('SKILL.md or ZIP archives', { exact: true }).setInputFiles(zipPath);
       const zipResponse = page.waitForResponse(response => response.url().endsWith('/api/skills/import') && response.request().method() === 'POST');
-      await page.getByRole('button', { name: 'Import files', exact: true }).click();
+      await page.getByRole('button', { name: 'Upload files', exact: true }).click();
       const zipImported = await zipResponse;
       assert.equal(zipImported.status(), 201);
       const zipSkill = (await zipImported.json()).skills[0];
@@ -170,10 +174,10 @@ function verifyArchive(filename, root, skill) {
       const upload = { multipart: { files: { name: 'SKILL.md', mimeType: 'text/markdown', buffer: Buffer.from(markdown) } } };
       const noCSRF = await context.request.post(baseURL + '/api/skills/import', { ...upload, headers: { Origin: origin } });
       assert.equal(noCSRF.status(), 403);
-      await page.getByRole('button', { name: 'Import skill', exact: true }).click();
+      await page.getByRole('button', { name: 'Upload skills', exact: true }).click();
       await page.getByLabel('SKILL.md or ZIP archives', { exact: true }).setInputFiles({ name: 'SKILL.md', mimeType: 'text/markdown', buffer: Buffer.from(markdown) });
       const importedResponse = page.waitForResponse(response => response.url().endsWith('/api/skills/import') && response.request().method() === 'POST');
-      await page.getByRole('button', { name: 'Import files', exact: true }).click();
+      await page.getByRole('button', { name: 'Upload files', exact: true }).click();
       const imported = await importedResponse;
       assert.equal(imported.status(), 201);
       const saved = (await imported.json()).skills[0];

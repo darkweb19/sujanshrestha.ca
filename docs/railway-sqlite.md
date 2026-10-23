@@ -8,6 +8,16 @@ Node **24.19.0** supplies native `node:sqlite` (SQLite 3.53.3 in the verified ru
 
 `skills`, `skill_files`, `source_sync_runs`, `schema_migrations`, `admin_sessions` and `rate_limits` are the persistent tables. `upstream:<slug>` and `user:<slug>` separate ownership. Upstream sync cannot overwrite owner imports. Owner editing/removal checks a numeric revision to reject stale writes. SHA-256 is verified again when complete packages are read.
 
+## Upload skills from the Lab
+
+1. Open `/lab/codex` and choose **Upload skills** beside the library heading. The supported formats and owner-access state are visible before signing in.
+2. Sign in with the owner password. The upload entry continues directly to the **Upload skills** dialog and its **SKILL.md or ZIP archives** file field.
+3. Choose a Markdown package or ZIP, then **Upload files**. The existing owner-authenticated endpoint validates and saves it to SQLite. GitHub imports are available in the same dialog. Refresh or open another browser to confirm the saved package.
+
+If the dialog says uploads are not enabled, configure `LAB_ADMIN_PASSWORD` (at least 16 characters), `LAB_SESSION_SECRET` (independent random secret, at least 32 characters), and `LAB_ORIGIN` (exact public HTTPS origin, no path) on the service serving the Lab API, then redeploy. Keep `SQLITE_PATH` on its persistent Railway volume. These are server-only settings, never `NEXT_PUBLIC_*` variables.
+
+For a Vercel frontend with a Railway Lab, the public Lab page and its same-origin `/api/lab/session` and `/api/skills` requests must reach the deployed Lab service. `LAB_ORIGIN` is the browser-visible Lab origin, not an internal Railway hostname. Merely setting credentials on a different service does not connect the APIs. A 404 from `/api/lab/session` means the endpoint is not being served at that public URL; deploying/routing this branch's Lab is necessary before owner login can work. This branch does not change production routing or secrets.
+
 ## Local development
 
 Use Node 24.19.0 and the existing isolated checkout. Do not create a Git worktree unless specifically requested.

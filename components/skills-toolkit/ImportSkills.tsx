@@ -79,7 +79,7 @@ export default function ImportSkills({
 	}
 	return (
 		<Dialog
-			title="Import skills"
+			title="Upload skills"
 			onClose={() => {
 				if (!busy) onClose();
 			}}
@@ -117,7 +117,7 @@ export default function ImportSkills({
 					inside each skill directory.
 				</p>
 				<Button type="submit" variant="primary" disabled={!!busy}>
-					{busy === "local" ? "Importing files…" : "Import files"}
+					{busy === "local" ? "Uploading files…" : "Upload files"}
 				</Button>
 			</form>
 			<form

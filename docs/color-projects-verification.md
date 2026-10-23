@@ -1,5 +1,7 @@
 # Colorful homepage and project exploration — verification
 
+The hero, lower-section surfaces, scrolling and upload entry are now superseded by the [photo/scroll/upload refinement](photo-scroll-upload-verification.md). The project-gallery evidence below remains relevant.
+
 The owner requested color, less visible prose, two additional GitHub projects, creative project previews in a browser-style modal, a blurred backdrop, animation, and at least ten commits pushed to `feat/redesign`. [Direction and preservation contract](color-projects-direction.md); [immutable project sources](project-provenance.md).
 
 ## Delivered behavior

@@ -81,6 +81,7 @@ export default function SkillsToolkit({
 	const [sessionReady, setSessionReady] = useState(false);
 	const [sessionError, setSessionError] = useState("");
 	const [ownerOpen, setOwnerOpen] = useState(false);
+	const [uploadAfterSignIn, setUploadAfterSignIn] = useState(false);
 	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
 	const [importOpen, setImportOpen] = useState(false);
@@ -469,19 +470,50 @@ export default function SkillsToolkit({
 								in the collection
 							</p>
 						</div>
-						{session.authenticated ? (
-							<Button onClick={() => setImportOpen(true)} disabled={busy}>
-								Import skill <span aria-hidden="true">+</span>
-							</Button>
-						) : (
+						<div className={styles.libraryActions}>
 							<Button
-								variant="quiet"
-								onClick={() => setOwnerOpen(true)}
-								disabled={!sessionReady}
+								variant="primary"
+								disabled={!sessionReady || busy}
+								onClick={() => {
+									if (session.authenticated) setImportOpen(true);
+									else {
+										setUploadAfterSignIn(true);
+										setOwnerOpen(true);
+									}
+								}}
 							>
-								Owner sign in
+								Upload skills <span aria-hidden="true">+</span>
 							</Button>
-						)}
+							{!session.authenticated && (
+								<Button
+									variant="quiet"
+									disabled={!sessionReady}
+									onClick={() => {
+										setUploadAfterSignIn(false);
+										setOwnerOpen(true);
+									}}
+								>
+									Owner sign in
+								</Button>
+							)}
+						</div>
+					</div>
+					<div className={styles.uploadHint}>
+						<p>
+							<strong>SKILL.md or ZIP archives</strong> · You can also import
+							from GitHub.
+						</p>
+						<p>
+							{sessionError
+								? "Owner access is unavailable. Retry the check above."
+								: !sessionReady
+									? "Checking owner access…"
+									: session.authenticated
+										? "Uploads are saved to the shared library and stay available across browsers."
+										: session.configured
+											? "Owner sign-in is required to upload. Everyone can browse and download."
+											: "Uploads need owner setup on this deployment. Browsing and downloads remain available."}
+						</p>
 					</div>
 					<div className={styles.filters}>
 						<div className={styles.searchField}>
@@ -811,8 +843,14 @@ export default function SkillsToolkit({
 			{ownerOpen && (
 				<OwnerAccess
 					session={session}
-					onSession={setSession}
-					onClose={() => setOwnerOpen(false)}
+					onSession={(next) => {
+						setSession(next);
+						if (next.authenticated && uploadAfterSignIn) setImportOpen(true);
+					}}
+					onClose={() => {
+						setOwnerOpen(false);
+						setUploadAfterSignIn(false);
+					}}
 				/>
 			)}
 			{importOpen && session.authenticated && (

@@ -12,6 +12,7 @@ export default function Hero() {
 					alt=""
 					fill
 					sizes="100vw"
+					quality={50}
 					priority
 					fetchPriority="high"
 				/>

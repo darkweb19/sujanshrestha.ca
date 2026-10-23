@@ -209,7 +209,6 @@ textarea {
 .hero-background img {
 	object-fit: cover;
 	object-position: 50% 26%;
-	filter: saturate(0.65);
 }
 .hero-background::after {
 	content: "";
@@ -223,11 +222,11 @@ textarea {
 	position: absolute;
 	bottom: 0;
 	inset-inline: 0;
-	height: 180px;
+	height: 128px;
 	z-index: -1;
 	pointer-events: none;
 	background: linear-gradient(0deg, #17233b 0%, #17233b70 55%, transparent);
-	backdrop-filter: blur(9px);
+	backdrop-filter: blur(5px);
 	mask-image: linear-gradient(transparent, black 65%);
 }
 .hero-content {
@@ -369,8 +368,8 @@ textarea {
 		font-size: 12px;
 	}
 	.hero-gradient-blur {
-		height: 160px;
-		backdrop-filter: blur(6px);
+		height: 96px;
+		backdrop-filter: blur(3px);
 	}
 }
 
