@@ -1,5 +1,7 @@
 # Homepage refinement: portrait and type
 
+The homepage visual state is now superseded by the [color and project exploration update](color-projects-verification.md). This document retains the preceding implementation’s evidence.
+
 The owner found the initial clean folio too generic, specifically rejecting the separate rectangular right-hand portrait. The new direction preserves the neutral identity and every portfolio fact while giving the home opening a more individual composition and limited motion.
 
 ## Concepts and decision

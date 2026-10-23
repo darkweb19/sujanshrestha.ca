@@ -21,6 +21,9 @@ rounded:
   control: "8px"
   card: "12px"
   panel: "12px"
+  projectMount: "20px"
+  browser: "16px"
+  browserWindow: "10px"
 omitted:
   - section: components
     reason: "Shared component contracts are documented in prose; runtime CSS owns their token references."
@@ -40,11 +43,11 @@ The chosen direction is a personal studio folio: expressive, tightly spaced name
 
 ## Colors
 
-`app/globals.css` is the canonical runtime source. Frontmatter records its normative palette. Mapping: background → `--color-bg-0`, surface → `--color-bg-1`, subtle → `--color-bg-2`, primary → `--color-coffee` (legacy compatibility alias), accent → `--color-espresso`, text → `--color-text-primary`, muted → `--color-text-muted`, dim → `--color-text-dim`. Additional expressive tokens: lilac → `--color-lilac`, peach → `--color-peach`, mint → `--color-mint`; primary also maps to `--color-brand`, accent to `--color-brand-deep`. Legacy coffee/beige names resolve to these semantic values; new components use semantic portfolio classes or text/background tokens. There is one theme for portfolio, writing, and Lab. Error text remains dark red with textual explanation. Focus is a 2px cobalt outline with 4px offset.
+`app/globals.css` is the canonical runtime source. Frontmatter records its normative palette. Mapping: background → `--color-bg-0`, surface → `--color-bg-1`, subtle → `--color-bg-2`, primary → `--color-coffee` (legacy compatibility alias), accent → `--color-espresso`, text → `--color-text-primary`, muted → `--color-text-muted`, dim → `--color-text-dim`. Additional expressive tokens: lilac → `--color-lilac`, peach → `--color-peach`, mint → `--color-mint`; primary also maps to `--color-brand`, accent to `--color-brand-deep`. Legacy coffee/beige names resolve to these semantic values; new components use semantic portfolio classes or text/background tokens. There is one theme for portfolio, writing, and Lab. Colored surfaces use ink text; muted text belongs on white/cool-white surfaces. Error text remains dark red with textual explanation. Focus is a 2px cobalt outline with 4px offset on light surfaces; the peach contact section uses an ink outline.
 
 ## Typography
 
-No runtime font requests. Arial/Helvetica/system sans provides an immediately rendered neutral grotesque with a compact bold display treatment. Utility paths/source alone use SFMono-Regular/Consolas/monospace. The wordmark is the supplied SVG, not a new text logo. Homepage H1: independent fluid name lines up to 270px, -0.08em tracking, 0.84 line-height; section headings: 36–64px, -0.055em; body: 16–20px, 1.65 line-height; controls: minimum 14px. Blog prose uses a readable 72ch measure. Display type does not replace labels or hide facts.
+No runtime font requests. Arial/Helvetica/system sans provides an immediately rendered neutral grotesque with a compact bold display treatment. Utility paths/source alone use SFMono-Regular/Consolas/monospace. The wordmark is the supplied SVG, not a new text logo. Homepage H1: independent fluid name lines up to 270px, -0.08em tracking, 0.84 line-height; section headings: 36–64px, -0.055em; body: 16–20px, 1.65 line-height; body controls: 14–16px; compact browser utilities: 12px with at least 36px control height (footer links at least 28px). Blog prose uses a readable 72ch measure. Display type does not replace labels or hide facts.
 
 ## Layout
 
@@ -58,17 +61,17 @@ Borders and neutral surfaces establish hierarchy. Project browser windows receiv
 
 ## Shapes
 
-8px shared controls, 12px panels/dialog content; the homepage portrait has no frame, radius or separate card. Homepage primary actions use a capsule shape; its CV link is quiet. Projects and chronological entries are document rows. Selected controls change borders/background without affecting geometry. The monogram keeps its original proportions and ample clear space.
+8px shared controls, 12px panels/dialog content; the homepage portrait has no frame, radius or separate card. Homepage primary actions use a capsule shape; its CV link is quiet. Projects use 20px colorful mounts, 10px browser windows and a 16px modal frame; chronological entries remain native disclosure rows. Selected controls change borders/background without affecting geometry. The monogram keeps its original proportions and ample clear space.
 
 ## Components
 
-Shared shell: `Navbar`, `Footer`, global `.section-container`, `.portfolio-section`, `.section-heading`, `.action`. Portfolio sections are Server Components; mobile navigation, copy-email and scheduling are small client islands. `ToolkitPrimitives.tsx` owns Lab Button/Feedback/Dialog. Native selects intentionally accept OS popup geometry and keyboard semantics. Native modal dialogs own focus containment; close restores focus.
+Shared shell: `Navbar`, `Footer`, global `.section-container`, `.portfolio-section`, `.section-heading`, `.action`. Portfolio sections retain server-rendered content; mobile navigation, copy-email, scheduling and project launchers are small client islands. Public Modal owns native focus/scroll behavior; project media and concise summaries remain SSR. `ToolkitPrimitives.tsx` owns Lab Button/Feedback/Dialog. Native selects intentionally accept OS popup geometry and keyboard semantics. Native modal dialogs own focus containment; close restores focus.
 
 Lab data comes from SQLite through server queries and API handlers; public users browse/export, authenticated owner actions persist changes. See `UX-CONTRACT.md` for behavior and `docs/railway-sqlite.md` for permissions and persistence. Imported text is displayed as text, and script assets remain inert.
 
 ## Motion
 
-Homepage refinement authorizes one brief transform-only name/portrait entrance, plus bounded pointer depth (8px horizontal/5px vertical) on fine-pointer hover devices. SSR content is always visible; no opacity-zero reveals, looping animations or scroll hijacking. Pointer work pauses offscreen, and reduced motion is fully static. Other routes retain short interaction color transitions. Reduced-motion disables smooth scrolling and transitions. Global scrollbars are visible, tokenized and forced-colors compatible. Stable image aspect ratios, explicit sizes, and system fonts avoid layout shifts.
+Homepage refinement authorizes one brief transform-only name/portrait entrance, plus bounded pointer depth (8px horizontal/5px vertical) on fine-pointer hover devices. Project windows lift/straighten on hover or focus; modal entry lasts 200ms with a brief backdrop fade. Reduced motion removes these movements and keeps all content/actions static. SSR content is always visible; no opacity-zero reveals, looping animations or scroll hijacking. Pointer work pauses offscreen, and reduced motion is fully static. Other routes retain short interaction color transitions. Reduced-motion disables smooth scrolling and transitions. Global scrollbars are visible, tokenized and forced-colors compatible. Stable image aspect ratios, explicit sizes, and system fonts avoid layout shifts.
 
 ## Do's and Don'ts
 

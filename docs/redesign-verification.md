@@ -1,5 +1,7 @@
 # Redesign verification — 22 October 2026
 
+The homepage visual state is now superseded by the [color and project exploration update](color-projects-verification.md). This document retains the preceding implementation’s evidence.
+
 ## Evidence and scope
 
 Independent QA covered the implementation on `feat/redesign`, with final current-source production build served locally on port 3003. Owner operations were exercised against a separate development server on port 3001 because production correctly refuses owner writes without HTTPS. No production infrastructure, deployment, real owner secrets or remote data were changed.

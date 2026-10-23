@@ -6,7 +6,7 @@ The owner's 2026-10-23 request authorizes a colorful homepage, less visible pros
 
 Starting revision: `efce3e5`. The integrated original-photo hero is accepted. Four projects, four employment records, five education records, two published articles, resume and contact destinations must survive. Original fields remain canonical in `lib/portfolio.ts`; the new presentation may use faithful summaries and native disclosures, without deleting dates, qualifications, descriptions or links. Existing screenshots and `docs/content-baseline.md` document the preceding state.
 
-The audience is prospective collaborators/employers on mobile 4G and desktop. The home route remains indexable SSR. Target lab LCP is 2500ms, CLS below 0.1 and interaction latency below 200ms; these do not establish field p75 performance. The lead owns WCAG 2.2 AA verification with independent visual/QA review.
+The audience is prospective collaborators/employers on mobile 4G and desktop. The home route remains indexable SSR. Initial compressed homepage JavaScript budget is 180KB; the final observed transfer is approximately 151KB. Target lab LCP is 2500ms, CLS below 0.1 and interaction latency below 200ms; these do not establish field p75 performance. The lead owns WCAG 2.2 AA verification with independent visual/QA review.
 
 ## Directions considered
 
@@ -40,4 +40,4 @@ Motion consists of the accepted hero entrance, small project hover movement and 
 11. Verify project interactions with meaningful browser coverage.
 12. Publish final screenshots and measured acceptance evidence.
 
-Final evidence and any corrections will be recorded after implementation and independent review.
+Final evidence, corrections, independent review and external-preview limitations are recorded in [verification](color-projects-verification.md).
