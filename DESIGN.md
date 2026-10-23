@@ -1,14 +1,17 @@
 ---
 version: alpha
 colors:
-  background: "#ffffff"
+  background: "#f5f7fc"
   surface: "#ffffff"
-  subtle: "#f5f5f5"
-  primary: "#171717"
-  accent: "#333333"
-  text: "#171717"
-  muted: "#555555"
-  dim: "#666666"
+  subtle: "#edf0f9"
+  primary: "#3155e7"
+  accent: "#2342bd"
+  text: "#17233b"
+  muted: "#526075"
+  dim: "#5b677b"
+  lilac: "#e7defa"
+  peach: "#f6bd9a"
+  mint: "#c8e8df"
 typography:
   sans:
     fontFamily: "Arial, Helvetica, system-ui, sans-serif"
@@ -31,13 +34,13 @@ spacing:
 
 ## Overview
 
-A personal engineering portfolio for prospective collaborators and employers, with a practical Skills Lab for developers. English, international audience; Toronto is the actual location. The current redesign brief supersedes the former coffee palette and browser-only persistence policy. Facts and published content remain unchanged; see `docs/content-baseline.md`.
+A personal engineering portfolio for prospective collaborators and employers, with a practical Skills Lab for developers. English, international audience; Toronto is the actual location. The owner’s 2026-10-23 request supersedes the earlier monochrome preference and always-visible homepage prose. The accepted portrait/type composition continues in a color proof studio direction. Facts and published content remain available through summaries, disclosures and project exploration; see `docs/content-baseline.md`.
 
-The chosen direction is a personal studio folio: expressive, tightly spaced name typography, the supplied sculptural S monogram, an honest portrait, and a work index with complete project descriptions. Two alternatives and critique live in `docs/design-directions.md`. The lead selects the folio because name, real work, and chronology remain the strongest evidence of an individual engineer. Avoid decorative terminal UI, fake metrics, gradients, glass effects, repeated marketing cards and repeated scroll-reveal animations. The homepage now spends its visual emphasis on an integrated portrait/type canvas, following explicit user feedback that the boxed-right portrait felt generic.
+The chosen direction is a personal studio folio: expressive, tightly spaced name typography, the supplied sculptural S monogram, an honest portrait, and a work index with concise project summaries and full details on demand. Two alternatives and critique live in `docs/design-directions.md`. The lead selects the folio because name, real work, and chronology remain the strongest evidence of an individual engineer. Avoid decorative terminal UI, fake metrics, gradients, glass effects, repeated marketing cards and repeated scroll-reveal animations. The homepage now spends its visual emphasis on an integrated portrait/type canvas, following explicit user feedback that the boxed-right portrait felt generic.
 
 ## Colors
 
-`app/globals.css` is the canonical runtime source. Frontmatter records its normative palette. Mapping: background → `--color-bg-0`, surface → `--color-bg-1`, subtle → `--color-bg-2`, primary → `--color-coffee` (legacy compatibility alias), accent → `--color-espresso`, text → `--color-text-primary`, muted → `--color-text-muted`, dim → `--color-text-dim`. Legacy coffee/beige names resolve to neutral values; new components use semantic portfolio classes or text/background tokens. There is one theme for portfolio, writing, and Lab. Error text remains dark red with textual explanation. Focus is a 2px near-black outline with 4px offset.
+`app/globals.css` is the canonical runtime source. Frontmatter records its normative palette. Mapping: background → `--color-bg-0`, surface → `--color-bg-1`, subtle → `--color-bg-2`, primary → `--color-coffee` (legacy compatibility alias), accent → `--color-espresso`, text → `--color-text-primary`, muted → `--color-text-muted`, dim → `--color-text-dim`. Additional expressive tokens: lilac → `--color-lilac`, peach → `--color-peach`, mint → `--color-mint`; primary also maps to `--color-brand`, accent to `--color-brand-deep`. Legacy coffee/beige names resolve to these semantic values; new components use semantic portfolio classes or text/background tokens. There is one theme for portfolio, writing, and Lab. Error text remains dark red with textual explanation. Focus is a 2px cobalt outline with 4px offset.
 
 ## Typography
 
@@ -45,13 +48,13 @@ No runtime font requests. Arial/Helvetica/system sans provides an immediately re
 
 ## Layout
 
-A 1200px maximum container uses 56px desktop and 24px mobile gutters. Header is an opaque, stable 88px row. The homepage hero is a shared typographic canvas: an unframed monochrome portrait intersects the name, with a fine white keyline protecting the surname over the silhouette. The role/location rail and introduction/actions retain clear, separate reading areas. The original photograph is used directly with a CSS silhouette crop; facial pixels are preserved. Selected projects form a dark linked index, with an oversized first project and full descriptions. Employment uses date rail + complete role content. Education uses compact reverse chronological rows, preserving overlapping ongoing programs. Writing uses a distinct article list. Section rhythm is fluid 72–128px.
+A 1200px maximum container uses 56px desktop and 24px mobile gutters. Header is an opaque, stable 88px row. The homepage hero is a shared typographic canvas: an unframed color portrait intersects the name, with a fine white keyline protecting the surname over the silhouette. The role/location rail and introduction/actions retain clear, separate reading areas. The original photograph is used directly with a CSS silhouette crop; facial pixels are preserved. Selected projects form an asymmetric gallery of browser windows on lilac, peach and seafoam mounts, with real screenshots or explicitly labeled authored diagrams. Full descriptions stay in SSR disclosures and project modals. Employment uses compact native disclosures with a date rail. Education uses compact reverse chronological disclosures, preserving overlapping ongoing programs. Writing uses a distinct article list. Section rhythm is fluid 72–128px.
 
 At 375px: the portrait sits between two responsive name lines, with introduction/actions in natural flow beneath the composition; one-column timelines and Lab panels; no horizontal page overflow. At 768px: the integrated hero scales as one canvas and actions follow the introduction; dates retain a separate rail where room allows. Wide desktop: asymmetric hero and structured project index. All content exists in initial HTML; no invisible reveal states, lazy section shells, or viewport-dependent omissions.
 
 ## Elevation & Depth
 
-Borders and neutral surfaces establish hierarchy. No decorative shadows on portfolio sections. Modal overlays alone receive shadow and a dim backdrop. The Lab archive is a working panel, not a simulated terminal.
+Borders and neutral surfaces establish hierarchy. Project browser windows receive a restrained ink shadow for layered depth. Modal overlays receive shadow and a dim, blurred backdrop. The Lab archive is a working panel, not a simulated terminal.
 
 ## Shapes
 
@@ -70,8 +73,18 @@ Homepage refinement authorizes one brief transform-only name/portrait entrance, 
 ## Do's and Don'ts
 
 - Preserve every role, date, institution, technology, project description and destination.
-- Keep whole project descriptions visible and genuine content in SSR HTML.
+- Keep complete project descriptions available in native disclosures and modal overviews; retain genuine content in SSR HTML.
 - Prefer direct labels and honest states over decorative metrics and claims.
 - Keep dark text on light surfaces; make keyboard focus at least as clear as hover.
 - Never execute uploaded/imported scripts or expose admin credentials to the client.
 - Do not deploy or alter production infrastructure as part of this branch work.
+
+## October color evolution
+
+See `docs/color-projects-direction.md` for the two concepts and explicit owner authorization. Runtime CSS remains canonical (Model B); this file mirrors values. Color is concentrated in the cobalt hero, original photograph and lilac/peach/seafoam project mounts. Lab and blogs inherit the same ink, action and focus tokens while preserving their readable white working surfaces. No new font or animation package.
+
+| Earlier rule | New evidence | Resolution |
+| --- | --- | --- |
+| Neutral-only palette | Owner explicitly requested color | Intentional evolution; palette and runtime tokens changed together |
+| Full descriptions always visible | Owner requested less prose | Intentional evolution; complete facts retained in SSR disclosures and modal details |
+| Dark project index | Owner requested creative visual exploration | Intentional evolution; asymmetric browser-window gallery |

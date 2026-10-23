@@ -2,30 +2,35 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-	--color-bg-0: #ffffff;
+	--color-brand: #3155e7;
+	--color-brand-deep: #2342bd;
+	--color-lilac: #e7defa;
+	--color-peach: #f6bd9a;
+	--color-mint: #c8e8df;
+	--color-bg-0: #f5f7fc;
 	--color-bg-1: #ffffff;
-	--color-bg-2: #f5f5f5;
-	--color-text-primary: #171717;
-	--color-text-muted: #555555;
-	--color-text-dim: #666666;
+	--color-bg-2: #edf0f9;
+	--color-text-primary: #17233b;
+	--color-text-muted: #526075;
+	--color-text-dim: #5b677b;
 	/* Compatibility aliases for established toolkit and article components. */
-	--color-coffee: #171717;
-	--color-espresso: #333333;
-	--color-mocha: #555555;
-	--color-primary-start: #171717;
-	--color-primary-end: #333333;
-	--color-beige-highlight: #f5f5f5;
-	--color-beige-accent: #e8e8e8;
-	--color-beige-deep: #666666;
-	--color-accent-warm: #666666;
+	--color-coffee: #3155e7;
+	--color-espresso: #2342bd;
+	--color-mocha: #526075;
+	--color-primary-start: #3155e7;
+	--color-primary-end: #2342bd;
+	--color-beige-highlight: #edf0f9;
+	--color-beige-accent: #e7defa;
+	--color-beige-deep: #5b677b;
+	--color-accent-warm: #526075;
 	--color-glass-bg: #ffffff;
-	--color-glass-border: #e5e5e5;
-	--color-glass-beige: #f5f5f5;
-	--color-focus: #171717;
-	--color-scrollbar-track: #f5f5f5;
-	--color-scrollbar-thumb: #999999;
-	--color-scrollbar-hover: #666666;
-	--color-scrollbar-active: #333333;
+	--color-glass-border: #d7dfea;
+	--color-glass-beige: #edf0f9;
+	--color-focus: #3155e7;
+	--color-scrollbar-track: #edf0f9;
+	--color-scrollbar-thumb: #8998b0;
+	--color-scrollbar-hover: #526075;
+	--color-scrollbar-active: #3155e7;
 	--shadow-soft: 0 1px 2px #00000005;
 	--shadow-card: 0 1px 3px #00000008;
 	--shadow-card-hover: 0 8px 32px #00000012;
@@ -47,8 +52,8 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 ::selection {
-	background: #dedede;
-	color: #171717;
+	background: var(--color-peach);
+	color: var(--color-text-primary);
 }
 a,
 button,
@@ -426,11 +431,13 @@ textarea {
 	background: var(--color-bg-2);
 }
 .action-primary {
-	background: var(--color-text-primary);
+	border-color: var(--color-brand);
+	background: var(--color-brand);
 	color: white;
 }
 .action-primary:hover {
-	background: #333333;
+	border-color: var(--color-brand-deep);
+	background: var(--color-brand-deep);
 }
 .hero-bottom {
 	margin-top: 40px;
