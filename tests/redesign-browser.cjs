@@ -48,6 +48,8 @@ function verifyArchive(filename, root, skill) {
     const noJS = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
     const plain = await noJS.newPage();
     await plain.goto(baseURL, { waitUntil: 'domcontentloaded' });
+    // The owner requested progressive reading; native disclosures also work without JS.
+    for (const disclosure of await plain.locator('details > summary').all()) await disclosure.click();
     for (const text of ['Sujan Shrestha', 'Loyalist College', 'Tribhuwan University', 'Deerwalk Institute', 'ATSResumie', 'Outpost', 'DraftForge', 'NeverComes']) {
       assert.ok((await plain.locator('body').innerText()).toLowerCase().includes(text.toLowerCase()), `server content preserves ${text}`);
     }
