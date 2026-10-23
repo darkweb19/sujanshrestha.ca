@@ -26,14 +26,13 @@ export default function Contact() {
 			<div className="section-container">
 				<header className="section-heading">
 					<h2 className="section-kicker">Contact</h2>
-					<p className="section-title">Let&apos;s connect.</p>
+					<p className="section-title">Let&apos;s build something.</p>
 				</header>
 				<div className="about-grid">
 					<div />
 					<div>
 						<p className="contact-intro">
-							Whether you have a project in mind, want to collaborate, or just
-							want to say hello – I&apos;d love to hear from you!
+							A project, a collaboration, or just a hello.
 						</p>
 						<a href="mailto:hi@sujanshrestha.ca" className="contact-email">
 							hi@sujanshrestha.ca
@@ -58,7 +57,7 @@ export default function Contact() {
 							</a>
 							<a href="/blogs">Blog</a>
 						</div>
-						<p role="status" className="min-h-6 text-sm text-white/80">
+						<p role="status" className="min-h-6 text-sm text-text-muted">
 							{message}
 						</p>
 					</div>

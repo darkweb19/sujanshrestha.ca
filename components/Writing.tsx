@@ -6,9 +6,7 @@ export default function Writing() {
 			<header className="section-heading">
 				<h2 className="section-kicker">Writing</h2>
 				<p className="section-title">
-					Notes from
-					<br />
-					building things.
+					Field notes.
 				</p>
 			</header>
 			{getPosts().map((post) => (
@@ -20,7 +18,6 @@ export default function Writing() {
 					<time className="writing-date">{post.date}</time>
 					<div>
 						<h3>{post.title}</h3>
-						<p>{post.description}</p>
 					</div>
 				</Link>
 			))}
