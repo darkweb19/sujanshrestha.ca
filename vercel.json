@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/lab/codex",
+      "destination": "https://lab.sujanshrestha.ca/lab/codex",
+      "permanent": false
+    }
+  ]
+}
