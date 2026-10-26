@@ -121,6 +121,11 @@ export default function SkillsToolkit({
 	}, [selected, harness, unresolved]);
 	const hasErrors = issues.some((issue) => issue.severity === "error");
 	const pages = Math.max(1, Math.ceil(catalog.total / catalog.pageSize));
+	const folderRoot = category === "all" && !query.trim();
+	function openFolder(next: string) {
+		setCategory(next);
+		setPage(1);
+	}
 
 	const checkSession = useCallback(async () => {
 		setSessionError("");
@@ -467,7 +472,7 @@ export default function SkillsToolkit({
 							<h2 id="library-heading">Skills library</h2>
 							<p className={styles.help}>
 								{catalog.total} {catalog.total === 1 ? "package" : "packages"}{" "}
-								in the collection
+								{category === "all" ? "in the collection" : `in ${category}`}
 							</p>
 						</div>
 						<div className={styles.libraryActions}>
@@ -583,6 +588,10 @@ export default function SkillsToolkit({
 							</select>
 						</div>
 					</div>
+					<nav className={styles.folderBreadcrumb} aria-label="Skill folders">
+						<Button variant="quiet" onClick={() => openFolder("all")} aria-current={category === "all" ? "location" : undefined}>All folders</Button>
+						{category !== "all" && <span aria-current="location">/ {category}</span>}
+					</nav>
 					<div className={styles.selectionToolbar}>
 						<span role="status">
 							{selected.length} selected{" "}
@@ -604,7 +613,7 @@ export default function SkillsToolkit({
 										]),
 									])
 								}
-								disabled={!catalog.skills.length || busy || loading}
+								disabled={folderRoot || !catalog.skills.length || busy || loading}
 							>
 								Select all shown
 							</Button>
@@ -629,7 +638,17 @@ export default function SkillsToolkit({
 						</Feedback>
 					)}
 					<div aria-busy={loading} className={styles.results}>
-						{catalog.skills.length ? (
+						{folderRoot && !catalogError ? (
+							<div>
+								<p className={styles.help}>Open a folder to browse skills, or search across the collection.</p>
+								<div className={styles.folderGrid}>
+									{catalog.categories.map((item) => <button key={item} type="button" className={styles.folder} onClick={() => openFolder(item)} aria-label={`Open ${item} folder`}>
+										<svg aria-hidden="true" width="32" height="28" viewBox="0 0 32 28" fill="none"><path d="M2 7V4a2 2 0 0 1 2-2h8l3 4h13a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7Z" fill="currentColor" opacity=".15"/><path d="M2 10h28M2 7V4a2 2 0 0 1 2-2h8l3 4h13a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7Z" stroke="currentColor" strokeWidth="1.5"/></svg>
+										<span>{item}</span><span aria-hidden="true">↗</span>
+									</button>)}
+								</div>
+							</div>
+						) : catalog.skills.length ? (
 							<div className={styles.skillGrid}>
 								{catalog.skills.map((skill) => (
 									<article
@@ -689,7 +708,7 @@ export default function SkillsToolkit({
 							)
 						)}
 					</div>
-					<nav className={styles.pagination} aria-label="Skills library pages">
+					<nav hidden={folderRoot} className={styles.pagination} aria-label="Skills library pages">
 						<Button
 							disabled={page <= 1 || loading}
 							onClick={() => setPage((value) => value - 1)}
