@@ -427,7 +427,7 @@ export default function SkillsToolkit({
 						Back to my work
 					</Link>
 					<p className={styles.eyebrow}>Lab / AI tools</p>
-					<h1>Skills Toolkit</h1>
+					<h1 className="display-title">Skills Toolkit</h1>
 					<p className={styles.intro}>
 						Good instructions travel.
 						<br />

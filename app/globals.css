@@ -1930,3 +1930,13 @@ textarea {
 .project-live-frame {
 	display: block;
 }
+
+/* Static diffused title glow: foreground glyphs remain sharp and selectable. */
+:where(.hero-name, .section-title, .page-intro h1, .article-layout h1, .display-title) {
+	text-shadow: 0 4px var(--blur-title) color-mix(in srgb, currentColor 24%, transparent);
+}
+@media (forced-colors: active) {
+	:where(.hero-name, .section-title, .page-intro h1, .article-layout h1, .display-title) {
+		text-shadow: none;
+	}
+}
