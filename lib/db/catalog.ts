@@ -3,6 +3,7 @@ import type { DatabaseSync } from "node:sqlite";
 import type { SkillFile, SkillPackage, SkillSource } from "../skills-toolkit/types";
 import { parseSkillFiles, skillFileBytes, validateSkillPackage } from "../skills-toolkit/validation";
 import { openDatabase, transaction } from "./connection";
+import { skillCategory } from "../skills-toolkit/categories";
 
 export interface SkillMetadata extends Omit<SkillPackage, "files"> {
 	fileCount: number;
@@ -15,22 +16,23 @@ type Row = { id: string; slug: string; name: string; description: string; catego
 const projection = "s.*, (SELECT count(*) FROM skill_files f WHERE f.skill_id = s.id) AS file_count";
 const hash = (value: Uint8Array | string) => createHash("sha256").update(value).digest("hex");
 function metadata(row: Row): SkillMetadata {
-	return { id: row.id, slug: row.slug, name: row.name, description: row.description, category: row.category, source: JSON.parse(row.source_json) as SkillSource, importedAt: row.updated_at, fileCount: row.file_count, managed: row.managed === 1, revision: row.revision, ...(row.source_commit ? { sourceCommit: row.source_commit } : {}) };
+	return { id: row.id, slug: row.slug, name: row.name, description: row.description, category: skillCategory(row.slug, row.category), source: JSON.parse(row.source_json) as SkillSource, importedAt: row.updated_at, fileCount: row.file_count, managed: row.managed === 1, revision: row.revision, ...(row.source_commit ? { sourceCommit: row.source_commit } : {}) };
 }
 
 export function listSkills(input: { q?: string; category?: string; page?: number; pageSize?: number } = {}, connection?: DatabaseSync): CatalogPage {
 	const db = connection || openDatabase();
 	try {
+		db.function("lab_category", { deterministic: true }, (slug, category) => skillCategory(String(slug), String(category)));
 		const q = (input.q || "").slice(0, 200).trim();
 		const category = (input.category || "").slice(0, 200);
 		const search = `%${q.replace(/[\\%_]/g, "\\$&")}%`;
-		const clauses = "(? = '' OR s.name LIKE ? ESCAPE '\\' OR s.description LIKE ? ESCAPE '\\') AND (? = '' OR s.category = ?)";
+		const clauses = "(? = '' OR s.name LIKE ? ESCAPE '\\' OR s.description LIKE ? ESCAPE '\\') AND (? = '' OR lab_category(s.slug, s.category) = ?)";
 		const args = [q, search, search, category, category];
 		const total = Number((db.prepare(`SELECT count(*) AS total FROM skills s WHERE ${clauses}`).get(...args) as { total: number }).total);
 		const pageSize = Math.min(50, Math.max(1, Math.floor(input.pageSize || 24)));
 		const page = Math.min(Math.max(1, Math.floor(input.page || 1)), Math.max(1, Math.ceil(total / pageSize)));
 		const rows = db.prepare(`SELECT ${projection} FROM skills s WHERE ${clauses} ORDER BY s.name COLLATE NOCASE, s.id LIMIT ? OFFSET ?`).all(...args, pageSize, (page - 1) * pageSize) as unknown as Row[];
-		const categories = db.prepare("SELECT DISTINCT category FROM skills ORDER BY category COLLATE NOCASE").all() as { category: string }[];
+		const categories = db.prepare("SELECT DISTINCT lab_category(slug, category) AS category FROM skills ORDER BY category COLLATE NOCASE").all() as { category: string }[];
 		return { skills: rows.map(metadata), total, page, pageSize, categories: categories.map((entry) => entry.category) };
 	} finally { if (!connection) db.close(); }
 }
