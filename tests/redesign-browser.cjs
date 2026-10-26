@@ -19,7 +19,7 @@ function verifyArchive(filename, root, skill) {
 (async () => {
   fs.mkdirSync(artifacts, { recursive: true });
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', acceptDownloads: true });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', acceptDownloads: true, ignoreHTTPSErrors: process.env.TOOLKIT_HTTPS_TEST === '1' });
   const page = await context.newPage();
   page.setDefaultTimeout(15000);
   const errors = [];
@@ -45,7 +45,7 @@ function verifyArchive(filename, root, skill) {
     await page.keyboard.press('Enter');
     assert.equal(await page.evaluate(() => document.activeElement.tagName), 'MAIN');
     checks.push('Keyboard skip link is first and moves focus to main content');
-    const noJS = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
+    const noJS = await browser.newContext({ ignoreHTTPSErrors: process.env.TOOLKIT_HTTPS_TEST === '1', javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
     const plain = await noJS.newPage();
     await plain.goto(baseURL, { waitUntil: 'domcontentloaded' });
     // The owner requested progressive reading; native disclosures also work without JS.
@@ -83,11 +83,12 @@ function verifyArchive(filename, root, skill) {
 
     await page.goto(baseURL + '/lab/codex', { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => [...document.querySelectorAll('button')].some(button => button.textContent.includes('Owner sign in') && !button.disabled));
+    await page.getByRole('button', { name: 'Open Engineering folder', exact: true }).click();
     const checkbox = page.getByRole('checkbox', { name: /^Select / }).first();
     await checkbox.waitFor();
     const selectedName = (await checkbox.getAttribute('aria-label')).replace(/^Select /, '');
     await checkbox.check();
-    const selectedMetadata = catalog.skills.find(skill => skill.name === selectedName);
+    const selectedMetadata = (await (await context.request.get(baseURL + '/api/skills?q=' + encodeURIComponent(selectedName))).json()).skills.find(skill => skill.name === selectedName);
     assert.ok(selectedMetadata, `Selected ${selectedName} exists in API metadata`);
     const packageResponse = await context.request.get(baseURL + '/api/skills/' + encodeURIComponent(selectedMetadata.id));
     assert.equal(packageResponse.status(), 200);
@@ -137,6 +138,7 @@ function verifyArchive(filename, root, skill) {
     checks.push('Mobile navigation opens by button and Escape closes it with focus restored');
 
     if (process.env.LAB_TEST_PASSWORD) {
+      await page.getByLabel('Filter by category', { exact: true }).selectOption('all');
       await page.getByRole('button', { name: 'Upload skills', exact: true }).click();
       await page.getByLabel('Owner password', { exact: true }).fill(process.env.LAB_TEST_PASSWORD);
       await page.getByRole('button', { name: 'Sign in', exact: true }).click();
@@ -188,10 +190,25 @@ function verifyArchive(filename, root, skill) {
         await page.getByRole('button', { name: 'Edit skill', exact: true }).click();
         const updatedMarkdown = markdown + '\nBROWSER_EDIT_PERSISTED\n';
         await page.getByLabel('Edit SKILL.md', { exact: true }).fill(updatedMarkdown);
+        await page.mouse.click(4, 4);
+        await page.getByRole('heading', { name: 'Discard your changes?', exact: true }).waitFor();
+        await page.getByRole('button', { name: 'Keep editing', exact: true }).click();
+        assert.equal(await page.getByLabel('Edit SKILL.md', { exact: true }).inputValue(), updatedMarkdown);
+        let releaseSave;
+        const saveBarrier = new Promise(resolve => { releaseSave = resolve; });
+        const editPath = '**/api/skills/' + encodeURIComponent(saved.id);
+        await page.route(editPath, async route => { if (route.request().method() === 'PATCH') await saveBarrier; await route.continue(); });
         await page.getByRole('button', { name: 'Save changes', exact: true }).click();
+        await page.getByRole('button', { name: 'Close dialog', exact: true }).isDisabled().then(disabled => assert.equal(disabled, true));
+        await page.mouse.click(4, 4);
+        await page.keyboard.press('Escape');
+        assert.equal(await page.getByRole('dialog').isVisible(), true, 'Pending save blocks outside click and Escape');
+        releaseSave();
+        await page.unroute(editPath);
+        checks.push('Dirty editors retain drafts on outside click and pending saves block backdrop/Escape dismissal');
         await page.getByLabel('SKILL.md complete source', { exact: true }).filter({ hasText: 'BROWSER_EDIT_PERSISTED' }).waitFor();
         await page.keyboard.press('Escape');
-        const second = await browser.newContext();
+        const second = await browser.newContext({ ignoreHTTPSErrors: process.env.TOOLKIT_HTTPS_TEST === '1' });
         const secondPage = await second.newPage();
         await secondPage.goto(baseURL + '/lab/codex?q=' + slug, { waitUntil: 'domcontentloaded' });
         await secondPage.getByRole('checkbox', { name: `Select ${slug}`, exact: true }).waitFor();
