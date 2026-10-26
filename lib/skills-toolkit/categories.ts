@@ -6,7 +6,7 @@ const labels: Record<string, string> = {
 	"business-growth": "Business & product",
 };
 const inferred: [string, RegExp][] = [
-	["Design", /(?:design|a11y|ux-|ui-|brand-guidelines|apple-hig|screenshot|landing-page|^landing$)/],
+	["Design", /(?:^design|^ui-|^ux-|^epic-design|a11y|brand-guidelines|apple-hig|screenshot|landing-page|^landing$)/],
 	["Security", /(?:security|secops|secrets|threat|red-team|incident-response|ciso)/],
 	["Data & AI", /(?:data-|database|sql-|computer-vision|scientist|ml-engineer|rag-|llm-|prompt-|ai-|agent-|context-engine|self-eval|self-improving|claude-coach|autoresearch)/],
 	["Infrastructure", /(?:cloud|aws-|azure-|gcp-|devops|docker|kubernetes|terraform|ci-cd|observability|slo-|chaos-|incident-|runbook|ms365)/],
