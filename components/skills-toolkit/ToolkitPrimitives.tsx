@@ -58,11 +58,14 @@ export function Dialog({
 	const ref = useRef<HTMLDialogElement>(null);
 	useEffect(() => {
 		const previous = document.activeElement as HTMLElement | null;
+		const overflow = document.body.style.overflow;
+		document.body.style.overflow = "hidden";
 		const dialog = ref.current;
 		dialog?.showModal();
 		return () => {
 			dialog?.close();
-			previous?.focus();
+			document.body.style.overflow = overflow;
+			if (previous?.isConnected) previous.focus({ preventScroll: true });
 		};
 	}, []);
 	return (
@@ -72,7 +75,12 @@ export function Dialog({
 			aria-labelledby="toolkit-dialog-title"
 			onCancel={(event) => {
 				event.preventDefault();
-				onClose();
+				if (!closeDisabled) onClose();
+			}}
+			onClick={(event) => {
+				if (closeDisabled || event.target !== event.currentTarget) return;
+				const bounds = event.currentTarget.getBoundingClientRect();
+				if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) onClose();
 			}}
 		>
 			<div className={styles.dialogHeading}>
