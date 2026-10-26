@@ -6,5 +6,11 @@
       "destination": "https://lab.sujanshrestha.ca/lab/codex",
       "permanent": false
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/lab/skills/:slug/skills.md",
+      "destination": "https://lab.sujanshrestha.ca/lab/skills/:slug/skills.md"
+    }
   ]
 }
