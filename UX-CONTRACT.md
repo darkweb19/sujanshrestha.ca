@@ -70,3 +70,13 @@ Project preview failure/recovery must preserve title, close, overview and extern
 ## Upload discovery refinement
 
 The owner's full-photo/scroll/upload follow-up authorizes a visible upload entry for every visitor without changing write authorization. `Upload skills` lists supported formats and the current owner-access state beside the library. Signed-out activation opens `OwnerAccess` and successful sign-in continues straight into `ImportSkills`' actual file picker. Direct `Owner sign in` remains available without opening the upload form automatically. Cancel clears the pending upload intent. Unconfigured deployments explain setup and link to the operations guide; session-check failure offers retry. Server Origin/session/CSRF validation remains authoritative.
+
+## Category folders and public source links
+
+The owner’s 2026-10-26 request makes category folders the default unfiltered view. Opening a folder applies the server category filter and resets page 1. Search spans every folder when category is All; native category selection, URL restoration and pagination retain their existing semantics. Selection survives folder/query/page changes; Select all shown applies only to visible skill cards. The display taxonomy normalizes known labels and infers absent categories from skill slugs, with a General fallback and preservation of explicit custom categories. It never rewrites entrypoint Markdown.
+
+Activating a skill card or its title copies `https://sujanshrestha.ca/lab/skills/{slug}/skills.md`. Owner packages use an explicit encoded `user:` namespace so same-slug imports cannot change another package’s URL. Copying leaves ZIP selection untouched. Checkboxes, Preview and Raw Markdown links remain separately keyboard-accessible. Clipboard denial preserves a focused selectable URL in shared inline Feedback. Raw source links are also real anchors for agents/crawlers.
+
+The public source route returns exact stored UTF-8 SKILL.md contents with text/markdown, no page shell, no authentication, public CORS and no-store caching. Missing or invalid slugs give plain 404s; unavailable storage gives a plain 503 without internals. Vercel rewrites these main-domain paths to the existing persistent Railway Lab. No database migration is needed.
+
+Lab backdrop click and Escape call the canonical guarded onClose callback. Both respect closeDisabled during writes. Dirty editors still offer Keep editing / Discard changes. Body scrolling is locked while open and restored on close together with trigger focus. Background blur comes from the shared runtime token; dialog content remains clear.
