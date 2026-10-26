@@ -668,7 +668,7 @@ export default function SkillsToolkit({
 								<div className={styles.folderGrid}>
 									{catalog.categories.map((item) => <button key={item} type="button" className={styles.folder} onClick={() => openFolder(item)} aria-label={`Open ${item} folder`}>
 										<svg aria-hidden="true" width="32" height="28" viewBox="0 0 32 28" fill="none"><path d="M2 7V4a2 2 0 0 1 2-2h8l3 4h13a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7Z" fill="currentColor" opacity=".15"/><path d="M2 10h28M2 7V4a2 2 0 0 1 2-2h8l3 4h13a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7Z" stroke="currentColor" strokeWidth="1.5"/></svg>
-										<span>{item}</span><span aria-hidden="true">↗</span>
+										<span>{item}</span><ExternalArrow />
 									</button>)}
 								</div>
 							</div>
