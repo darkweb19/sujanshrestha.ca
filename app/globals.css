@@ -39,6 +39,9 @@
 }
 :root {
 	color-scheme: light;
+	--blur-hero: 16px;
+	--blur-modal: 10px;
+	--blur-title: 18px;
 }
 html {
 	scroll-behavior: smooth;
@@ -222,12 +225,14 @@ textarea {
 	position: absolute;
 	bottom: 0;
 	inset-inline: 0;
-	height: 128px;
+	height: 46%;
 	z-index: -1;
 	pointer-events: none;
 	background: linear-gradient(0deg, #17233b 0%, #17233b70 55%, transparent);
-	backdrop-filter: blur(5px);
-	mask-image: linear-gradient(transparent, black 65%);
+	-webkit-backdrop-filter: blur(var(--blur-hero));
+	backdrop-filter: blur(var(--blur-hero));
+	-webkit-mask-image: linear-gradient(transparent, black 85%);
+	mask-image: linear-gradient(transparent, black 85%);
 }
 .hero-content {
 	padding-top: 40px;
@@ -368,8 +373,8 @@ textarea {
 		font-size: 12px;
 	}
 	.hero-gradient-blur {
-		height: 96px;
-		backdrop-filter: blur(3px);
+		height: 40%;
+		--blur-hero: 10px;
 	}
 }
 
