@@ -16,6 +16,7 @@ import {
 } from "@/lib/skills-toolkit/harnesses";
 import { generateSkillZip } from "@/lib/skills-toolkit/archive";
 import { loadImportedSkills } from "@/lib/skills-toolkit/storage";
+import { rawSkillUrl } from "@/lib/skills-toolkit/skill-links";
 import { validateSelection } from "@/lib/skills-toolkit/validation";
 import type { HarnessId, SkillPackage } from "@/lib/skills-toolkit/types";
 import ArchiveTree from "./ArchiveTree";
@@ -83,6 +84,23 @@ export default function SkillsToolkit({
 	const [ownerOpen, setOwnerOpen] = useState(false);
 	const [uploadAfterSignIn, setUploadAfterSignIn] = useState(false);
 	const [message, setMessage] = useState("");
+	const [copiedLink, setCopiedLink] = useState<{ url: string; name: string; copied: boolean } | null>(null);
+	const manualLink = useRef<HTMLInputElement>(null);
+	useEffect(() => {
+		if (copiedLink && !copiedLink.copied) {
+			manualLink.current?.focus();
+			manualLink.current?.select();
+		}
+	}, [copiedLink]);
+	async function copySkillLink(skill: CatalogSkill) {
+		const url = rawSkillUrl(skill);
+		try {
+			await navigator.clipboard.writeText(url);
+			setCopiedLink({ url, name: skill.name, copied: true });
+		} catch {
+			setCopiedLink({ url, name: skill.name, copied: false });
+		}
+	}
 	const [error, setError] = useState("");
 	const [importOpen, setImportOpen] = useState(false);
 	const [previewId, setPreviewId] = useState<string | null>(null);
@@ -456,6 +474,11 @@ export default function SkillsToolkit({
 				</div>
 			</header>
 			{message && <Feedback>{message}</Feedback>}
+			{copiedLink && <Feedback error={!copiedLink.copied}>
+				<p>{copiedLink.copied ? `Copied the raw Markdown link for ${copiedLink.name}.` : "Clipboard access is unavailable. Copy the selected link below."}</p>
+				<label className={styles.srOnly} htmlFor="raw-skill-link">Raw Markdown link</label>
+				<input ref={manualLink} id="raw-skill-link" className={styles.rawLink} value={copiedLink.url} readOnly onFocus={(event) => event.currentTarget.select()} />
+			</Feedback>}
 			{error && !remove && !legacy && <Feedback error>{error}</Feedback>}
 			{sessionError && (
 				<Feedback error>
@@ -668,9 +691,7 @@ export default function SkillsToolkit({
 										<div className={styles.skillBody}>
 											<div className={styles.skillTitle}>
 												<h3>
-													<label htmlFor={`select-${skill.id}`}>
-														{skill.name}
-													</label>
+													<button type="button" className={styles.skillCopy} onClick={() => void copySkillLink(skill)} aria-label={`Copy Markdown link for ${skill.name}`}>{skill.name}</button>
 												</h3>
 												<span className={styles.tag}>{skill.category}</span>
 											</div>
@@ -680,8 +701,9 @@ export default function SkillsToolkit({
 											<div className={styles.skillCardFooter}>
 												<span className={styles.skillSource}>
 													{skill.managed ? "Source collection" : "Owner import"}
-													<span>{skill.fileCount} files</span>
+													<span>{skill.fileCount} files · Click to copy link</span>
 												</span>
+												<a className={styles.rawSourceLink} href={rawSkillUrl(skill)} target="_blank" rel="noopener noreferrer">Raw Markdown</a>
 												<Button
 													variant="quiet"
 													disabled={previewBusy === skill.id || busy}

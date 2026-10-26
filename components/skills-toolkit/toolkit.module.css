@@ -1244,3 +1244,15 @@ a.secondary:hover {
 .folder:active { background: var(--color-lilac); }
 .pagination[hidden] { display: none; }
 @media (max-width: 480px) { .folderGrid { grid-template-columns: 1fr; } }
+
+/* A semantic title button stretches across the card; other actions stay independent. */
+.skillCard { position: relative; }
+.skillCopy { border: 0; padding: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.skillCopy::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.skillCopy:focus-visible::after { outline: 2px solid var(--color-brand); outline-offset: -2px; border-radius: 4px; }
+.skillCopy:hover { color: var(--color-brand); }
+.skillCopy:active { color: var(--color-brand-deep); }
+.skillCardHeading input, .skillCardFooter .button, .rawSourceLink { position: relative; z-index: 2; }
+.rawSourceLink { font-size: 12px; text-decoration: underline; text-underline-offset: 3px; min-height: 36px; display: inline-flex; align-items: center; }
+.rawSourceLink:hover { color: var(--color-brand); }
+.rawLink { display: block; width: 100%; min-width: 0; padding: 8px; margin-top: 8px; font-family: var(--font-mono); font-size: 13px; background: var(--color-bg-1); color: var(--color-text-primary); border: 1px solid var(--toolkit-line); border-radius: 6px; }
