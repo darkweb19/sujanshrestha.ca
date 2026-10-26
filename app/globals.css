@@ -1580,7 +1580,8 @@ textarea {
 .project-browser::backdrop,
 .schedule-dialog::backdrop {
 	background: #17233b70;
-	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(var(--blur-modal));
+	backdrop-filter: blur(var(--blur-modal));
 }
 .browser-heading {
 	display: flex;
@@ -1815,7 +1816,7 @@ textarea {
 	}
 	.project-browser::backdrop,
 	.schedule-dialog::backdrop {
-		backdrop-filter: blur(3px);
+		--blur-modal: 6px;
 	}
 	.browser-heading {
 		padding: 10px 12px;

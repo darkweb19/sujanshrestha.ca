@@ -749,7 +749,17 @@ a.secondary:hover {
 }
 
 .dialog::backdrop {
-	background: #0006;
+	background: #17233b80;
+	-webkit-backdrop-filter: blur(var(--blur-modal));
+	backdrop-filter: blur(var(--blur-modal));
+}
+
+@media (forced-colors: active) {
+	.dialog::backdrop {
+		background: Canvas;
+		opacity: 0.9;
+		backdrop-filter: none;
+	}
 }
 
 .dialogWide {
