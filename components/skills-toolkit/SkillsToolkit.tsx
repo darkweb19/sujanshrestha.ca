@@ -269,6 +269,7 @@ export default function SkillsToolkit({
 		);
 	}
 	async function showPreview(skill: CatalogSkill) {
+		if (previewBusy) return;
 		setPreviewBusy(skill.id);
 		setError("");
 		try {
@@ -706,7 +707,9 @@ export default function SkillsToolkit({
 												<a className={styles.rawSourceLink} href={rawSkillUrl(skill)} target="_blank" rel="noopener noreferrer">Raw Markdown</a>
 												<Button
 													variant="quiet"
-													disabled={previewBusy === skill.id || busy}
+													disabled={busy}
+													aria-disabled={previewBusy === skill.id}
+													aria-busy={previewBusy === skill.id}
 													onClick={() => void showPreview(skill)}
 													aria-label={`Preview ${skill.name}`}
 												>

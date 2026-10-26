@@ -1256,3 +1256,5 @@ a.secondary:hover {
 .rawSourceLink { font-size: 12px; text-decoration: underline; text-underline-offset: 3px; min-height: 36px; display: inline-flex; align-items: center; }
 .rawSourceLink:hover { color: var(--color-brand); }
 .rawLink { display: block; width: 100%; min-width: 0; padding: 8px; margin-top: 8px; font-family: var(--font-mono); font-size: 13px; background: var(--color-bg-1); color: var(--color-text-primary); border: 1px solid var(--toolkit-line); border-radius: 6px; }
+
+.button[aria-disabled="true"] { opacity: .6; cursor: progress; }
