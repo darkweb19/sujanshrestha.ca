@@ -28,6 +28,18 @@ import { Button, Dialog, ExternalArrow, Feedback } from "./ToolkitPrimitives";
 import styles from "./toolkit.module.css";
 
 type LoadedSkill = SkillPackage & { managed: boolean; revision: number };
+const categoryNotes: Record<string, string> = {
+	"Business & product": "Strategy, planning & delivery",
+	"Data & AI": "Data systems & model workflows",
+	Design: "Research, interfaces & usability",
+	Engineering: "Architecture, code & quality",
+	Finance: "Financial analysis & operations",
+	General: "Cross-disciplinary workflows",
+	Infrastructure: "Cloud, deployment & reliability",
+	Leadership: "Teams, decisions & direction",
+	Marketing: "Content, growth & discovery",
+	Security: "Threats, audits & hardening",
+};
 const defaultSession: OwnerSession = {
 	authenticated: false,
 	configured: false,
@@ -679,13 +691,14 @@ export default function SkillsToolkit({
 						</Feedback>
 					)}
 					<div aria-busy={loading} className={styles.results}>
+						{loading && <div className={styles.loadingLine} role="status"><span className={styles.spinner} aria-hidden="true" /> Updating skills…</div>}
 						{folderRoot && !catalogError ? (
 							<div>
 								<p className={styles.help}>Open a folder to browse skills, or search across the collection.</p>
 								<div className={styles.folderGrid}>
 									{catalog.categories.map((item) => <button key={item} type="button" className={styles.folder} onClick={() => openFolder(item)} aria-label={`Open ${item} folder`}>
 										<svg aria-hidden="true" width="32" height="28" viewBox="0 0 32 28" fill="none"><path d="M2 7V4a2 2 0 0 1 2-2h8l3 4h13a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7Z" fill="currentColor" opacity=".15"/><path d="M2 10h28M2 7V4a2 2 0 0 1 2-2h8l3 4h13a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7Z" stroke="currentColor" strokeWidth="1.5"/></svg>
-										<span>{item}</span><ExternalArrow />
+										<span>{item}<small>{categoryNotes[item] || "Explore skill packages"}</small></span><ExternalArrow />
 									</button>)}
 								</div>
 							</div>
@@ -719,12 +732,12 @@ export default function SkillsToolkit({
 											<div className={styles.skillCardFooter}>
 												<span className={styles.skillSource}>
 													{skill.managed ? "Source collection" : "Owner import"}
-													<span>{skill.fileCount} files · Click to copy link</span>
+													<span>{skill.fileCount} {skill.fileCount === 1 ? "file" : "files"}</span>
 												</span>
 												<a className={styles.rawSourceLink} href={rawSkillUrl(skill)} target="_blank" rel="noopener noreferrer">Raw Markdown</a>
 												<Button
 													variant="quiet"
-													disabled={busy}
+													disabled={busy || previewBusy !== null}
 													aria-disabled={previewBusy === skill.id}
 													aria-busy={previewBusy === skill.id}
 													onClick={() => void showPreview(skill)}

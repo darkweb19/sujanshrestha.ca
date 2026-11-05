@@ -306,13 +306,15 @@ a.secondary:hover {
 }
 
 .skillCard {
+	position: relative;
 	min-width: 0;
 	display: grid;
-	grid-template-columns: 28px minmax(0, 1fr);
-	gap: 12px;
-	padding: 24px 12px 22px 0;
-	border-bottom: 1px solid var(--toolkit-line);
-	background: transparent;
+	grid-template-columns: 24px minmax(0, 1fr);
+	gap: 14px;
+	padding: 22px 14px;
+	border: 1px solid transparent;
+	border-bottom-color: var(--toolkit-line);
+	background: var(--color-bg-1);
 }
 
 .skillCard:hover {
@@ -320,9 +322,9 @@ a.secondary:hover {
 }
 
 .skillSelected {
-	box-shadow: inset 3px 0 var(--color-text-primary);
-	background: var(--color-bg-2);
-	padding-left: 12px;
+	box-shadow: inset 3px 0 var(--color-brand);
+	background: var(--color-bg-0);
+	border-color: var(--toolkit-line);
 }
 
 .skillCardHeading {
@@ -350,11 +352,11 @@ a.secondary:hover {
 
 .skillCard h3 {
 	min-width: 0;
-	margin: 0 0 10px;
-	font-size: 18px;
+	margin: 0;
+	font-size: 17px;
 	line-height: 1.4;
-	font-weight: 550;
-	letter-spacing: -0.025em;
+	font-weight: 600;
+	letter-spacing: -.025em;
 	overflow-wrap: anywhere;
 }
 
@@ -406,13 +408,10 @@ a.secondary:hover {
 
 .skillSource {
 	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: 8px;
+	flex-direction: column;
+	gap: 2px;
 	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-size: 12px;
+	font-size: 11px;
 	line-height: 1.55;
 	color: var(--color-text-muted);
 }
@@ -423,7 +422,8 @@ a.secondary:hover {
 
 .skillCardFooter .button {
 	min-height: 40px;
-	padding-right: 0;
+	padding-inline: 10px;
+	background: var(--color-bg-2);
 }
 
 .archivePanel {
@@ -1193,13 +1193,12 @@ a.secondary:hover {
 	gap: 8px;
 }
 .uploadHint {
-	border: 1px solid var(--toolkit-line);
-	border-radius: 8px;
-	padding: 14px 16px;
-	margin-bottom: 24px;
+	padding: 0 0 18px;
+	margin-bottom: 18px;
+	border-bottom: 1px solid var(--toolkit-line);
 	color: var(--color-text-muted);
-	font-size: 13px;
-	line-height: 1.6;
+	font-size: 12px;
+	line-height: 1.65;
 }
 .uploadHint strong {
 	font-weight: 500;
@@ -1235,7 +1234,9 @@ a.secondary:hover {
 	}
 }
 
-.folderBreadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 20px; font-size: 14px; }
+.folderBreadcrumb {
+	display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; font-size: 13px;
+}
 .folderBreadcrumb > span { overflow-wrap: anywhere; }
 .folderGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
 .folder { display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 88px; padding: 18px; text-align: left; color: var(--color-text-primary); background: var(--color-bg-1); border: 1px solid var(--toolkit-line); border-radius: 12px; cursor: pointer; }
@@ -1294,3 +1295,18 @@ a.secondary:hover {
 .packageGlyph, .agentGlyph { display: grid; place-items: center; width: 32px; height: 36px; border-radius: 6px; background: var(--color-bg-2); color: var(--color-brand-deep); font: 24px var(--font-mono); }
 .headingAside .sourceLink { margin-top: 12px; justify-content: flex-end; font-size: 12px; min-height: 36px; }
 @media (max-width: 760px) { .packageRoute { display: none; } .headingAside .sourceLink { margin: 0; } }
+
+.library { padding: 24px; border: 1px solid var(--toolkit-line); border-radius: 12px; background: var(--color-bg-1); }
+.library .sectionHeading h2 { font-size: 21px; }
+.libraryActions .button { font-size: 12px; }
+.libraryActions .primary { background: var(--color-bg-1); border-color: var(--toolkit-line); color: var(--color-text-primary); }
+.libraryActions .primary:hover:enabled { border-color: var(--color-brand); background: var(--color-bg-2); }
+.folder small { display: block; font-size: 11px; font-weight: 400; line-height: 1.6; color: var(--color-text-muted); margin-top: 5px; }
+.folderBreadcrumb .button[aria-pressed="true"], .folderBreadcrumb .button[aria-current="location"] { color: var(--color-brand-deep); background: var(--color-bg-2); }
+.results { position: relative; }
+.loadingLine { position: absolute; z-index: 3; top: 4px; right: 4px; display: flex; gap: 8px; align-items: center; border: 1px solid var(--toolkit-line); padding: 8px 12px; background: var(--color-bg-1); border-radius: 8px; font-size: 12px; }
+.spinner { width: 14px; height: 14px; border: 2px solid var(--toolkit-line); border-top-color: var(--color-brand); border-radius: 50%; animation: lab-spin .8s linear infinite; }
+@keyframes lab-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+@media (max-width: 1050px) { .library { padding: 20px; } .library .sectionHeading { align-items: flex-start; flex-direction: column; } }
+@media (max-width: 450px) { .library { padding: 16px; } .skillCard { padding-inline: 8px; } .skillCardFooter { flex-wrap: wrap; } .skillSource { flex: 1 1 100%; } }
