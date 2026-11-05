@@ -517,6 +517,13 @@ export default function SkillsToolkit({
 					</Button>
 				</Feedback>
 			)}
+			{selected.length > 0 && <div className={styles.mobileDock} data-lab-mobile-selection role="region" aria-label="Selection summary">
+				<div><strong>{selected.length} selected</strong><small>{harness.name}</small></div>
+				<a href="#archive-heading" onClick={() => document.getElementById("archive-heading")?.focus()}>Review</a>
+				<Button variant="primary" disabled={hasErrors || busy || unresolved} aria-busy={busy} onClick={() => void download()} aria-label="Download ZIP">
+					{busy ? "Preparing…" : "Download ZIP"}
+				</Button>
+			</div>}
 			<div className={styles.workspace}>
 				<section className={styles.library} aria-labelledby="library-heading">
 					<div className={styles.sectionHeading}>
@@ -788,7 +795,7 @@ export default function SkillsToolkit({
 				>
 					<div className={styles.archiveHeader}>
 						<p className={styles.eyebrow}>Export toolkit</p>
-						<h2 id="archive-heading">Your selection <span className={styles.selectionCount}>{selected.length}</span></h2>
+						<h2 id="archive-heading" tabIndex={-1}>Your selection <span className={styles.selectionCount}>{selected.length}</span></h2>
 						<p className={styles.muted}>
 							One ZIP, ready for your repository.
 						</p>

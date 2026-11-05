@@ -1335,3 +1335,20 @@ a.secondary:hover {
 .archiveContents .tree { min-height: 120px; max-height: 240px; margin-top: 8px; }
 .download { min-height: 48px; font-size: 12px; }
 @media (max-width: 760px) { .archivePanel { max-height: none; overflow: visible; } }
+
+.mobileDock { display: none; }
+@media (max-width: 760px) {
+	.mobileDock { position: fixed; z-index: 40; inset: auto 0 0; display: flex; align-items: center; gap: 14px; padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); background: var(--color-bg-1); border-top: 1px solid var(--toolkit-line); box-shadow: 0 -4px 20px #17233b0a; }
+	.mobileDock > div { flex: 1; min-width: 0; }
+	.mobileDock strong { display: block; font-size: 14px; }
+	.mobileDock small { display: block; font-size: 11px; color: var(--color-text-muted); margin-top: 3px; }
+	.mobileDock > a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; }
+	.mobileDock > a:hover { color: var(--color-text-primary); }
+	.mobileDock .button { min-width: 115px; font-size: 12px; }
+	.toolkit { padding-top: 12px; }
+	.pageHeading { gap: 12px; padding-bottom: 20px; margin-bottom: 16px; }
+	.backLink { margin-bottom: 16px; }
+	.archiveHeader h2 { scroll-margin-top: 100px; }
+	.toolkit :is(button,a,input,select,textarea,summary) { scroll-margin-block: 104px 110px; }
+}
+@media (max-width: 380px) { .mobileDock { gap: 10px; padding-inline: 16px; } }

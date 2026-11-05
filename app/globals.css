@@ -1941,3 +1941,8 @@ textarea {
 		text-shadow: none;
 	}
 }
+
+/* Reserve space for the Lab's mobile selection actions, including footer focus. */
+@media (max-width: 760px) {
+	body:has([data-lab-mobile-selection]) { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+}
