@@ -158,6 +158,7 @@ export default function SkillsToolkit({
 	const pages = Math.max(1, Math.ceil(catalog.total / catalog.pageSize));
 	const folderRoot = category === "all" && !query.trim() && view === "folders";
 	function openFolder(next: string) {
+		if (category === next && page === 1 && (next !== "all" || view === "folders")) return;
 		setLoading(true);
 		if (next === "all") setView("folders");
 		setCategory(next);
@@ -217,7 +218,9 @@ export default function SkillsToolkit({
 				const url = new URL(window.location.href);
 				url.search = params.toString();
 				if (url.href !== window.location.href) window.history.pushState(null, "", url);
-				void labRequest<CatalogPage>(`/api/skills?${params}`, {
+				const requestParams = new URLSearchParams(params);
+				requestParams.set("pageSize", String(initial.pageSize));
+				void labRequest<CatalogPage>(`/api/skills?${requestParams}`, {
 					signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15_000)]),
 				})
 					.then((result) => {

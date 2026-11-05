@@ -32,16 +32,18 @@ export function renderSkillMarkdown(source: string): ReactNode {
 	const body = source.replace(/^(?:\uFEFF)?---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, "");
 	const tree = processor.runSync(processor.parse(body)) as Node;
 	const headingIds = new Map<Node, string>();
-	const usedIds = new Map<string, number>();
+	const usedIds = new Set<string>();
 	function textOf(node: Node): string {
 		return node.value || node.children?.map(textOf).join("") || "";
 	}
 	function indexHeadings(node: Node) {
 		if (/^h[1-6]$/.test(node.tagName || "")) {
 			const slug = textOf(node).toLowerCase().replace(/[^\p{L}\p{N}_\s-]/gu, "").replace(/\s/g, "-");
-			const count = usedIds.get(slug) || 0;
-			usedIds.set(slug, count + 1);
-			headingIds.set(node, `skill-md-${slug}${count ? `-${count}` : ""}`);
+			let candidate = slug;
+			let suffix = 0;
+			while (usedIds.has(candidate)) candidate = `${slug}-${++suffix}`;
+			usedIds.add(candidate);
+			headingIds.set(node, `skill-md-${candidate}`);
 		}
 		node.children?.forEach(indexHeadings);
 	}

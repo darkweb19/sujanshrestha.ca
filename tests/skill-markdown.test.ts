@@ -37,8 +37,9 @@ test("document separators and hard line breaks render as void elements", () => {
 });
 
 test("table of contents links target generated headings without accepting arbitrary IDs", () => {
-	const html = renderToStaticMarkup(renderSkillMarkdown('[Workflow](#workflow)\n\n## Workflow\n\n## Workflow'));
+	const html = renderToStaticMarkup(renderSkillMarkdown('[Workflow](#workflow)\n\n## Workflow\n\n## Workflow\n\n## Workflow-1'));
 	assert.match(html, /href="#skill-md-workflow"/);
 	assert.match(html, /id="skill-md-workflow"/);
 	assert.match(html, /id="skill-md-workflow-1"/);
+	assert.match(html, /id="skill-md-workflow-1-1"/);
 });

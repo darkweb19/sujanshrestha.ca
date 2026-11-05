@@ -24,8 +24,10 @@ async function settled(page) {
 async function changeCatalog(page, action) {
   const response = catalogResponse(page);
   await action();
-  assert.equal((await response).status(), 200);
+  const result = await response;
+  assert.equal(result.status(), 200);
   await settled(page);
+  return result;
 }
 async function downloadArchive(page, name, skills, root) {
   const [download] = await Promise.all([
@@ -64,6 +66,11 @@ function watchPage(page) {
 
     await page.goto(`${baseURL}/lab/codex`, { waitUntil: 'domcontentloaded' });
     await page.getByRole('button', { name: 'Browse all skills', exact: true }).waitFor();
+    await page.getByRole('button', { name: 'All folders', exact: true }).click();
+    await page.getByRole('button', { name: 'All folders', exact: true }).click();
+    await settled(page);
+    assert.equal(await page.getByText('Updating skills…', { exact: true }).count(), 0);
+    checks.push('Repeated All folders activation at the root is a no-op and never leaves the catalog busy');
     await changeCatalog(page, () => page.getByRole('button', { name: `Open ${first.category} folder`, exact: true }).click());
     await changeCatalog(page, () => page.getByLabel('Search skills', { exact: true }).fill(first.name));
     await page.getByRole('checkbox', { name: `Select ${first.name}`, exact: true }).check();
@@ -125,9 +132,22 @@ function watchPage(page) {
 
     // Use a fresh navigation history so Back/Forward checks have deliberate boundaries.
     await page.goto(`${baseURL}/lab/codex`, { waitUntil: 'domcontentloaded' });
-    await changeCatalog(page, () => page.getByRole('button', { name: 'Browse all skills', exact: true }).click());
+    const adjacentFixtures = [];
+    for (const number of [1, 2]) {
+      const fixture = await context.request.get(`${baseURL}/api/skills?page=${number}&pageSize=12`);
+      assert.equal(fixture.status(), 200);
+      adjacentFixtures.push(await fixture.json());
+    }
+    const allResponse = await changeCatalog(page, () => page.getByRole('button', { name: 'Browse all skills', exact: true }).click());
+    assert.equal((await allResponse.json()).pageSize, 12, 'Interactive requests retain the initial SSR page size');
+    const visibleIds = () => page.getByRole('checkbox', { name: /^Select / }).evaluateAll(nodes => nodes.map(node => node.id.replace(/^select-/, '')));
+    assert.deepEqual(await visibleIds(), adjacentFixtures[0].skills.map(skill => skill.id));
     const allURL = page.url();
-    await changeCatalog(page, () => page.getByRole('button', { name: 'Next', exact: true }).click());
+    const nextResponse = await changeCatalog(page, () => page.getByRole('button', { name: 'Next', exact: true }).click());
+    assert.equal((await nextResponse.json()).pageSize, 12);
+    assert.deepEqual(await visibleIds(), adjacentFixtures[1].skills.map(skill => skill.id));
+    assert.equal(new Set(adjacentFixtures.flatMap(fixture => fixture.skills.map(skill => skill.id))).size, 24);
+    checks.push('Interactive page size stays at 12 and adjacent visible pages match exact API IDs without gaps or overlap');
     const pageTwoURL = page.url();
     assert.equal(new URL(pageTwoURL).searchParams.get('page'), '2');
     await changeCatalog(page, () => page.getByLabel('Filter by category', { exact: true }).selectOption(second.category));
