@@ -36,7 +36,10 @@ export function renderSkillMarkdown(source: string): ReactNode {
 		if (node.type === "root") return node.children?.map(render);
 		if (node.type !== "element" || !node.tagName) return null;
 		if (node.tagName === "img") return node.properties?.alt ? `[Image: ${String(node.properties.alt)}]` : null;
-		const children = node.children?.map(render);
+		// HAST includes formatting whitespace that is invalid directly inside table rows.
+		const children = node.children
+			?.filter((child) => !(["table", "thead", "tbody", "tr"].includes(node.tagName!) && child.type === "text" && !child.value?.trim()))
+			.map(render);
 		if (!allowed.has(node.tagName)) return children;
 		const props: Record<string, unknown> = { key };
 		if (node.tagName === "a") {

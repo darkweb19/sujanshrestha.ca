@@ -748,7 +748,7 @@ export default function SkillsToolkit({
 												<a className={styles.rawSourceLink} href={rawSkillUrl(skill)} target="_blank" rel="noopener noreferrer">Raw Markdown</a>
 												<Button
 													variant="quiet"
-													disabled={busy || loading || previewBusy !== null}
+													disabled={busy || loading || (previewBusy !== null && previewBusy !== skill.id)}
 													aria-disabled={previewBusy === skill.id}
 													aria-busy={previewBusy === skill.id}
 													onClick={() => void showPreview(skill)}
