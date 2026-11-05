@@ -51,7 +51,7 @@ export function renderSkillMarkdown(source: string): ReactNode {
 		if (node.tagName === "ol" && typeof node.properties?.start === "number") props.start = node.properties.start;
 		// The dialog owns h2; document headings start at h3 inside its content region.
 		const tag = /^h[1-6]$/.test(node.tagName) ? `h${Math.min(6, Number(node.tagName[1]) + 2)}` : node.tagName;
-		return createElement(tag, props, children);
+		return tag === "hr" || tag === "br" ? createElement(tag, props) : createElement(tag, props, children);
 	}
 	return render(tree, 0);
 }

@@ -28,3 +28,10 @@ test("source code stays escaped and relative supporting paths stay inert", () =>
 	assert.match(html, /<span>Guide<\/span>/);
 	assert.doesNotMatch(html, /href="references/);
 });
+
+
+test("document separators and hard line breaks render as void elements", () => {
+	const html = renderToStaticMarkup(renderSkillMarkdown('Before\n\n---\n\nFirst  \nSecond'));
+	assert.match(html, /<hr\/>/);
+	assert.match(html, /<br\/>/);
+});

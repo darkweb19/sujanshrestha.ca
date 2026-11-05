@@ -158,6 +158,7 @@ export default function SkillsToolkit({
 	const pages = Math.max(1, Math.ceil(catalog.total / catalog.pageSize));
 	const folderRoot = category === "all" && !query.trim() && view === "folders";
 	function openFolder(next: string) {
+		setLoading(true);
 		if (next === "all") setView("folders");
 		setCategory(next);
 		setPage(1);
@@ -613,6 +614,7 @@ export default function SkillsToolkit({
 									}
 								}}
 								onChange={(event) => {
+									setLoading(true);
 									setQuery(event.target.value);
 									setPage(1);
 								}}
@@ -637,6 +639,7 @@ export default function SkillsToolkit({
 								id="skill-category"
 								value={category}
 								onChange={(event) => {
+									setLoading(true);
 									setCategory(event.target.value);
 									setPage(1);
 								}}
@@ -721,7 +724,7 @@ export default function SkillsToolkit({
 											<input
 												id={`select-${skill.id}`}
 												type="checkbox"
-												disabled={busy}
+												disabled={busy || loading}
 												checked={selectedIds.includes(skill.id)}
 												onChange={() => toggle(skill)}
 												aria-label={`Select ${skill.name}`}
@@ -745,7 +748,7 @@ export default function SkillsToolkit({
 												<a className={styles.rawSourceLink} href={rawSkillUrl(skill)} target="_blank" rel="noopener noreferrer">Raw Markdown</a>
 												<Button
 													variant="quiet"
-													disabled={busy || previewBusy !== null}
+													disabled={busy || loading || previewBusy !== null}
 													aria-disabled={previewBusy === skill.id}
 													aria-busy={previewBusy === skill.id}
 													onClick={() => void showPreview(skill)}
