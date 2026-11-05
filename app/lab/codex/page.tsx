@@ -58,6 +58,7 @@ export default async function SkillsToolkitPage({
 			initial={initial}
 			initialQuery={q}
 			initialCategory={category}
+			initialView={params.view === "skills" ? "skills" : "folders"}
 			unavailable={unavailable}
 		/>
 	);

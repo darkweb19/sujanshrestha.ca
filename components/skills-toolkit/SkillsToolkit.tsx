@@ -52,11 +52,13 @@ export default function SkillsToolkit({
 	initial,
 	initialQuery = "",
 	initialCategory = "all",
+	initialView = "folders",
 	unavailable = false,
 }: {
 	initial: CatalogPage;
 	initialQuery?: string;
 	initialCategory?: string;
+	initialView?: "folders" | "skills";
 	unavailable?: boolean;
 }) {
 	const [catalog, setCatalog] = useState(initial);
@@ -68,6 +70,8 @@ export default function SkillsToolkit({
 	const [query, setQuery] = useState(initialQuery);
 	const [category, setCategory] = useState(initialCategory);
 	const [page, setPage] = useState(initial.page);
+	const [view, setView] = useState(initialView);
+	const submitImmediately = useRef(false);
 	const [composing, setComposing] = useState(false);
 	const [refresh, setRefresh] = useState(0);
 	const [loading, setLoading] = useState(false);
@@ -139,12 +143,25 @@ export default function SkillsToolkit({
 	}, [selected, harness, unresolved]);
 	const hasErrors = issues.some((issue) => issue.severity === "error");
 	const pages = Math.max(1, Math.ceil(catalog.total / catalog.pageSize));
-	const folderRoot = category === "all" && !query.trim();
+	const folderRoot = category === "all" && !query.trim() && view === "folders";
 	function openFolder(next: string) {
+		if (next === "all") setView("folders");
 		setCategory(next);
 		setPage(1);
 	}
 
+	useEffect(() => {
+		function restoreLocation() {
+			const params = new URLSearchParams(window.location.search);
+			submitImmediately.current = true;
+			setQuery(params.get("q") || "");
+			setCategory(params.get("category") || "all");
+			setPage(Math.max(1, Number(params.get("page")) || 1));
+			setView(params.get("view") === "skills" ? "skills" : "folders");
+		}
+		window.addEventListener("popstate", restoreLocation);
+		return () => window.removeEventListener("popstate", restoreLocation);
+	}, []);
 	const checkSession = useCallback(async () => {
 		setSessionError("");
 		try {
@@ -171,21 +188,23 @@ export default function SkillsToolkit({
 		const controller = new AbortController();
 		const queryChanged = query !== previousQuery.current;
 		previousQuery.current = query;
+		const immediate = submitImmediately.current;
+		submitImmediately.current = false;
 		const timer = setTimeout(
 			() => {
 				setLoading(true);
 				setCatalogError("");
 				const params = new URLSearchParams({
-					page: String(page),
-					pageSize: String(initial.pageSize),
+					...(page > 1 ? { page: String(page) } : {}),
 				});
 				if (query.trim()) params.set("q", query.trim());
 				if (category !== "all") params.set("category", category);
+				if (view === "skills") params.set("view", "skills");
 				const url = new URL(window.location.href);
 				url.search = params.toString();
-				window.history.replaceState(null, "", url);
+				if (url.href !== window.location.href) window.history.pushState(null, "", url);
 				void labRequest<CatalogPage>(`/api/skills?${params}`, {
-					signal: controller.signal,
+					signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15_000)]),
 				})
 					.then((result) => {
 						if (controller.signal.aborted) return;
@@ -208,13 +227,13 @@ export default function SkillsToolkit({
 						if (!controller.signal.aborted) setLoading(false);
 					});
 			},
-			queryChanged && query !== "" ? 300 : 0,
+			!immediate && queryChanged && query !== "" ? 300 : 0,
 		);
 		return () => {
 			clearTimeout(timer);
 			controller.abort();
 		};
-	}, [query, category, page, composing, refresh, initial.pageSize]);
+	}, [query, category, page, view, composing, refresh, initial.pageSize]);
 	const hydrate = useCallback(async (skills: SkillPackage[]) => {
 		const packages = await Promise.all(
 			skills.map((skill) =>
@@ -249,11 +268,6 @@ export default function SkillsToolkit({
 		setQuery("");
 		setPage(1);
 		if (resetCategory) setCategory("all");
-		const url = new URL(window.location.href);
-		url.searchParams.delete("q");
-		url.searchParams.set("page", "1");
-		if (resetCategory) url.searchParams.delete("category");
-		window.history.replaceState(null, "", url);
 		search.current?.focus();
 	}
 	function changeSelection(next: string[]) {
@@ -573,6 +587,7 @@ export default function SkillsToolkit({
 								onKeyDown={(event) => {
 									if (event.key === "Enter" && !event.nativeEvent.isComposing) {
 										event.preventDefault();
+										submitImmediately.current = true;
 										setRefresh((value) => value + 1);
 									}
 								}}
@@ -613,6 +628,7 @@ export default function SkillsToolkit({
 						</div>
 					</div>
 					<nav className={styles.folderBreadcrumb} aria-label="Skill folders">
+						<Button variant="quiet" aria-pressed={view === "skills" && category === "all"} onClick={() => { setView("skills"); setCategory("all"); setPage(1); }}>Browse all skills</Button>
 						<Button variant="quiet" onClick={() => openFolder("all")} aria-current={category === "all" ? "location" : undefined}>All folders</Button>
 						{category !== "all" && <span aria-current="location">/ {category}</span>}
 					</nav>
