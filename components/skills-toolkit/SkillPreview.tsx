@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import {
 	parseSkillFiles,
 	validateSkillPackage,
@@ -9,18 +10,26 @@ import type { SkillPackage } from "@/lib/skills-toolkit/types";
 import { Button, Dialog, ExternalArrow, Feedback } from "./ToolkitPrimitives";
 import styles from "./toolkit.module.css";
 
+const SkillMarkdown = dynamic(() => import("./SkillMarkdown"), {
+	loading: () => <p role="status">Preparing reading view…</p>,
+});
+
 export default function SkillPreview({
 	skill,
 	onClose,
 	onSave,
 	onRemove,
 	canEdit = false,
+	selected = false,
+	onToggle,
 }: {
 	skill: SkillPackage;
 	onClose: () => void;
 	onSave: (skill: SkillPackage) => Promise<void>;
 	onRemove: (skill: SkillPackage) => void;
 	canEdit?: boolean;
+	selected?: boolean;
+	onToggle?: () => void;
 }) {
 	const [files, setFiles] = useState(skill.files);
 	const [path, setPath] = useState("SKILL.md");
@@ -30,10 +39,12 @@ export default function SkillPreview({
 	const [error, setError] = useState("");
 	const [discard, setDiscard] = useState(false);
 	const [saved, setSaved] = useState(false);
+	const [view, setView] = useState<"read" | "source">("read");
 	const dirty = files.some(
 		(file, index) => file.content !== skill.files[index]?.content,
 	);
 	const file = files.find((item) => item.path === path)!;
+	const readable = file.encoding === "utf8" && /\.md$/i.test(path);
 	useEffect(() => {
 		function beforeUnload(event: BeforeUnloadEvent) {
 			if (dirty) event.preventDefault();
@@ -77,6 +88,9 @@ export default function SkillPreview({
 				<span>{skill.source.label}</span>
 			</div>
 			<p className={styles.muted}>{skill.description}</p>
+			{onToggle && <Button variant={selected ? "secondary" : "primary"} onClick={onToggle} aria-pressed={selected}>
+				{selected ? "Remove from selection" : "Add to selection"}
+			</Button>}
 			{skill.source.url &&
 				/^https:\/\/(?:github\.com|raw\.githubusercontent\.com)\//.test(
 					skill.source.url,
@@ -122,6 +136,10 @@ export default function SkillPreview({
 							{expanded ? "Collapse file" : "Expand file"}
 						</Button>
 					</div>
+					{!editing && readable && <div className={styles.readingModes} role="group" aria-label="File display">
+						<Button variant="quiet" aria-pressed={view === "read"} onClick={() => setView("read")}>Read</Button>
+						<Button variant="quiet" aria-pressed={view === "source"} onClick={() => setView("source")}>Source</Button>
+					</div>}
 					{file.encoding === "base64" ? (
 						<div className={styles.empty}>
 							<strong>Binary supporting file</strong>
@@ -150,6 +168,10 @@ export default function SkillPreview({
 								}}
 							/>
 						</>
+					) : readable && view === "read" ? (
+						<div className={`${styles.markdown} ${expanded ? styles.expandedSource : ""}`} role="region" tabIndex={0} aria-label={`${path} rendered Markdown`}>
+							<SkillMarkdown source={file.content} />
+						</div>
 					) : (
 						<pre
 							className={`${styles.source} ${expanded ? styles.expandedSource : ""}`}
@@ -160,8 +182,8 @@ export default function SkillPreview({
 						</pre>
 					)}
 					<p className={styles.help}>
-						Complete source, displayed as text. Imported HTML and scripts never
-						run. When editing, keep the YAML name unchanged.
+						Read formatted Markdown or switch to exact source. Supporting files
+						are available in the file picker. Imported HTML and scripts never run.
 					</p>
 					{issues.length > 0 && (
 						<ul className={styles.issueList}>

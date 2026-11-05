@@ -925,6 +925,8 @@ export default function SkillsToolkit({
 					key={preview.id}
 					skill={preview}
 					canEdit={session.authenticated && !preview.managed}
+					selected={selectedIds.includes(preview.id)}
+					onToggle={() => toggle(known[preview.id] || { ...preview, fileCount: preview.files.length })}
 					onClose={() => setPreviewId(null)}
 					onSave={savePackage}
 					onRemove={() => {

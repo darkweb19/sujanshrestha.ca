@@ -1258,3 +1258,30 @@ a.secondary:hover {
 .rawLink { display: block; width: 100%; min-width: 0; padding: 8px; margin-top: 8px; font-family: var(--font-mono); font-size: 13px; background: var(--color-bg-1); color: var(--color-text-primary); border: 1px solid var(--toolkit-line); border-radius: 6px; }
 
 .button[aria-disabled="true"] { opacity: .6; cursor: progress; }
+
+/* Reading shares the file picker and exact-source editor, with no imported HTML. */
+.readingModes { display: inline-flex; padding: 3px; gap: 2px; border: 1px solid var(--toolkit-line); border-radius: 8px; margin-bottom: 12px; }
+.readingModes .button { min-width: 76px; }
+.readingModes .button[aria-pressed="true"] { background: var(--color-bg-2); color: var(--color-brand-deep); }
+.markdown { height: 420px; overflow: auto; padding: 24px; border: 1px solid var(--toolkit-line); border-radius: 8px; font-size: 15px; line-height: 1.8; overflow-wrap: anywhere; scrollbar-gutter: stable; }
+.markdown > :first-child { margin-top: 0; }
+.markdown :is(h3,h4,h5,h6) { color: var(--color-text-primary); font-weight: 650; line-height: 1.4; margin: 28px 0 12px; letter-spacing: -.025em; }
+.markdown h3 { font-size: 25px; }
+.markdown h4 { font-size: 21px; }
+.markdown :is(h5,h6) { font-size: 17px; }
+.markdown :is(p,ul,ol,pre,table,blockquote) { margin-bottom: 16px; }
+.markdown :is(ul,ol) { padding-left: 24px; }
+.markdown li + li { margin-top: 5px; }
+.markdown li > p { margin-bottom: 6px; }
+.markdown a { color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; }
+.markdown a:hover { color: var(--color-text-primary); }
+.markdown code { padding: 2px 5px; background: var(--color-bg-2); border-radius: 4px; font: .86em/1.7 var(--font-mono); }
+.markdown pre { padding: 16px; background: var(--color-bg-0); border: 1px solid var(--toolkit-line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.markdown pre code { background: none; padding: 0; }
+.markdown blockquote { border-left: 3px solid var(--color-brand); padding-left: 16px; color: var(--color-text-muted); }
+.markdown table { display: block; max-width: 100%; overflow: auto; border-collapse: collapse; font-size: 13px; }
+.markdown :is(th,td) { border: 1px solid var(--toolkit-line); padding: 9px 12px; text-align: left; min-width: 90px; }
+.markdown th { background: var(--color-bg-2); }
+.markdown hr { border: 0; border-top: 1px solid var(--toolkit-line); margin: 24px 0; }
+.markdown.expandedSource { height: 60dvh; }
+@media (max-width: 450px) { .markdown { padding: 16px; height: 50dvh; } }
