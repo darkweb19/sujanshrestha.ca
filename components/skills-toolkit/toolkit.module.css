@@ -1352,3 +1352,13 @@ a.secondary:hover {
 	.toolkit :is(button,a,input,select,textarea,summary) { scroll-margin-block: 104px 110px; }
 }
 @media (max-width: 380px) { .mobileDock { gap: 10px; padding-inline: 16px; } }
+
+.uploadQueue { margin: 14px 0; padding: 12px; border: 1px solid var(--toolkit-line); border-radius: 8px; background: var(--color-bg-0); font-size: 12px; }
+.uploadQueue > p { color: var(--color-text-muted); margin-bottom: 8px; }
+.uploadQueue ul { list-style: none; max-height: 190px; overflow: auto; padding: 0; margin: 0; }
+.uploadQueue li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 7px; border-top: 1px solid var(--toolkit-line); }
+.uploadQueue li > span { min-width: 0; overflow-wrap: anywhere; }
+.uploadQueue strong { font-weight: 550; }
+.uploadQueue small { display: block; color: var(--color-text-muted); margin-top: 3px; }
+.importForm > .primary { min-width: 150px; }
+.importForm .actions > .primary { min-width: 185px; }
