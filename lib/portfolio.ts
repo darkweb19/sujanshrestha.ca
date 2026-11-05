@@ -100,6 +100,7 @@ export type PortfolioProject = {
 	source?: string;
 	live?: string;
 	embed?: string;
+	previewNotice?: string;
 	image?: string;
 	illustration?: "video" | "rust" | "outpost" | "draftforge";
 	category: string;
@@ -162,7 +163,10 @@ export const projects: PortfolioProject[] = [
 			"JavaScript",
 			"Docker",
 		],
-		url: "https://github.com/darkweb19/youtube-extractor-rs",
+		url: "https://youtube-extractor-rs-production.up.railway.app/",
+		live: "https://youtube-extractor-rs-production.up.railway.app/",
+		embed: "https://youtube-extractor-rs-production.up.railway.app/",
+		previewNotice: "The live app currently blocks embedded previews. Open the website to use it in your browser.",
 		source: "https://github.com/darkweb19/youtube-extractor-rs",
 		illustration: "rust",
 		category: "Media tools · Rust",

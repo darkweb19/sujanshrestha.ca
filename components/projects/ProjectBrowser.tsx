@@ -91,6 +91,7 @@ export default function ProjectBrowser({
 				</a>
 			</div>
 			<div className="browser-content">
+				{mode === "preview" && project.previewNotice && <p className="browser-preview-notice">{project.previewNotice} <a href={project.live || project.url} target="_blank" rel="noopener noreferrer">Open live app <Arrow size={14} /></a></p>}
 				{mode === "preview" && project.embed ? (
 					<iframe
 						key={attempt}

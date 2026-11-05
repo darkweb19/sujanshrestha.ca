@@ -1946,3 +1946,9 @@ textarea {
 @media (max-width: 760px) {
 	body:has([data-lab-mobile-selection]) { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 }
+
+.browser-preview-notice { margin: 0; padding: 12px 20px; border-bottom: 1px solid var(--color-glass-border); background: var(--color-bg-2); color: var(--color-text-primary); font-size: 13px; line-height: 1.6; }
+.browser-preview-notice a { display: inline-flex; gap: 6px; align-items: center; min-height: 36px; color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; }
+.browser-preview-notice a:hover { color: var(--color-text-primary); }
+.browser-content:has(.browser-preview-notice) { display: flex; flex-direction: column; }
+.browser-content:has(.browser-preview-notice) .project-live-frame { flex: 1; min-height: 0; }
