@@ -9,8 +9,8 @@
 }
 
 .toolkit {
-	padding-top: 72px;
-	padding-bottom: 72px;
+	padding-top: 28px;
+	padding-bottom: 56px;
 }
 
 .toolkit *,
@@ -33,18 +33,19 @@
 	justify-content: space-between;
 	align-items: flex-end;
 	gap: 24px;
-	padding-block: 24px 44px;
-	border-bottom: 1px solid var(--toolkit-line);
-	margin-bottom: 40px;
+	padding-block: 12px 32px;
+	margin-bottom: 28px;
 }
 
 .backLink {
 	display: inline-flex;
+	align-items: center;
+	min-height: 36px;
 	color: var(--color-text-muted);
-	font-size: 14px;
-	margin-bottom: 40px;
+	font-size: 12px;
+	margin-bottom: 20px;
 	text-decoration: underline;
-	text-underline-offset: 5px;
+	text-underline-offset: 4px;
 }
 
 .backLink:hover,
@@ -59,23 +60,23 @@
 }
 
 .pageHeading h1 {
-	font-size: clamp(42px, 6.5vw, 76px);
-	font-weight: 550;
-	letter-spacing: -0.06em;
-	line-height: 1.15;
-	margin: 0 0 20px;
+	font-size: clamp(42px, 5vw, 64px);
+	font-weight: 650;
+	letter-spacing: -0.065em;
+	line-height: 1.05;
+	margin: 0 0 16px;
 }
 
 .intro {
 	color: var(--color-text-muted);
-	font-size: clamp(17px, 2vw, 21px);
-	line-height: 1.6;
+	font-size: 16px;
+	line-height: 1.7;
 	margin: 0;
 }
 
 .headingAside {
 	padding-bottom: 4px;
-	max-width: 300px;
+	max-width: 390px;
 }
 
 .headingAside p {
@@ -96,9 +97,9 @@
 
 .workspace {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) 360px;
+	grid-template-columns: minmax(0, 1fr) 340px;
 	align-items: start;
-	gap: 48px;
+	gap: 24px;
 }
 
 .library,
@@ -152,14 +153,14 @@
 }
 
 .primary {
-	background: var(--color-text-primary);
-	border-color: var(--color-text-primary);
+	background: var(--color-brand);
+	border-color: var(--color-brand);
 	color: var(--color-bg-1);
 }
 
 .primary:hover:enabled {
-	background: var(--toolkit-action-hover);
-	border-color: var(--toolkit-action-hover);
+	background: var(--color-brand-deep);
+	border-color: var(--color-brand-deep);
 }
 
 .secondary {
@@ -1285,3 +1286,11 @@ a.secondary:hover {
 .markdown hr { border: 0; border-top: 1px solid var(--toolkit-line); margin: 24px 0; }
 .markdown.expandedSource { height: 60dvh; }
 @media (max-width: 450px) { .markdown { padding: 16px; height: 50dvh; } }
+
+.titleDot { color: var(--color-brand); }
+.packageRoute { display: flex; align-items: center; gap: 18px; border: 1px solid var(--toolkit-line); border-radius: 12px; padding: 18px; background: var(--color-bg-1); font-size: 13px; }
+.packageRoute > div { display: flex; align-items: center; gap: 10px; }
+.packageRoute small { display: block; color: var(--color-text-muted); font-size: 11px; margin-top: 5px; }
+.packageGlyph, .agentGlyph { display: grid; place-items: center; width: 32px; height: 36px; border-radius: 6px; background: var(--color-bg-2); color: var(--color-brand-deep); font: 24px var(--font-mono); }
+.headingAside .sourceLink { margin-top: 12px; justify-content: flex-end; font-size: 12px; min-height: 36px; }
+@media (max-width: 760px) { .packageRoute { display: none; } .headingAside .sourceLink { margin: 0; } }

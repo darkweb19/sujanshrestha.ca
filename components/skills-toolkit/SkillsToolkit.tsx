@@ -464,28 +464,29 @@ export default function SkillsToolkit({
 					<Link href="/#projects" className={styles.backLink}>
 						Back to my work
 					</Link>
-					<p className={styles.eyebrow}>Lab / AI tools</p>
-					<h1 className="display-title">Skills Toolkit</h1>
+					<p className={styles.eyebrow}>Lab / Agent skills</p>
+					<h1 className="display-title">Skills Lab<span className={styles.titleDot}>.</span></h1>
 					<p className={styles.intro}>
-						Good instructions travel.
+						Reusable expertise for your coding agent.
 						<br />
-						Build a collection for your next repository.
+						Find your skills. Build your toolkit. Take it with you.
 					</p>
 				</div>
 				<div className={styles.headingAside}>
+					<div className={styles.packageRoute} aria-label="Complete skill packages, ready for your agent">
+						<div><span className={styles.packageGlyph} aria-hidden="true">◇</span><span>SKILL.md<small>+ supporting files</small></span></div>
+						<span aria-hidden="true">→</span>
+						<div><span className={styles.agentGlyph} aria-hidden="true">↳</span><span>Your repository<small>Ready for your agent</small></span></div>
+					</div>
 					<a
 						href="https://github.com/darkweb19/skills"
 						target="_blank"
 						rel="noopener noreferrer"
 						className={styles.sourceLink}
 					>
-						Explore the source collection <ExternalArrow />
+						View source collection <ExternalArrow />
 					</a>
-					<p>
-						Codex, Claude Code, Cursor, and Copilot.
-						<br />
-						Original instructions. Complete packages.
-					</p>
+
 				</div>
 			</header>
 			{message && <Feedback>{message}</Feedback>}
