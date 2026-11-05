@@ -100,7 +100,7 @@ export default function ProjectBrowser({
 						title={`${project.title} live website`}
 						src={project.embed}
 						className="project-live-frame"
-						sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+						sandbox={`allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox${project.id === "youtube-extractor" ? " allow-downloads" : ""}`}
 						referrerPolicy="no-referrer"
 					/>
 				) : (
