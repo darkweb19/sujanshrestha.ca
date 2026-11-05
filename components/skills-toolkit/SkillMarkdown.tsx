@@ -1,7 +1,8 @@
 "use client";
 
 import { renderSkillMarkdown } from "@/lib/skills-toolkit/markdown";
+import { useMemo } from "react";
 
 export default function SkillMarkdown({ source }: { source: string }) {
-	return renderSkillMarkdown(source);
+	return useMemo(() => renderSkillMarkdown(source), [source]);
 }

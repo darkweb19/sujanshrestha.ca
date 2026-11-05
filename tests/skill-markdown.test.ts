@@ -6,7 +6,7 @@ import { renderSkillMarkdown } from "../lib/skills-toolkit/markdown";
 test("skill reading view formats Markdown and omits frontmatter without changing source", () => {
 	const source = '---\nname: example\ndescription: A skill\n---\n# Read me\n\n- **Review** first\n\n```ts\nconst safe = true;\n```\n\n| File | Role |\n| --- | --- |\n| SKILL.md | Entry |';
 	const html = renderToStaticMarkup(renderSkillMarkdown(source));
-	assert.match(html, /<h3>Read me<\/h3>/);
+	assert.match(html, /<h3 id="skill-md-read-me">Read me<\/h3>/);
 	assert.match(html, /<strong>Review<\/strong>/);
 	assert.match(html, /<pre><code>const safe = true;/);
 	assert.match(html, /<table>/);
@@ -34,4 +34,11 @@ test("document separators and hard line breaks render as void elements", () => {
 	const html = renderToStaticMarkup(renderSkillMarkdown('Before\n\n---\n\nFirst  \nSecond'));
 	assert.match(html, /<hr\/>/);
 	assert.match(html, /<br\/>/);
+});
+
+test("table of contents links target generated headings without accepting arbitrary IDs", () => {
+	const html = renderToStaticMarkup(renderSkillMarkdown('[Workflow](#workflow)\n\n## Workflow\n\n## Workflow'));
+	assert.match(html, /href="#skill-md-workflow"/);
+	assert.match(html, /id="skill-md-workflow"/);
+	assert.match(html, /id="skill-md-workflow-1"/);
 });
