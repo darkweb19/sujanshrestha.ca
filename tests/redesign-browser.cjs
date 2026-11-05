@@ -104,10 +104,12 @@ function verifyArchive(filename, root, skill) {
     await page.getByRole('button', { name: `Preview ${selectedName}`, exact: true }).click();
     await page.getByRole('dialog').waitFor({ state: 'visible' });
     const source = selectedPackage.files.find(file => file.path === 'SKILL.md');
+    assert.ok(await page.getByLabel('SKILL.md rendered Markdown', { exact: true }).isVisible());
+    await page.getByRole('button', { name: 'Source', exact: true }).click();
     assert.equal(await page.getByLabel('SKILL.md complete source', { exact: true }).textContent(), source.content);
     await page.keyboard.press('Escape');
     await page.getByRole('dialog').waitFor({ state: 'detached' });
-    checks.push('Preview displays complete source and Escape closes the dialog');
+    checks.push('Preview opens readable Markdown, retains exact complete source, and Escape closes the dialog');
 
     await page.getByLabel('Search skills', { exact: true }).fill('no-skill-should-match-this-qa-query');
     await page.getByRole('heading', { name: 'No skills match your filters', exact: true }).waitFor();
@@ -145,8 +147,20 @@ function verifyArchive(filename, root, skill) {
       const uploadDialog = page.getByRole('dialog', { name: 'Upload skills', exact: true });
       await uploadDialog.waitFor();
       assert.ok(await uploadDialog.getByLabel('SKILL.md or ZIP archives', { exact: true }).isVisible());
+      await uploadDialog.getByRole('button', { name: 'Upload files', exact: true }).click();
+      await uploadDialog.getByRole('alert').filter({ hasText: 'Choose a SKILL.md file' }).waitFor();
+      assert.equal(await uploadDialog.getByLabel('SKILL.md or ZIP archives', { exact: true }).evaluate(node => node === document.activeElement), true);
+      await uploadDialog.getByLabel('SKILL.md or ZIP archives', { exact: true }).setInputFiles([
+        { name: 'queue-retained.md', mimeType: 'text/markdown', buffer: Buffer.from('Queued draft retained until upload.') },
+        { name: 'queue-removed.md', mimeType: 'text/markdown', buffer: Buffer.from('Draft removed before any network write.') },
+      ]);
+      const queue = uploadDialog.getByRole('list', { name: 'Upload queue', exact: true });
+      assert.equal(await queue.locator('li').count(), 2);
+      await queue.getByRole('button', { name: 'Remove queue-removed.md from upload queue', exact: true }).click();
+      assert.equal(await queue.locator('li').count(), 1);
+      assert.ok(await queue.getByText('queue-retained.md', { exact: true }).isVisible());
       await uploadDialog.getByRole('button', { name: 'Close dialog', exact: true }).click();
-      checks.push('Visible upload entry leads through owner sign-in directly to the actual file field');
+      checks.push('Upload entry continues through owner sign-in; empty submission focuses validation and queued files can be removed independently before upload');
       const session = await (await context.request.get(baseURL + '/api/lab/session')).json();
       assert.equal(session.authenticated, true); assert.ok(session.csrfToken);
 
@@ -197,15 +211,18 @@ function verifyArchive(filename, root, skill) {
         let releaseSave;
         const saveBarrier = new Promise(resolve => { releaseSave = resolve; });
         const editPath = '**/api/skills/' + encodeURIComponent(saved.id);
-        await page.route(editPath, async route => { if (route.request().method() === 'PATCH') await saveBarrier; await route.continue(); });
+        await page.route(editPath, async route => { if (route.request().method() === 'PUT') await saveBarrier; await route.continue(); });
+        const saveResponse = page.waitForResponse(response => response.url().endsWith(encodeURIComponent(saved.id)) && response.request().method() === 'PUT');
         await page.getByRole('button', { name: 'Save changes', exact: true }).click();
         await page.getByRole('button', { name: 'Close dialog', exact: true }).isDisabled().then(disabled => assert.equal(disabled, true));
         await page.mouse.click(4, 4);
         await page.keyboard.press('Escape');
         assert.equal(await page.getByRole('dialog').isVisible(), true, 'Pending save blocks outside click and Escape');
         releaseSave();
+        assert.equal((await saveResponse).status(), 200);
         await page.unroute(editPath);
         checks.push('Dirty editors retain drafts on outside click and pending saves block backdrop/Escape dismissal');
+        await page.getByRole('button', { name: 'Source', exact: true }).click();
         await page.getByLabel('SKILL.md complete source', { exact: true }).filter({ hasText: 'BROWSER_EDIT_PERSISTED' }).waitFor();
         await page.keyboard.press('Escape');
         const second = await browser.newContext({ ignoreHTTPSErrors: process.env.TOOLKIT_HTTPS_TEST === '1' });

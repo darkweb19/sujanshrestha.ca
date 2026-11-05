@@ -1277,6 +1277,9 @@ a.secondary:hover {
 .markdown :is(h5,h6) { font-size: 17px; }
 .markdown :is(p,ul,ol,pre,table,blockquote) { margin-bottom: 16px; }
 .markdown :is(ul,ol) { padding-left: 24px; }
+.markdown ul { list-style: disc; }
+.markdown ol { list-style: decimal; }
+.markdown ul ul { list-style: circle; }
 .markdown li + li { margin-top: 5px; }
 .markdown li > p { margin-bottom: 6px; }
 .markdown a { color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; }
