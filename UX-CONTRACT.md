@@ -33,6 +33,13 @@ Selection begins empty and is independent of query/page. Select all shown adds t
 
 ## Archive and prompt
 
+The named selection list is owned by `SelectionSummary`, with individual remove
+buttons. It stays independent of filters and page. The desktop inspector owns
+bounded overflow below the header; a fixed mobile summary exposes count, agent,
+Review and Download ZIP. Review focuses the archive heading, and body safe-area
+padding keeps footer controls reachable. Archive contents are an explicit
+disclosure. Loading failures preserve selections and expose Retry packages.
+
 Exports freeze the selected set and harness while validating/loading packages. Failure retains selection and gives retry. ZIP root paths come from canonical harness adapters: `.agents`, `.claude`, `.cursor`, or `.github`. Every selected supporting byte is retained; compatibility warnings remain visible. Downloading a ZIP never claims installation.
 
 Prompt requirements are mandatory and a missing task receives focused feedback. Prompt paths derive from the adapter, not duplicated UI path maps. Until the user explicitly asserts installation in the target repository, generated text requires verification/installation. Task, selection, harness and confirmation changes mark an existing prompt stale. Clipboard failure preserves and focuses editable text. Codex Web is a plain external link without prompt or installation query parameters.
@@ -58,6 +65,23 @@ Browser-local imports are never silently discarded. Recover browser imports expl
 Native semantic controls, explicit labels, visible focus, status/alert announcements and native dialog focus containment are mandatory. Escape and focus restoration work. Dialogs stay within viewport; long source/path text never expands page width. Small screens stack library/archive. Reduced motion and forced colors follow shared runtime styles. No meaning or action is hover-only; no browser alert/confirm/prompt is used.
 
 `tests/redesign-browser.cjs` owns current real-browser public and owner workflows; `tests/toolkit-browser.cjs` remains its compatible entrypoint. Owner tests require a privately supplied local fixture and are explicitly skipped when unavailable. `tests/backend*.test.ts` and existing archive/harness/catalog tests own security, transactions, persistence, exact file bytes and stale writes. `scripts/measure-portfolio.cjs` records actual axe/Lighthouse/screenshots. See `docs/redesign-verification.md`; static audits never establish browser correctness.
+
+`tests/premium-lab-browser.cjs` adds cross-category multi-selection, exact
+two-package ZIPs for all four harnesses, summary removal, readable/source views,
+mobile selection reachability, history restoration, failed catalog/detail retry
+and axe coverage. Reading is the default for Markdown; Source shows exact stored
+text. `lib/skills-toolkit/markdown.tsx` maps an allowlisted AST into escaped React
+nodes, drops raw HTML, disallows unsafe URLs and external images, and generates
+prefixed heading IDs for contents links. No `dangerouslySetInnerHTML` is used.
+The renderer loads only when a skill is previewed; non-Markdown and binary files
+retain their existing safe viewing rules. Preview has shared selection actions.
+
+Folder/all-skills view is persisted with `view=skills`; default remains folders.
+Committed catalog changes push history; popstate restores query/category/page/view
+without pushing another entry. Enter bypasses search debounce. Catalog requests
+are canceled when superseded and have a bounded timeout. While results are being
+replaced, stale cards cannot change selection. Owner upload queues show filename,
+size and remove actions; transport and server validation remain canonical.
 
 ## Public project exploration
 
