@@ -59,3 +59,4 @@ next-env.d.ts
 # Local development SQLite and generated QA evidence
 /.local/
 /qa-artifacts/
+/work/

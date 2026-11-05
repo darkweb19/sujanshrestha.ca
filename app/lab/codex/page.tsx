@@ -6,18 +6,18 @@ import type { CatalogPage } from "@/lib/skills-toolkit/client-api";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const metadata: Metadata = {
-	title: "AI Skills Toolkit",
+	title: "Skills Lab",
 	description:
 		"Explore complete AI coding skill packages. Select, preview, and export instructions for Codex, Claude Code, Cursor, and GitHub Copilot.",
 	alternates: { canonical: "/lab/codex" },
 	twitter: {
 		card: "summary_large_image",
-		title: "Skills Toolkit | Sujan Shrestha",
+		title: "Skills Lab | Sujan Shrestha",
 		description:
 			"Complete AI skill packages for Codex, Claude Code, Cursor, and GitHub Copilot.",
 	},
 	openGraph: {
-		title: "Skills Toolkit | Sujan Shrestha",
+		title: "Skills Lab | Sujan Shrestha",
 		description:
 			"Good instructions travel. A practical AI coding skill library with complete packages for your next repository.",
 		url: "/lab/codex",
@@ -58,6 +58,7 @@ export default async function SkillsToolkitPage({
 			initial={initial}
 			initialQuery={q}
 			initialCategory={category}
+			initialView={params.view === "skills" ? "skills" : "folders"}
 			unavailable={unavailable}
 		/>
 	);

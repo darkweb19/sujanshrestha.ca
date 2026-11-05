@@ -91,6 +91,7 @@ export default function ProjectBrowser({
 				</a>
 			</div>
 			<div className="browser-content">
+				{mode === "preview" && project.previewNotice && <p className="browser-preview-notice">{project.previewNotice} <a href={project.live || project.url} target="_blank" rel="noopener noreferrer">Open live app <Arrow size={14} /></a></p>}
 				{mode === "preview" && project.embed ? (
 					<iframe
 						key={attempt}
@@ -99,7 +100,7 @@ export default function ProjectBrowser({
 						title={`${project.title} live website`}
 						src={project.embed}
 						className="project-live-frame"
-						sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+						sandbox={`allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox${project.id === "youtube-extractor" ? " allow-downloads" : ""}`}
 						referrerPolicy="no-referrer"
 					/>
 				) : (

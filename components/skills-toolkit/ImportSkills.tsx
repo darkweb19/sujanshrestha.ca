@@ -20,6 +20,7 @@ export default function ImportSkills({
 	const [error, setError] = useState("");
 	const [errorField, setErrorField] = useState<"local" | "github" | null>(null);
 	const abort = useRef<AbortController | null>(null);
+	const picker = useRef<HTMLInputElement>(null);
 	function fail(message: string, kind: "local" | "github") {
 		setError(message);
 		setErrorField(kind);
@@ -39,6 +40,10 @@ export default function ImportSkills({
 		}
 		if (kind === "local" && files.length > 20) {
 			fail("Choose no more than 20 files per import batch.", kind);
+			return;
+		}
+		if (kind === "local" && files.some((file) => !/\.(md|zip)$/i.test(file.name) || file.size === 0)) {
+			fail("Choose non-empty Markdown (.md) or ZIP (.zip) files. Remove unsupported files from the queue.", kind);
 			return;
 		}
 		if (
@@ -96,12 +101,14 @@ export default function ImportSkills({
 			)}
 			<form
 				noValidate
+				aria-busy={busy === "local"}
 				onSubmit={(event) => void run("local", event)}
 				className={styles.importForm}
 			>
 				<h3>From your computer</h3>
 				<label htmlFor="skill-upload">SKILL.md or ZIP archives</label>
 				<input
+					ref={picker}
 					id="skill-upload"
 					type="file"
 					accept=".md,.zip,text/markdown,application/zip"
@@ -111,17 +118,28 @@ export default function ImportSkills({
 					aria-invalid={errorField === "local" || undefined}
 					aria-describedby={`upload-help${errorField === "local" ? " import-error" : ""}`}
 				/>
+				{files.length > 0 && <div className={styles.uploadQueue}>
+					<p role="status">{files.length} {files.length === 1 ? "file" : "files"} queued · {(files.reduce((total, file) => total + file.size, 0) / 1024 / 1024).toFixed(2)} MB</p>
+					<ul aria-label="Upload queue">{files.map((file, index) => <li key={`${file.name}-${index}`}>
+						<span><strong>{file.name}</strong><small>{(file.size / 1024).toFixed(1)} KB</small></span>
+						<Button variant="quiet" disabled={!!busy} aria-label={`Remove ${file.name} from upload queue`} onClick={() => {
+							setFiles((previous) => previous.filter((_, position) => position !== index));
+							if (picker.current) { picker.current.value = ""; picker.current.focus(); }
+						}}>Remove</Button>
+					</li>)}</ul>
+				</div>}
 				<p id="upload-help" className={styles.help}>
 					Up to 20 uploads and 10 MB total per batch. Each package supports 256
 					files, 2 MB per file, and 25 MB unpacked. ZIPs keep supporting files
 					inside each skill directory.
 				</p>
-				<Button type="submit" variant="primary" disabled={!!busy}>
+				<Button type="submit" variant="primary" disabled={!!busy} aria-busy={busy === "local"}>
 					{busy === "local" ? "Uploading files…" : "Upload files"}
 				</Button>
 			</form>
 			<form
 				noValidate
+				aria-busy={busy === "github"}
 				onSubmit={(event) => void run("github", event)}
 				className={styles.importForm}
 			>
@@ -143,7 +161,7 @@ export default function ImportSkills({
 					unavailable, download its ZIP and import the file above.
 				</p>
 				<div className={styles.actions}>
-					<Button type="submit" variant="primary" disabled={!!busy}>
+					<Button type="submit" variant="primary" disabled={!!busy} aria-busy={busy === "github"}>
 						{busy === "github"
 							? "Importing from GitHub…"
 							: "Import from GitHub"}

@@ -20,6 +20,7 @@ import { rawSkillUrl } from "@/lib/skills-toolkit/skill-links";
 import { validateSelection } from "@/lib/skills-toolkit/validation";
 import type { HarnessId, SkillPackage } from "@/lib/skills-toolkit/types";
 import ArchiveTree from "./ArchiveTree";
+import SelectionSummary from "./SelectionSummary";
 import ImportSkills from "./ImportSkills";
 import SkillPreview from "./SkillPreview";
 import PromptLauncher from "./PromptLauncher";
@@ -28,6 +29,18 @@ import { Button, Dialog, ExternalArrow, Feedback } from "./ToolkitPrimitives";
 import styles from "./toolkit.module.css";
 
 type LoadedSkill = SkillPackage & { managed: boolean; revision: number };
+const categoryNotes: Record<string, string> = {
+	"Business & product": "Strategy, planning & delivery",
+	"Data & AI": "Data systems & model workflows",
+	Design: "Research, interfaces & usability",
+	Engineering: "Architecture, code & quality",
+	Finance: "Financial analysis & operations",
+	General: "Cross-disciplinary workflows",
+	Infrastructure: "Cloud, deployment & reliability",
+	Leadership: "Teams, decisions & direction",
+	Marketing: "Content, growth & discovery",
+	Security: "Threats, audits & hardening",
+};
 const defaultSession: OwnerSession = {
 	authenticated: false,
 	configured: false,
@@ -52,11 +65,13 @@ export default function SkillsToolkit({
 	initial,
 	initialQuery = "",
 	initialCategory = "all",
+	initialView = "folders",
 	unavailable = false,
 }: {
 	initial: CatalogPage;
 	initialQuery?: string;
 	initialCategory?: string;
+	initialView?: "folders" | "skills";
 	unavailable?: boolean;
 }) {
 	const [catalog, setCatalog] = useState(initial);
@@ -68,6 +83,8 @@ export default function SkillsToolkit({
 	const [query, setQuery] = useState(initialQuery);
 	const [category, setCategory] = useState(initialCategory);
 	const [page, setPage] = useState(initial.page);
+	const [view, setView] = useState(initialView);
+	const submitImmediately = useRef(false);
 	const [composing, setComposing] = useState(false);
 	const [refresh, setRefresh] = useState(0);
 	const [loading, setLoading] = useState(false);
@@ -139,12 +156,27 @@ export default function SkillsToolkit({
 	}, [selected, harness, unresolved]);
 	const hasErrors = issues.some((issue) => issue.severity === "error");
 	const pages = Math.max(1, Math.ceil(catalog.total / catalog.pageSize));
-	const folderRoot = category === "all" && !query.trim();
+	const folderRoot = category === "all" && !query.trim() && view === "folders";
 	function openFolder(next: string) {
+		if (category === next && page === 1 && (next !== "all" || view === "folders")) return;
+		setLoading(true);
+		if (next === "all") setView("folders");
 		setCategory(next);
 		setPage(1);
 	}
 
+	useEffect(() => {
+		function restoreLocation() {
+			const params = new URLSearchParams(window.location.search);
+			submitImmediately.current = true;
+			setQuery(params.get("q") || "");
+			setCategory(params.get("category") || "all");
+			setPage(Math.max(1, Number(params.get("page")) || 1));
+			setView(params.get("view") === "skills" ? "skills" : "folders");
+		}
+		window.addEventListener("popstate", restoreLocation);
+		return () => window.removeEventListener("popstate", restoreLocation);
+	}, []);
 	const checkSession = useCallback(async () => {
 		setSessionError("");
 		try {
@@ -171,21 +203,25 @@ export default function SkillsToolkit({
 		const controller = new AbortController();
 		const queryChanged = query !== previousQuery.current;
 		previousQuery.current = query;
+		const immediate = submitImmediately.current;
+		submitImmediately.current = false;
 		const timer = setTimeout(
 			() => {
 				setLoading(true);
 				setCatalogError("");
 				const params = new URLSearchParams({
-					page: String(page),
-					pageSize: String(initial.pageSize),
+					...(page > 1 ? { page: String(page) } : {}),
 				});
 				if (query.trim()) params.set("q", query.trim());
 				if (category !== "all") params.set("category", category);
+				if (view === "skills") params.set("view", "skills");
 				const url = new URL(window.location.href);
 				url.search = params.toString();
-				window.history.replaceState(null, "", url);
-				void labRequest<CatalogPage>(`/api/skills?${params}`, {
-					signal: controller.signal,
+				if (url.href !== window.location.href) window.history.pushState(null, "", url);
+				const requestParams = new URLSearchParams(params);
+				requestParams.set("pageSize", String(initial.pageSize));
+				void labRequest<CatalogPage>(`/api/skills?${requestParams}`, {
+					signal: AbortSignal.any([controller.signal, AbortSignal.timeout(15_000)]),
 				})
 					.then((result) => {
 						if (controller.signal.aborted) return;
@@ -208,13 +244,13 @@ export default function SkillsToolkit({
 						if (!controller.signal.aborted) setLoading(false);
 					});
 			},
-			queryChanged && query !== "" ? 300 : 0,
+			!immediate && queryChanged && query !== "" ? 300 : 0,
 		);
 		return () => {
 			clearTimeout(timer);
 			controller.abort();
 		};
-	}, [query, category, page, composing, refresh, initial.pageSize]);
+	}, [query, category, page, view, composing, refresh, initial.pageSize]);
 	const hydrate = useCallback(async (skills: SkillPackage[]) => {
 		const packages = await Promise.all(
 			skills.map((skill) =>
@@ -249,11 +285,6 @@ export default function SkillsToolkit({
 		setQuery("");
 		setPage(1);
 		if (resetCategory) setCategory("all");
-		const url = new URL(window.location.href);
-		url.searchParams.delete("q");
-		url.searchParams.set("page", "1");
-		if (resetCategory) url.searchParams.delete("category");
-		window.history.replaceState(null, "", url);
 		search.current?.focus();
 	}
 	function changeSelection(next: string[]) {
@@ -450,28 +481,29 @@ export default function SkillsToolkit({
 					<Link href="/#projects" className={styles.backLink}>
 						Back to my work
 					</Link>
-					<p className={styles.eyebrow}>Lab / AI tools</p>
-					<h1 className="display-title">Skills Toolkit</h1>
+					<p className={styles.eyebrow}>Lab / Agent skills</p>
+					<h1 className="display-title">Skills Lab<span className={styles.titleDot}>.</span></h1>
 					<p className={styles.intro}>
-						Good instructions travel.
+						Reusable expertise for your coding agent.
 						<br />
-						Build a collection for your next repository.
+						Find your skills. Build your toolkit. Take it with you.
 					</p>
 				</div>
 				<div className={styles.headingAside}>
+					<div className={styles.packageRoute} aria-label="Complete skill packages, ready for your agent">
+						<div><span className={styles.packageGlyph} aria-hidden="true">◇</span><span>SKILL.md<small>+ supporting files</small></span></div>
+						<span aria-hidden="true">→</span>
+						<div><span className={styles.agentGlyph} aria-hidden="true">↳</span><span>Your repository<small>Ready for your agent</small></span></div>
+					</div>
 					<a
 						href="https://github.com/darkweb19/skills"
 						target="_blank"
 						rel="noopener noreferrer"
 						className={styles.sourceLink}
 					>
-						Explore the source collection <ExternalArrow />
+						View source collection <ExternalArrow />
 					</a>
-					<p>
-						Codex, Claude Code, Cursor, and Copilot.
-						<br />
-						Original instructions. Complete packages.
-					</p>
+
 				</div>
 			</header>
 			{message && <Feedback>{message}</Feedback>}
@@ -489,6 +521,13 @@ export default function SkillsToolkit({
 					</Button>
 				</Feedback>
 			)}
+			{selected.length > 0 && <div className={styles.mobileDock} data-lab-mobile-selection role="region" aria-label="Selection summary">
+				<div><strong>{selected.length} selected</strong><small>{harness.name}</small></div>
+				<a href="#archive-heading" onClick={() => document.getElementById("archive-heading")?.focus()}>Review</a>
+				<Button variant="primary" disabled={hasErrors || busy || unresolved} aria-busy={busy} onClick={() => void download()} aria-label="Download ZIP">
+					{busy ? "Preparing…" : "Download ZIP"}
+				</Button>
+			</div>}
 			<div className={styles.workspace}>
 				<section className={styles.library} aria-labelledby="library-heading">
 					<div className={styles.sectionHeading}>
@@ -573,10 +612,12 @@ export default function SkillsToolkit({
 								onKeyDown={(event) => {
 									if (event.key === "Enter" && !event.nativeEvent.isComposing) {
 										event.preventDefault();
+										submitImmediately.current = true;
 										setRefresh((value) => value + 1);
 									}
 								}}
 								onChange={(event) => {
+									setLoading(true);
 									setQuery(event.target.value);
 									setPage(1);
 								}}
@@ -601,6 +642,7 @@ export default function SkillsToolkit({
 								id="skill-category"
 								value={category}
 								onChange={(event) => {
+									setLoading(true);
 									setCategory(event.target.value);
 									setPage(1);
 								}}
@@ -613,6 +655,7 @@ export default function SkillsToolkit({
 						</div>
 					</div>
 					<nav className={styles.folderBreadcrumb} aria-label="Skill folders">
+						<Button variant="quiet" aria-pressed={view === "skills" && category === "all"} onClick={() => { setView("skills"); setCategory("all"); setPage(1); }}>Browse all skills</Button>
 						<Button variant="quiet" onClick={() => openFolder("all")} aria-current={category === "all" ? "location" : undefined}>All folders</Button>
 						{category !== "all" && <span aria-current="location">/ {category}</span>}
 					</nav>
@@ -662,13 +705,14 @@ export default function SkillsToolkit({
 						</Feedback>
 					)}
 					<div aria-busy={loading} className={styles.results}>
+						{loading && <div className={styles.loadingLine} role="status"><span className={styles.spinner} aria-hidden="true" /> Updating skills…</div>}
 						{folderRoot && !catalogError ? (
 							<div>
 								<p className={styles.help}>Open a folder to browse skills, or search across the collection.</p>
 								<div className={styles.folderGrid}>
 									{catalog.categories.map((item) => <button key={item} type="button" className={styles.folder} onClick={() => openFolder(item)} aria-label={`Open ${item} folder`}>
 										<svg aria-hidden="true" width="32" height="28" viewBox="0 0 32 28" fill="none"><path d="M2 7V4a2 2 0 0 1 2-2h8l3 4h13a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7Z" fill="currentColor" opacity=".15"/><path d="M2 10h28M2 7V4a2 2 0 0 1 2-2h8l3 4h13a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7Z" stroke="currentColor" strokeWidth="1.5"/></svg>
-										<span>{item}</span><ExternalArrow />
+										<span>{item}<small>{categoryNotes[item] || "Explore skill packages"}</small></span><ExternalArrow />
 									</button>)}
 								</div>
 							</div>
@@ -683,7 +727,7 @@ export default function SkillsToolkit({
 											<input
 												id={`select-${skill.id}`}
 												type="checkbox"
-												disabled={busy}
+												disabled={busy || loading}
 												checked={selectedIds.includes(skill.id)}
 												onChange={() => toggle(skill)}
 												aria-label={`Select ${skill.name}`}
@@ -702,12 +746,12 @@ export default function SkillsToolkit({
 											<div className={styles.skillCardFooter}>
 												<span className={styles.skillSource}>
 													{skill.managed ? "Source collection" : "Owner import"}
-													<span>{skill.fileCount} files · Click to copy link</span>
+													<span>{skill.fileCount} {skill.fileCount === 1 ? "file" : "files"}</span>
 												</span>
 												<a className={styles.rawSourceLink} href={rawSkillUrl(skill)} target="_blank" rel="noopener noreferrer">Raw Markdown</a>
 												<Button
 													variant="quiet"
-													disabled={busy}
+													disabled={busy || loading || (previewBusy !== null && previewBusy !== skill.id)}
 													aria-disabled={previewBusy === skill.id}
 													aria-busy={previewBusy === skill.id}
 													onClick={() => void showPreview(skill)}
@@ -756,9 +800,10 @@ export default function SkillsToolkit({
 					aria-labelledby="archive-heading"
 				>
 					<div className={styles.archiveHeader}>
-						<h2 id="archive-heading">Your archive</h2>
+						<p className={styles.eyebrow}>Export toolkit</p>
+						<h2 id="archive-heading" tabIndex={-1}>Your selection <span className={styles.selectionCount}>{selected.length}</span></h2>
 						<p className={styles.muted}>
-							Choose an agent. Take the complete instructions with you.
+							One ZIP, ready for your repository.
 						</p>
 					</div>
 					<div className={styles.field}>
@@ -793,34 +838,11 @@ export default function SkillsToolkit({
 							files
 						</span>
 					</div>
-					<ArchiveTree skills={selected} harness={harness} />
-					{unresolved && (
-						<p className={styles.help} role="status">
-							Loading complete packages…
-						</p>
-					)}
-					{issues.length > 0 && (
-						<details className={styles.validation} open={hasErrors}>
-							<summary>
-								{hasErrors
-									? "Resolve validation errors"
-									: `${issues.length} compatibility ${issues.length === 1 ? "note" : "notes"}`}
-							</summary>
-							<ul className={styles.issueList}>
-								{issues.map((issue, index) => (
-									<li key={index}>
-										<strong>
-											{issue.severity === "error" ? "Error" : "Warning"}:
-										</strong>{" "}
-										{issue.message}
-									</li>
-								))}
-							</ul>
-						</details>
-					)}
+					<SelectionSummary skills={selected} busy={busy} onRemove={(id) => changeSelection(selectedIds.filter((selectedId) => selectedId !== id))} />
 					<Button
 						variant="primary"
 						className={styles.download}
+						aria-busy={busy}
 						disabled={!selected.length || hasErrors || busy || unresolved}
 						onClick={() => void download()}
 					>
@@ -842,6 +864,35 @@ export default function SkillsToolkit({
 					<p className={styles.downloadNote}>
 						Only selected skills. Every supporting file.
 					</p>
+					<details className={styles.archiveContents}>
+						<summary>Archive contents <code>{harness.skillRoot}/</code></summary>
+						<ArchiveTree skills={selected} harness={harness} />
+					</details>
+					{unresolved && (
+						<p className={styles.help} role="status">
+							Loading complete packages…
+							{error && <Button variant="quiet" onClick={() => { setError(""); void hydrate(selected).catch((cause) => setError(messageOf(cause, "Could not load packages. Try again."))); }}>Retry packages</Button>}
+						</p>
+					)}
+					{issues.length > 0 && (
+						<details className={styles.validation} open={hasErrors}>
+							<summary>
+								{hasErrors
+									? "Resolve validation errors"
+									: `${issues.length} compatibility ${issues.length === 1 ? "note" : "notes"}`}
+							</summary>
+							<ul className={styles.issueList}>
+								{issues.map((issue, index) => (
+									<li key={index}>
+										<strong>
+											{issue.severity === "error" ? "Error" : "Warning"}:
+										</strong>{" "}
+										{issue.message}
+									</li>
+								))}
+							</ul>
+						</details>
+					)}
 					<details className={styles.installation}>
 						<summary>Install in your repository</summary>
 						<ol>
@@ -909,6 +960,8 @@ export default function SkillsToolkit({
 					key={preview.id}
 					skill={preview}
 					canEdit={session.authenticated && !preview.managed}
+					selected={selectedIds.includes(preview.id)}
+					onToggle={() => toggle(known[preview.id] || { ...preview, fileCount: preview.files.length })}
 					onClose={() => setPreviewId(null)}
 					onSave={savePackage}
 					onRemove={() => {

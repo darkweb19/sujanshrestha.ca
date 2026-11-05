@@ -69,6 +69,21 @@ Shared shell: `Navbar`, `Footer`, global `.section-container`, `.portfolio-secti
 
 Lab data comes from SQLite through server queries and API handlers; public users browse/export, authenticated owner actions persist changes. See `UX-CONTRACT.md` for behavior and `docs/railway-sqlite.md` for permissions and persistence. Imported text is displayed as text, and script assets remain inert. Category folders are the default Lab view, styled as quiet white surfaces with cobalt folder outlines. Display-only taxonomy lives in `lib/skills-toolkit/categories.ts`; stored Markdown is unchanged. Card titles own a stretched copy-link button, while checkboxes, raw-source links and Preview remain independent controls.
 
+The November Skills Lab refinement uses the same runtime palette and typefaces;
+no global brand token changes. A compact introduction includes a package-to-agent
+diagram representing the actual workflow. The library is a white 12px panel with
+scannable rows, category folders and an explicit all-skills view. Cobalt is the
+primary export action and selection edge. The white export inspector contains a
+named selection list with independent remove actions, target harness, download,
+and disclosed archive tree. Desktop sticks below the header with internal overflow
+in short viewports; mobile uses a safe-area-aware fixed summary and reserves body
+space so footer controls remain reachable. Reading uses the same typography,
+clear heading levels, bordered code blocks and scrollable tables; exact source and
+owner editing remain available. See `docs/skills-lab-design.md` for alternatives
+and evidence. `SelectionSummary` owns named selections; `SkillMarkdown` lazily
+loads the safe React renderer. Shared primitives continue to own buttons,
+feedback and native dialogs.
+
 ## Motion
 
 The hero background is static. The former portrait pointer island and name entrance are removed to simplify the full-photo composition. Project windows lift/straighten on hover or focus; modal entry lasts 200ms with a brief backdrop fade. Reduced motion removes these movements and keeps all content/actions static. SSR content is always visible; no opacity-zero reveals, looping animations or transformed virtual-scroll wrappers. A homepage-only, dependency-free coarse-wheel enhancement is explicitly authorized: one requestAnimationFrame runs only until the target is reached. Precise trackpad gestures, touch, keyboard, browser zoom, nested panels and dialogs retain native behavior. Reduced motion removes the wheel listener. Reduced motion is fully static. Other routes retain short interaction color transitions. Reduced-motion disables smooth scrolling and transitions. Global scrollbars are visible, tokenized and forced-colors compatible. Stable image aspect ratios, explicit sizes, and system fonts avoid layout shifts.

@@ -6,6 +6,8 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || '/opt/codex/cua_no
 const baseURL = process.env.TOOLKIT_BASE_URL || 'http://localhost:3000';
 const artifacts = process.env.PROJECT_ARTIFACTS || '/tmp/projects-browser';
 const names = ['ATSResumie', 'FrameVault', 'YouTube Extractor', 'Outpost', 'DraftForge', 'NeverComes'];
+const embeddedNames = new Set(['ATSResumie', 'YouTube Extractor', 'NeverComes']);
+const youtubeLive = 'https://youtube-extractor-rs-production.up.railway.app/';
 (async () => {
  fs.mkdirSync(artifacts, { recursive: true });
  const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', args: ['--no-sandbox'] });
@@ -13,7 +15,7 @@ const names = ['ATSResumie', 'FrameVault', 'YouTube Extractor', 'Outpost', 'Draf
  const checks = [], errors = [];
  page.on('pageerror', error => errors.push(error.message));
  let behavior = 'success', previewRequests = 0;
- await page.route(/https:\/\/(www\.atsresumie\.com|nevercomes\.sujanshrestha\.ca)\//, async route => {
+ await page.route(/https:\/\/(www\.atsresumie\.com|nevercomes\.sujanshrestha\.ca|youtube-extractor-rs-production\.up\.railway\.app)\//, async route => {
   previewRequests++;
   if (behavior === 'slow') return;
   await route.fulfill({ contentType: 'text/html', headers: behavior === 'blocked' ? { 'X-Frame-Options': 'DENY' } : {}, body: '<!doctype html><html lang="en"><title>Preview fixture</title><body><h1>Real iframe boundary fixture</h1><a href="#content">Explore preview</a><div id="content">Site content</div></body></html>' });
@@ -34,17 +36,24 @@ const names = ['ATSResumie', 'FrameVault', 'YouTube Extractor', 'Outpost', 'Draf
    assert.equal(await page.evaluate(() => document.body.style.overflow), 'hidden');
    assert.match(await dialog.evaluate(e => getComputedStyle(e, '::backdrop').backdropFilter), /blur/);
    // Finish the child-document navigation before exercising a deterministic tab order.
-   if (name === 'ATSResumie' || name === 'NeverComes') await page.frameLocator('iframe').getByRole('heading', { name: 'Real iframe boundary fixture' }).waitFor();
+   if (embeddedNames.has(name)) await page.frameLocator('iframe').getByRole('heading', { name: 'Real iframe boundary fixture' }).waitFor();
+   if (name === 'YouTube Extractor') {
+    assert.equal(await dialog.locator('iframe').getAttribute('src'), youtubeLive);
+    assert.match(await dialog.locator('iframe').getAttribute('sandbox'), /\ballow-downloads\b/);
+    assert.ok(await dialog.getByText('The live app currently blocks embedded previews.', { exact: false }).isVisible());
+    assert.equal(await dialog.getByRole('link', { name: 'Open website', exact: true }).getAttribute('href'), youtubeLive);
+   }
    for (let i = 0; i < 12; i++) {
     await page.keyboard.press('Tab');
     await page.waitForFunction(() => !!document.activeElement.closest('dialog'), null, { timeout: 1000 });
    }
-   if (name === 'ATSResumie' || name === 'NeverComes') {
+   if (embeddedNames.has(name)) {
     await page.frameLocator('iframe').getByRole('heading', { name: 'Real iframe boundary fixture' }).waitFor();
     await dialog.getByRole('button', { name: 'About project', exact: true }).click();
     assert.equal(await dialog.locator('iframe').count(), 0);
    } else assert.equal(await dialog.locator('iframe').count(), 0, 'Blocked sites and repositories never frame');
    assert.ok((await dialog.locator('.overview-copy').innerText()).length > 150);
+   if (name === 'YouTube Extractor') assert.equal(await dialog.getByRole('link', { name: 'View source', exact: true }).getAttribute('href'), 'https://github.com/darkweb19/youtube-extractor-rs');
    assert.ok(await dialog.getByRole('link', { name: /Open website|View on GitHub/ }).count());
    await page.keyboard.press('Escape');
    assert.equal(await page.locator('dialog').count(), 0);
@@ -52,7 +61,7 @@ const names = ['ATSResumie', 'FrameVault', 'YouTube Extractor', 'Outpost', 'Draf
    assert.equal(await page.evaluate(() => document.body.style.overflow), '');
    assert.ok(Math.abs((await page.evaluate(() => scrollY)) - before) <= 1, 'Scroll position restored');
   }
-  checks.push('All six projects open by keyboard, contain focus, retain complete details, close on Escape and restore trigger/scroll; blocked destinations never iframe');
+  checks.push('All six projects open by keyboard, contain focus, retain complete details, close on Escape and restore trigger/scroll; YouTube loads its fixed live URL and blocked destinations never iframe');
   behavior = 'slow';
   await page.getByRole('button', { name: 'Preview ATSResumie', exact: true }).click();
   let dialog = page.getByRole('dialog');
