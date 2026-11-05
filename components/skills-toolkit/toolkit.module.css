@@ -428,11 +428,15 @@ a.secondary:hover {
 
 .archivePanel {
 	position: sticky;
-	top: 96px;
-	border: 1px solid transparent;
+	top: 104px;
+	max-height: calc(100dvh - 120px);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+	border: 1px solid var(--toolkit-line);
 	border-radius: 12px;
-	background: var(--color-bg-2);
-	padding: 26px;
+	background: var(--color-bg-1);
+	padding: 24px;
 }
 
 .archiveHeader {
@@ -1310,3 +1314,24 @@ a.secondary:hover {
 @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
 @media (max-width: 1050px) { .library { padding: 20px; } .library .sectionHeading { align-items: flex-start; flex-direction: column; } }
 @media (max-width: 450px) { .library { padding: 16px; } .skillCard { padding-inline: 8px; } .skillCardFooter { flex-wrap: wrap; } .skillSource { flex: 1 1 100%; } }
+
+.archiveHeader .eyebrow { font: 11px/1.5 var(--font-mono); text-transform: uppercase; letter-spacing: .07em; color: var(--color-text-muted); margin-bottom: 8px; }
+.archiveHeader h2 { display: flex; align-items: center; justify-content: space-between; font-size: 23px; }
+.selectionCount { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: var(--color-bg-2); color: var(--color-brand-deep); font-size: 14px; font-variant-numeric: tabular-nums; }
+.selectionEmpty { display: flex; gap: 12px; border: 1px dashed var(--toolkit-line); padding: 20px 14px; border-radius: 8px; font-size: 13px; line-height: 1.6; }
+.selectionEmpty > span { color: var(--color-brand); font-size: 22px; }
+.selectionEmpty small { display: block; color: var(--color-text-muted); font-size: 12px; margin-top: 4px; }
+.selectedList { list-style: none; margin: 0; padding: 0; max-height: 180px; overflow: auto; border-block: 1px solid var(--toolkit-line); scroll-padding: 6px; }
+.selectedList li { display: flex; align-items: center; gap: 8px; padding: 8px 0 8px 4px; border-bottom: 1px solid var(--toolkit-line); }
+.selectedList li:last-child { border-bottom: 0; }
+.selectedList li > span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.selectedList strong { display: block; font-size: 12px; font-weight: 550; line-height: 1.6; }
+.selectedList small { display: block; font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+.selectedList .button { width: 40px; flex: 0 0 40px; font-size: 22px; }
+.archiveContents { margin-bottom: 18px; font-size: 13px; }
+.archiveContents > summary { cursor: pointer; min-height: 40px; padding-block: 10px; }
+.archiveContents > summary:hover, .installation > summary:hover { color: var(--color-brand-deep); }
+.archiveContents code { display: block; color: var(--color-text-muted); font: 11px/1.8 var(--font-mono); margin-left: 14px; overflow-wrap: anywhere; }
+.archiveContents .tree { min-height: 120px; max-height: 240px; margin-top: 8px; }
+.download { min-height: 48px; font-size: 12px; }
+@media (max-width: 760px) { .archivePanel { max-height: none; overflow: visible; } }

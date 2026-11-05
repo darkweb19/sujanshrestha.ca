@@ -20,6 +20,7 @@ import { rawSkillUrl } from "@/lib/skills-toolkit/skill-links";
 import { validateSelection } from "@/lib/skills-toolkit/validation";
 import type { HarnessId, SkillPackage } from "@/lib/skills-toolkit/types";
 import ArchiveTree from "./ArchiveTree";
+import SelectionSummary from "./SelectionSummary";
 import ImportSkills from "./ImportSkills";
 import SkillPreview from "./SkillPreview";
 import PromptLauncher from "./PromptLauncher";
@@ -786,9 +787,10 @@ export default function SkillsToolkit({
 					aria-labelledby="archive-heading"
 				>
 					<div className={styles.archiveHeader}>
-						<h2 id="archive-heading">Your archive</h2>
+						<p className={styles.eyebrow}>Export toolkit</p>
+						<h2 id="archive-heading">Your selection <span className={styles.selectionCount}>{selected.length}</span></h2>
 						<p className={styles.muted}>
-							Choose an agent. Take the complete instructions with you.
+							One ZIP, ready for your repository.
 						</p>
 					</div>
 					<div className={styles.field}>
@@ -823,34 +825,11 @@ export default function SkillsToolkit({
 							files
 						</span>
 					</div>
-					<ArchiveTree skills={selected} harness={harness} />
-					{unresolved && (
-						<p className={styles.help} role="status">
-							Loading complete packages…
-						</p>
-					)}
-					{issues.length > 0 && (
-						<details className={styles.validation} open={hasErrors}>
-							<summary>
-								{hasErrors
-									? "Resolve validation errors"
-									: `${issues.length} compatibility ${issues.length === 1 ? "note" : "notes"}`}
-							</summary>
-							<ul className={styles.issueList}>
-								{issues.map((issue, index) => (
-									<li key={index}>
-										<strong>
-											{issue.severity === "error" ? "Error" : "Warning"}:
-										</strong>{" "}
-										{issue.message}
-									</li>
-								))}
-							</ul>
-						</details>
-					)}
+					<SelectionSummary skills={selected} busy={busy} onRemove={(id) => changeSelection(selectedIds.filter((selectedId) => selectedId !== id))} />
 					<Button
 						variant="primary"
 						className={styles.download}
+						aria-busy={busy}
 						disabled={!selected.length || hasErrors || busy || unresolved}
 						onClick={() => void download()}
 					>
@@ -872,6 +851,35 @@ export default function SkillsToolkit({
 					<p className={styles.downloadNote}>
 						Only selected skills. Every supporting file.
 					</p>
+					<details className={styles.archiveContents}>
+						<summary>Archive contents <code>{harness.skillRoot}/</code></summary>
+						<ArchiveTree skills={selected} harness={harness} />
+					</details>
+					{unresolved && (
+						<p className={styles.help} role="status">
+							Loading complete packages…
+							{error && <Button variant="quiet" onClick={() => { setError(""); void hydrate(selected).catch((cause) => setError(messageOf(cause, "Could not load packages. Try again."))); }}>Retry packages</Button>}
+						</p>
+					)}
+					{issues.length > 0 && (
+						<details className={styles.validation} open={hasErrors}>
+							<summary>
+								{hasErrors
+									? "Resolve validation errors"
+									: `${issues.length} compatibility ${issues.length === 1 ? "note" : "notes"}`}
+							</summary>
+							<ul className={styles.issueList}>
+								{issues.map((issue, index) => (
+									<li key={index}>
+										<strong>
+											{issue.severity === "error" ? "Error" : "Warning"}:
+										</strong>{" "}
+										{issue.message}
+									</li>
+								))}
+							</ul>
+						</details>
+					)}
 					<details className={styles.installation}>
 						<summary>Install in your repository</summary>
 						<ol>
