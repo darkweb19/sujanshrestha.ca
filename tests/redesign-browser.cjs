@@ -149,6 +149,7 @@ function verifyArchive(filename, root, skill) {
       assert.ok(await uploadDialog.getByLabel('SKILL.md or ZIP archives', { exact: true }).isVisible());
       await uploadDialog.getByRole('button', { name: 'Upload files', exact: true }).click();
       await uploadDialog.getByRole('alert').filter({ hasText: 'Choose a SKILL.md file' }).waitFor();
+      await page.waitForFunction(() => document.activeElement?.id === 'skill-upload');
       assert.equal(await uploadDialog.getByLabel('SKILL.md or ZIP archives', { exact: true }).evaluate(node => node === document.activeElement), true);
       await uploadDialog.getByLabel('SKILL.md or ZIP archives', { exact: true }).setInputFiles([
         { name: 'queue-retained.md', mimeType: 'text/markdown', buffer: Buffer.from('Queued draft retained until upload.') },
