@@ -750,6 +750,7 @@ textarea {
 	margin-bottom: 28px;
 	color: var(--color-text-muted);
 	font-size: 14px;
+	min-height: 44px;
 }
 .article-meta {
 	display: flex;
@@ -758,6 +759,8 @@ textarea {
 	color: var(--color-text-dim);
 	font-size: 13px;
 	margin-bottom: 48px;
+	line-height: 1.65;
+	overflow-wrap: anywhere;
 }
 .prose {
 	--tw-prose-body: var(--color-text-muted);
@@ -773,7 +776,16 @@ textarea {
 .prose :is(h2, h3) {
 	letter-spacing: -0.025em;
 	font-weight: 500;
+	text-wrap: balance;
+	overflow-wrap: anywhere;
 }
+.prose a { color: var(--color-brand-deep); text-underline-offset: .2em; text-decoration-thickness: 1px; }
+.prose a:is(:hover, :focus-visible) { text-decoration-thickness: 2px; }
+.prose a:active { color: var(--color-text-primary); }
+.prose :not(pre) > code { overflow-wrap: anywhere; }
+.prose :is(p, li, blockquote) { overflow-wrap: anywhere; }
+.prose table { display: block; max-width: 100%; overflow-x: auto; }
+.prose :is(th, td) { min-width: 100px; }
 .prose pre {
 	background: var(--color-bg-2);
 	border: 1px solid var(--color-glass-border);
@@ -789,7 +801,12 @@ textarea {
 }
 .prose pre {
 	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	scrollbar-gutter: stable;
 }
+.writing-row > div { min-width: 0; }
+.writing-row:last-of-type { border-bottom: 1px solid var(--color-glass-border); }
+.writing-row :is(h2, h3) { overflow-wrap: anywhere; text-wrap: pretty; }
 .hljs-comment,
 .hljs-quote {
 	color: #666666;
