@@ -39,13 +39,17 @@
 }
 :root {
 	color-scheme: light;
+	--header-height: 88px;
+	--motion-fast: 160ms;
+	--motion-standard: 200ms;
+	--ease-standard: cubic-bezier(.2, .65, .3, 1);
 	--blur-hero: 16px;
 	--blur-modal: 10px;
 	--blur-title: 18px;
 }
 html {
 	scroll-behavior: smooth;
-	scroll-padding-top: 100px;
+	scroll-padding-top: calc(var(--header-height) + 20px);
 	scrollbar-gutter: stable;
 }
 body {
@@ -64,6 +68,7 @@ input,
 select,
 textarea {
 	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
 }
 a,
 button:enabled,
@@ -80,9 +85,10 @@ button:disabled {
 }
 :where(a, button) {
 	transition:
-		background-color 150ms,
-		color 150ms,
-		border-color 150ms;
+		background-color var(--motion-fast) var(--ease-standard),
+		color var(--motion-fast) var(--ease-standard),
+		border-color var(--motion-fast) var(--ease-standard),
+		text-decoration-color var(--motion-fast) var(--ease-standard);
 }
 textarea {
 	resize: none;
@@ -129,10 +135,11 @@ textarea {
 	transform: translateY(0);
 }
 .site-header {
-	height: 88px;
+	height: var(--header-height);
 	background: var(--color-bg-0);
 	border-bottom: 1px solid var(--color-glass-border);
-	position: relative;
+	position: sticky;
+	top: 0;
 	z-index: 50;
 }
 .header-inner {
@@ -328,6 +335,9 @@ textarea {
 	}
 }
 @media (max-width: 640px) {
+	:root {
+		--header-height: 76px;
+	}
 	.hero-content {
 		padding-top: 28px;
 		padding-bottom: 28px;
@@ -775,7 +785,7 @@ textarea {
 		padding-inline: 24px;
 	}
 	.site-header {
-		height: 76px;
+		height: var(--header-height);
 	}
 	.mobile-nav {
 		top: 76px;

@@ -61,7 +61,7 @@ export const metadata: Metadata = {
 /* The site is light-only. Pinning color-scheme stops browsers with a dark
    OS preference from rendering native controls and scrollbars dark. */
 export const viewport: Viewport = {
-	themeColor: "#ffffff",
+	themeColor: "#f5f7fc",
 	colorScheme: "light",
 };
 
