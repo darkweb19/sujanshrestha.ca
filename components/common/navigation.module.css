@@ -1,0 +1,118 @@
+.brand {
+	border-radius: 4px;
+	transition: opacity var(--motion-fast, 150ms) var(--ease-standard, ease);
+}
+
+.brand:hover {
+	opacity: 0.82;
+}
+
+.brand:active {
+	opacity: 0.68;
+}
+
+.brand:focus-visible,
+.navLink:focus-visible,
+.menuToggle:focus-visible {
+	outline: 2px solid var(--color-focus);
+	outline-offset: 4px;
+}
+
+.navLink {
+	border-radius: 4px;
+	text-decoration-color: transparent;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.5em;
+	transition:
+		color var(--motion-fast, 150ms) var(--ease-standard, ease),
+		background-color var(--motion-fast, 150ms) var(--ease-standard, ease),
+		text-decoration-color var(--motion-fast, 150ms) var(--ease-standard, ease);
+}
+
+.navLink:hover,
+.navLink[aria-current] {
+	color: var(--color-text-primary);
+	text-decoration-line: underline;
+	text-decoration-color: var(--color-brand);
+}
+
+.navLink[aria-current] {
+	text-decoration-thickness: 2px;
+}
+
+.navLink:active {
+	color: var(--color-brand-deep);
+	text-decoration-color: var(--color-brand-deep);
+}
+
+.menuToggle {
+	transition:
+		color var(--motion-fast, 150ms) var(--ease-standard, ease),
+		background-color var(--motion-fast, 150ms) var(--ease-standard, ease),
+		border-color var(--motion-fast, 150ms) var(--ease-standard, ease);
+}
+
+.menuToggle:hover {
+	background-color: var(--color-bg-2);
+	border-color: var(--color-scrollbar-thumb);
+}
+
+.menuToggle:active {
+	background-color: var(--color-lilac);
+	border-color: var(--color-brand-deep);
+	color: var(--color-brand-deep);
+}
+
+.mobileMenu {
+	max-height: calc(100vh - var(--header-height, 76px));
+	max-height: calc(100dvh - var(--header-height, 76px));
+	overflow-y: auto;
+	overflow-x: hidden;
+	overscroll-behavior: contain;
+}
+
+.mobileMenu[hidden] {
+	display: none;
+}
+
+.mobileLink {
+	color: var(--color-text-muted);
+	text-decoration: none;
+}
+
+.mobileLink:hover {
+	color: var(--color-text-primary);
+	background-color: var(--color-bg-2);
+}
+
+.mobileLink[aria-current] {
+	color: var(--color-text-primary);
+	background-color: var(--color-bg-2);
+	box-shadow: inset 2px 0 0 var(--color-brand);
+}
+
+.mobileLink:active {
+	color: var(--color-brand-deep);
+	background-color: var(--color-lilac);
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+	.mobileMenu {
+		max-height: calc(100vh - var(--header-height, 88px));
+		max-height: calc(100dvh - var(--header-height, 88px));
+	}
+}
+
+@media (min-width: 901px) {
+	.mobileMenu {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.brand,
+	.navLink,
+	.menuToggle {
+		transition: none;
+	}
+}
