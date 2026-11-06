@@ -7,7 +7,7 @@ export default function ScheduleCallModal() {
 	const [open, setOpen] = useState(false);
 	return (
 		<>
-			<button type="button" className="action" onClick={() => setOpen(true)}>
+			<button type="button" className="action" aria-haspopup="dialog" onClick={() => setOpen(true)}>
 				Schedule a call
 			</button>
 			{open && (

@@ -291,11 +291,11 @@ textarea {
 	color: var(--color-text-primary);
 	border-color: white;
 }
-.hero-actions > .action:hover {
+.hero-actions > .action:hover:not(:disabled):not([aria-disabled="true"]) {
 	background: #ffffff18;
 	border-color: white;
 }
-.hero-actions > .action-primary:hover {
+.hero-actions > .action-primary:hover:not(:disabled):not([aria-disabled="true"]) {
 	background: var(--color-bg-2);
 	color: var(--color-text-primary);
 }
@@ -303,7 +303,7 @@ textarea {
 	border-color: transparent;
 }
 .hero-actions > .action svg {
-	transition: transform 180ms;
+	transition: transform var(--motion-fast) var(--ease-standard);
 }
 .hero-actions > .action:hover svg {
 	transform: translate(2px, -2px);
@@ -402,7 +402,7 @@ textarea {
 	color: var(--color-text-primary);
 	background: var(--color-bg-0);
 }
-.action:hover {
+.action:hover:not(:disabled):not([aria-disabled="true"]) {
 	background: var(--color-bg-2);
 }
 .action-primary {
@@ -410,10 +410,39 @@ textarea {
 	background: var(--color-brand);
 	color: white;
 }
-.action-primary:hover {
+.action-primary:hover:not(:disabled):not([aria-disabled="true"]) {
 	border-color: var(--color-brand-deep);
 	background: var(--color-brand-deep);
 }
+.action:active:not(:disabled):not([aria-disabled="true"]) {
+	background: var(--color-bg-2);
+	border-color: var(--color-text-primary);
+	box-shadow: inset 0 1px 2px #17233b16;
+}
+.action-primary:active:not(:disabled):not([aria-disabled="true"]) {
+	background: var(--color-brand-deep);
+	border-color: var(--color-brand-deep);
+	color: white;
+}
+.action:disabled, .action[aria-disabled="true"] {
+	cursor: not-allowed;
+	opacity: .5;
+	box-shadow: none;
+}
+.action[aria-busy="true"] { cursor: progress; }
+.hero-actions > .action:active:not(:disabled) {
+	background: #ffffff2e;
+	color: white;
+	border-color: white;
+}
+.hero-actions > .action-primary:active:not(:disabled) {
+	background: var(--color-lilac);
+	color: var(--color-text-primary);
+}
+.hero-actions > .hero-cv:hover svg,
+.hero-actions > .hero-cv:focus-visible svg { transform: translateY(2px); }
+.hero-actions > .action:focus-visible svg { transform: translate(2px, -2px); }
+.hero-actions > .hero-cv:focus-visible svg { transform: translateY(2px); }
 .portfolio-section {
 	padding-block: clamp(64px, 8vw, 112px);
 }
@@ -951,7 +980,7 @@ textarea {
 	border-radius: 50%;
 	font-size: 22px;
 	font-weight: 400;
-	transition: transform 180ms;
+	transition: transform var(--motion-fast) var(--ease-standard);
 	flex-shrink: 0;
 }
 .content-disclosure[open] > summary .disclosure-mark {
