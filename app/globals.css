@@ -993,12 +993,15 @@ textarea {
 .content-disclosure > summary {
 	list-style: none;
 	min-height: 48px;
+	border-radius: 8px;
+	transition: color var(--motion-fast), background-color var(--motion-fast);
 }
 .content-disclosure > summary::-webkit-details-marker {
 	display: none;
 }
-.content-disclosure > summary:hover {
+.content-disclosure > summary:is(:hover, :focus-visible) {
 	color: var(--color-brand-deep);
+	background: var(--color-bg-2);
 }
 .content-disclosure > summary:active {
 	background: var(--color-bg-2);
@@ -1018,6 +1021,8 @@ textarea {
 }
 .content-disclosure[open] > summary .disclosure-mark {
 	transform: rotate(45deg);
+	background: var(--color-bg-2);
+	color: var(--color-brand-deep);
 }
 .disclosure-body {
 	color: var(--color-text-muted);
@@ -1053,6 +1058,7 @@ textarea {
 .career-heading {
 	display: grid;
 	gap: 3px;
+	min-width: 0;
 }
 .career-heading .timeline-role,
 .career-heading .timeline-company {
@@ -1114,6 +1120,8 @@ textarea {
 	font-size: 20px;
 	font-weight: 500;
 	letter-spacing: -0.025em;
+	line-height: 1.4;
+	overflow-wrap: anywhere;
 }
 .education-institution {
 	display: block;
@@ -1363,12 +1371,18 @@ textarea {
 .project-facts summary {
 	padding-block: 8px;
 	width: fit-content;
+	max-width: 100%;
+	min-height: 44px;
+	border-radius: 4px;
 	text-underline-offset: 4px;
 }
-.project-facts summary:hover {
+.project-facts summary:is(:hover, :focus-visible) {
 	color: var(--color-brand-deep);
 	text-decoration: underline;
 }
+.project-facts summary:active { color: var(--color-text-primary); }
+.project-facts[open] > summary { color: var(--color-brand-deep); }
+:is(.timeline-role, .timeline-company, .education-institution) { overflow-wrap: anywhere; }
 .project-facts p {
 	margin-top: 12px;
 	line-height: 1.7;
