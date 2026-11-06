@@ -579,15 +579,37 @@ textarea {
 	padding-block: 28px;
 	border-top: 1px solid var(--color-glass-border);
 }
-.writing-row h3 {
+.writing-row :is(h2, h3) {
 	font-size: 26px;
 	letter-spacing: -0.035em;
 	font-weight: 500;
 	line-height: 1.25;
 }
-.writing-row:hover h3 {
+.writing-row:hover :is(h2, h3),
+.writing-row:focus-visible :is(h2, h3) {
+	text-decoration-color: currentColor;
+}
+.writing-row :is(h2, h3) {
 	text-decoration: underline;
-	text-underline-offset: 5px;
+	text-decoration-color: transparent;
+	text-underline-offset: .16em;
+	text-decoration-thickness: 1px;
+	transition: color var(--motion-fast), text-decoration-color var(--motion-fast);
+}
+.writing-row:active :is(h2, h3) { color: var(--color-brand-deep); }
+:is(.footer-links a, .article-back, .contact-links a, .contact-links button,
+.project-facts a, .overview-links a, .schedule-fallback a, .browser-external) {
+	text-decoration: underline;
+	text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 4px;
+}
+:is(.footer-links a, .article-back, .contact-links a, .contact-links button,
+.project-facts a, .overview-links a, .schedule-fallback a, .browser-external):is(:hover, :focus-visible) {
+	text-decoration-color: currentColor;
+}
+:is(.footer-links a, .article-back, .project-facts a, .overview-links a, .schedule-fallback a):active {
+	color: var(--color-brand-deep);
 }
 .writing-row p {
 	margin-top: 14px;
