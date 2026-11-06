@@ -89,7 +89,9 @@ const artifacts = process.env.REFINEMENT_ARTIFACTS || '/tmp/refinements-browser'
 
   for (const route of ['/', '/blogs', '/lab/codex', '/blogs/reverse-proxy-ssrf-cannon']) {
    await page.goto(baseURL + route);
-   assert.notEqual(await page.locator('h1').evaluate(node => getComputedStyle(node).textShadow), 'none', route + ' title has soft blur halo');
+   const shadow = await page.locator('h1').evaluate(node => getComputedStyle(node).textShadow);
+   if (route === '/') assert.notEqual(shadow, 'none', 'Photographic hero retains contrast shadow');
+   else assert.equal(shadow, 'none', route + ' title stays sharp without decoration');
   }
   await page.goto(baseURL);
   const hero = page.locator('.hero-gradient-blur');
@@ -97,7 +99,7 @@ const artifacts = process.env.REFINEMENT_ARTIFACTS || '/tmp/refinements-browser'
   await page.screenshot({ path: path.join(artifacts, 'hero-desktop.png') });
   await page.emulateMedia({ forcedColors: 'active' });
   assert.equal(await page.locator('h1').evaluate(node => getComputedStyle(node).textShadow), 'none');
-  checks.push('Hero has progressive gradient blur; page titles keep readable foregrounds and remove halos in forced colors');
+  checks.push('Photographic hero keeps bounded gradient blur and contrast shadow; normal page titles stay sharp and forced colors removes shadow');
   assert.deepEqual(errors, []);
   fs.writeFileSync(path.join(artifacts, 'results.json'), JSON.stringify({ checks, errors }, null, 2));
   console.log(JSON.stringify({ checks, errors }, null, 2));

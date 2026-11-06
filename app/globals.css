@@ -47,7 +47,6 @@
 	--section-heading-gap: clamp(32px, 4vw, 48px);
 	--blur-hero: 16px;
 	--blur-modal: 10px;
-	--blur-title: 18px;
 }
 html {
 	scroll-behavior: smooth;
@@ -2020,7 +2019,8 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
 	.project-launch .mini-browser,
 	.project-launch:hover .mini-browser,
-	.project-launch:focus-visible .mini-browser {
+	.project-launch:focus-visible .mini-browser,
+	.project-launch:active .mini-browser {
 		transform: none;
 	}
 }
@@ -2073,15 +2073,9 @@ textarea {
 	display: block;
 }
 
-/* Static diffused title glow: foreground glyphs remain sharp and selectable. */
-:where(.hero-name, .section-title, .page-intro h1, .article-layout h1, .display-title) {
-	text-shadow: 0 4px var(--blur-title) color-mix(in srgb, currentColor 24%, transparent);
-}
-@media (forced-colors: active) {
-	:where(.hero-name, .section-title, .page-intro h1, .article-layout h1, .display-title) {
-		text-shadow: none;
-	}
-}
+/* The photograph needs contrast; normal page headings stay optically sharp. */
+.hero-name { text-shadow: 0 2px 12px #0004; }
+@media (forced-colors: active) { .hero-name { text-shadow: none; } }
 
 /* Reserve space for the Lab's mobile selection actions, including footer focus. */
 @media (max-width: 760px) {
@@ -2093,3 +2087,7 @@ textarea {
 .browser-preview-notice a:hover { color: var(--color-text-primary); }
 .browser-content:has(.browser-preview-notice) { display: flex; flex-direction: column; }
 .browser-content:has(.browser-preview-notice) .project-live-frame { flex: 1; min-height: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-actions > .action:is(:hover, :focus-visible, :active) svg { transform: none; }
+}
