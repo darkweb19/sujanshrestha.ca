@@ -2091,3 +2091,13 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
 	.hero-actions > .action:is(:hover, :focus-visible, :active) svg { transform: none; }
 }
+
+/* Short screens scroll the complete viewer instead of crushing its content. */
+@media (max-height: 600px) {
+	.project-browser[open] { display: block; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: 80px; }
+	.project-browser .browser-heading { position: sticky; top: 0; z-index: 2; }
+	.project-browser .browser-content { overflow: visible; }
+	.project-browser .browser-content .project-live-frame { height: 360px; min-height: 360px; flex: none; }
+	.project-browser .project-overview { min-height: 0; }
+	.project-browser :is(a, button) { scroll-margin-top: 80px; }
+}
