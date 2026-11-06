@@ -957,13 +957,19 @@ textarea {
 	font-size: 23px;
 	font-weight: 500;
 	letter-spacing: -0.03em;
+	line-height: 1.35;
+	overflow-wrap: anywhere;
 }
+.schedule-header > div { min-width: 0; }
+.schedule-header > button { flex-shrink: 0; }
+.schedule-dialog { overscroll-behavior: contain; }
 .schedule-header p {
 	color: var(--color-text-muted);
 	font-size: 14px;
 	margin-top: 6px;
 }
 .schedule-calendar {
+	display: block;
 	width: 100%;
 	height: min(60dvh, 650px);
 	border: 0;
@@ -1704,9 +1710,11 @@ textarea {
 	font-size: 15px;
 	font-weight: 600;
 	min-width: 0;
+	overflow-wrap: anywhere;
+	line-height: 1.4;
 }
 .browser-close {
-	min-height: 36px;
+	min-height: 44px;
 	padding: 7px 12px;
 	display: flex;
 	align-items: center;
@@ -1722,6 +1730,7 @@ textarea {
 .browser-close:active {
 	background: var(--color-lilac);
 }
+.browser-close:active { background: var(--color-bg-2); }
 .browser-toolbar {
 	display: flex;
 	align-items: center;
@@ -1740,7 +1749,7 @@ textarea {
 }
 .browser-modes button {
 	padding: 8px 10px;
-	min-height: 36px;
+	min-height: 44px;
 	border-radius: 6px;
 	font-size: 12px;
 }
@@ -1752,6 +1761,7 @@ textarea {
 .browser-modes button:hover {
 	color: var(--color-brand-deep);
 }
+.browser-modes button:active { background: var(--color-lilac); }
 .browser-address {
 	flex: 1;
 	min-width: 0;
@@ -1769,7 +1779,7 @@ textarea {
 	display: inline-flex;
 	align-items: center;
 	gap: 7px;
-	min-height: 36px;
+	min-height: 44px;
 	font-size: 12px;
 	white-space: nowrap;
 	color: var(--color-brand-deep);
@@ -1834,6 +1844,8 @@ textarea {
 	letter-spacing: -0.045em;
 	line-height: 1.1;
 	margin-block: 10px 22px;
+	text-wrap: balance;
+	overflow-wrap: anywhere;
 }
 .overview-copy > p:not(.project-category) {
 	font-size: 14px;
@@ -1883,8 +1895,12 @@ textarea {
 	color: var(--color-brand-deep);
 	text-decoration: underline;
 	text-underline-offset: 3px;
-	min-height: 28px;
+	min-height: 44px;
+	border-radius: 4px;
 }
+.browser-footer button:hover { text-decoration-thickness: 2px; }
+.browser-footer button:active { color: var(--color-text-primary); }
+.browser-footer > span { min-width: 0; overflow-wrap: anywhere; }
 @media (max-width: 900px) {
 	.project-overview {
 		grid-template-columns: 1fr;
