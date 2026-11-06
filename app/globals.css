@@ -656,6 +656,12 @@ textarea {
 .contact-email:hover {
 	border-color: currentColor;
 }
+.contact-email:focus-visible { border-color: currentColor; }
+.contact-email:active { color: var(--color-mint); }
+.contact-feedback { min-height: 3.4em; margin-top: 8px; font-size: 14px; line-height: 1.7; }
+.copy-email { min-width: 82px; justify-content: flex-start; }
+.copy-email[aria-busy="true"] { cursor: progress; }
+.contact-links :is(a, button):active { color: var(--color-mint); }
 .contact-links {
 	display: flex;
 	flex-wrap: wrap;

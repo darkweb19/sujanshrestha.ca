@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import Arrow from "./common/Arrow";
 export default function Contact() {
 	const [message, setMessage] = useState("");
+	const [copying, setCopying] = useState(false);
+	const [copied, setCopied] = useState(false);
 	const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	useEffect(
 		() => () => {
@@ -11,16 +13,20 @@ export default function Contact() {
 		[],
 	);
 	const copy = async () => {
+		if (copying) return;
+		setCopying(true);
+		if (timer.current) clearTimeout(timer.current);
 		try {
 			await navigator.clipboard.writeText("hi@sujanshrestha.ca");
+			setCopied(true);
 			setMessage("Email copied");
+			timer.current = setTimeout(() => { setMessage(""); setCopied(false); }, 5000);
 		} catch {
-			setMessage(
-				"Copy unavailable. Select the email above or use the email link.",
-			);
+			setCopied(false);
+			setMessage("Copy unavailable. Use the email link above.");
+		} finally {
+			setCopying(false);
 		}
-		if (timer.current) clearTimeout(timer.current);
-		timer.current = setTimeout(() => setMessage(""), 5000);
 	};
 	return (
 		<section id="contact" className="contact-section">
@@ -39,8 +45,8 @@ export default function Contact() {
 							hi@sujanshrestha.ca
 						</a>
 						<div className="contact-links">
-							<button type="button" onClick={() => void copy()}>
-								Copy email
+							<button type="button" className="copy-email" disabled={copying} aria-busy={copying} onClick={() => void copy()}>
+								{copying ? "Copying…" : copied ? "Copied" : "Copy email"}
 							</button>
 							<a
 								href="https://github.com/darkweb19"
@@ -58,7 +64,7 @@ export default function Contact() {
 							</a>
 							<a href="/blogs">Blog</a>
 						</div>
-						<p role="status" className="min-h-6 text-sm text-text-muted">
+						<p role="status" className="contact-feedback">
 							{message}
 						</p>
 					</div>
