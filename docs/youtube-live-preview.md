@@ -29,3 +29,15 @@ The portfolio browser suite verifies the live URL, lazy iframe boundary, source
 link and blocked/slow recovery using controlled fixtures. It does not claim the
 current remote app permits framing. Media processing still requires the app's
 own authorized operator access; never put an API token in the portfolio.
+
+
+## Verified policy update — 2026-11-06
+
+The live response now sends `frame-ancestors https://sujanshrestha.ca`.
+A real Chromium iframe test under a locally fulfilled canonical portfolio origin
+loaded the actual remote application with the same sandbox permissions, including
+its heading and controls, and no browser errors. No extraction job or authenticated
+API request was submitted. This verifies framing/rendering, not authorized media
+processing. The stale portfolio blocked-preview notice has been removed in the
+visual-polish branch. The historical companion patch remains for provenance;
+no extractor source or deployment was changed by this polish task.

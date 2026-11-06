@@ -40,7 +40,7 @@ const youtubeLive = 'https://youtube-extractor-rs-production.up.railway.app/';
    if (name === 'YouTube Extractor') {
     assert.equal(await dialog.locator('iframe').getAttribute('src'), youtubeLive);
     assert.match(await dialog.locator('iframe').getAttribute('sandbox'), /\ballow-downloads\b/);
-    assert.ok(await dialog.getByText('The live app currently blocks embedded previews.', { exact: false }).isVisible());
+    assert.equal(await dialog.locator('.browser-preview-notice').count(), 0, 'Live policy now permits the portfolio; stale blocked notice is removed');
     assert.equal(await dialog.getByRole('link', { name: 'Open website', exact: true }).getAttribute('href'), youtubeLive);
    }
    for (let i = 0; i < 12; i++) {
