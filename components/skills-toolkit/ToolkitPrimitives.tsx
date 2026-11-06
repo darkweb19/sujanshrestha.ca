@@ -4,9 +4,38 @@ import {
 	useEffect,
 	useRef,
 	type ButtonHTMLAttributes,
+	type KeyboardEvent,
 	type ReactNode,
 } from "react";
 import styles from "./toolkit.module.css";
+
+function containDialogFocus(event: KeyboardEvent<HTMLDialogElement>) {
+	if (event.key !== "Tab") return;
+	const dialog = event.currentTarget;
+	const focusable = Array.from(
+		dialog.querySelectorAll<HTMLElement>(
+			'a[href], area[href], button, input:not([type="hidden"]), select, textarea, summary, [tabindex], [contenteditable="true"]',
+		),
+	).filter(
+		(element) =>
+			element.tabIndex >= 0 &&
+			!element.hasAttribute("disabled") &&
+			!element.closest('[hidden], [inert], [aria-hidden="true"]') &&
+			element.getClientRects().length > 0 &&
+			getComputedStyle(element).visibility !== "hidden",
+	);
+	const index = focusable.indexOf(document.activeElement as HTMLElement);
+	const target = event.shiftKey
+		? index <= 0 ? focusable.at(-1) : undefined
+		: index < 0 || index === focusable.length - 1 ? focusable[0] : undefined;
+	if (target) {
+		event.preventDefault();
+		target.focus();
+	} else if (!focusable.length) {
+		event.preventDefault();
+		dialog.focus();
+	}
+}
 
 export function Button({
 	variant = "secondary",
@@ -73,6 +102,7 @@ export function Dialog({
 			ref={ref}
 			className={`${styles.dialog} ${wide ? styles.dialogWide : ""}`}
 			aria-labelledby="toolkit-dialog-title"
+			onKeyDown={containDialogFocus}
 			onCancel={(event) => {
 				event.preventDefault();
 				if (!closeDisabled) onClose();

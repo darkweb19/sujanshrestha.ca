@@ -23,7 +23,7 @@
 }
 
 .toolkit :is(button, a, input, select, textarea, summary):focus-visible,
-.dialog :is(button, a, input, select, textarea, summary, pre):focus-visible {
+.dialog :is(button, a, input, select, textarea, summary, pre, [tabindex]):focus-visible {
 	outline: 2px solid var(--color-focus);
 	outline-offset: 3px;
 }
@@ -46,6 +46,7 @@
 	margin-bottom: 20px;
 	text-decoration: underline;
 	text-underline-offset: 4px;
+	transition: color var(--motion-fast, 160ms) var(--ease-standard, ease);
 }
 
 .backLink:hover,
@@ -93,6 +94,14 @@
 	font-size: 14px;
 	color: var(--color-text-muted);
 	padding-bottom: 4px;
+	text-decoration: underline;
+	text-underline-offset: 4px;
+	transition: color var(--motion-fast, 160ms) var(--ease-standard, ease);
+}
+
+.backLink:active,
+.sourceLink:active {
+	color: var(--color-brand-deep);
 }
 
 .workspace {
@@ -140,16 +149,27 @@
 	font-size: 14px;
 	line-height: 1.4;
 	font-weight: 550;
+	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
 	transition:
-		background 150ms,
-		border-color 150ms;
+		background-color var(--motion-fast, 160ms) var(--ease-standard, ease),
+		border-color var(--motion-fast, 160ms) var(--ease-standard, ease),
+		color var(--motion-fast, 160ms) var(--ease-standard, ease);
 }
 
 .button:disabled {
 	cursor: not-allowed;
 	opacity: 0.45;
+}
+
+.button[aria-disabled="true"] {
+	cursor: progress;
+	opacity: 0.6;
+}
+
+.button[aria-busy="true"] {
+	cursor: progress;
 }
 
 .primary {
@@ -158,9 +178,14 @@
 	color: var(--color-bg-1);
 }
 
-.primary:hover:enabled {
+.primary:not(:disabled):not([aria-disabled="true"]):hover {
 	background: var(--color-brand-deep);
 	border-color: var(--color-brand-deep);
+}
+
+.primary:not(:disabled):not([aria-disabled="true"]):active {
+	background: var(--color-text-primary);
+	border-color: var(--color-text-primary);
 }
 
 .secondary {
@@ -168,10 +193,13 @@
 	color: var(--color-text-primary);
 }
 
-.secondary:hover:enabled,
-a.secondary:hover {
+.secondary:not(:disabled):not([aria-disabled="true"]):hover {
 	border-color: var(--color-text-primary);
 	background: var(--color-bg-0);
+}
+
+.secondary:not(:disabled):not([aria-disabled="true"]):active {
+	background: var(--color-bg-2);
 }
 
 .quiet {
@@ -179,11 +207,15 @@ a.secondary:hover {
 	border-color: transparent;
 	color: var(--color-text-primary);
 	padding: 5px 7px;
-	min-height: 40px;
+	min-height: 44px;
 }
 
-.quiet:hover:enabled {
+.quiet:not(:disabled):not([aria-disabled="true"]):hover {
 	background: var(--color-bg-2);
+}
+
+.quiet:not(:disabled):not([aria-disabled="true"]):active {
+	background: var(--color-lilac);
 }
 
 .danger {
@@ -192,9 +224,27 @@ a.secondary:hover {
 	color: var(--toolkit-danger);
 }
 
-.danger:hover:enabled {
+.danger:not(:disabled):not([aria-disabled="true"]):hover {
 	background: #fef2f2;
 	border-color: var(--toolkit-danger);
+}
+
+.danger:not(:disabled):not([aria-disabled="true"]):active {
+	background: var(--toolkit-danger);
+	border-color: var(--toolkit-danger);
+	color: var(--color-bg-1);
+}
+
+.button[aria-pressed="true"] {
+	background: var(--color-bg-2);
+	border-color: var(--color-brand);
+	color: var(--color-brand-deep);
+}
+
+.button[aria-current="location"] {
+	color: var(--color-brand-deep);
+	text-decoration: underline;
+	text-underline-offset: 4px;
 }
 
 .filters {
@@ -230,6 +280,15 @@ a.secondary:hover {
 	padding: 12px;
 	font-size: 14px;
 	line-height: 1.5;
+	transition: border-color var(--motion-fast, 160ms) var(--ease-standard, ease);
+}
+
+:where(.toolkit, .dialog) :is(input:not([type="checkbox"]), select, textarea):not(:disabled):not([aria-invalid="true"]):hover {
+	border-color: var(--color-text-dim);
+}
+
+:where(.toolkit, .dialog) :is(input, select, textarea)[aria-invalid="true"] {
+	border-color: var(--toolkit-danger);
 }
 
 .toolkit select,
@@ -249,20 +308,26 @@ a.secondary:hover {
 
 .clearSearch {
 	position: absolute;
-	right: 3px;
-	top: 3px;
-	width: 40px;
-	height: 40px;
+	right: 1px;
+	top: 1px;
+	width: 44px;
+	height: 44px;
 	border: none;
 	border-radius: 6px;
 	background: transparent;
 	color: var(--color-text-muted);
 	font-size: 21px;
 	cursor: pointer;
+	transition: background-color var(--motion-fast, 160ms) var(--ease-standard, ease), color var(--motion-fast, 160ms) var(--ease-standard, ease);
 }
 
 .clearSearch:hover {
 	background: var(--color-bg-2);
+}
+
+.clearSearch:active {
+	background: var(--color-lilac);
+	color: var(--color-text-primary);
 }
 
 .toolkit input[type="checkbox"],
@@ -271,8 +336,14 @@ a.secondary:hover {
 	height: 24px;
 	flex: 0 0 24px;
 	margin: 0;
-	accent-color: var(--color-text-primary);
+	accent-color: var(--color-brand);
 	cursor: pointer;
+}
+
+.toolkit :is(input, select, textarea):disabled,
+.dialog :is(input, select, textarea):disabled {
+	cursor: not-allowed;
+	opacity: 0.55;
 }
 
 .selectionToolbar {
@@ -315,6 +386,7 @@ a.secondary:hover {
 	border: 1px solid transparent;
 	border-bottom-color: var(--toolkit-line);
 	background: var(--color-bg-1);
+	transition: background-color var(--motion-fast, 160ms) var(--ease-standard, ease), border-color var(--motion-fast, 160ms) var(--ease-standard, ease);
 }
 
 .skillCard:hover {
@@ -370,9 +442,7 @@ a.secondary:hover {
 .tag {
 	min-width: 0;
 	max-width: 100%;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	overflow-wrap: anywhere;
 	color: var(--color-text-primary);
 	border: 1px solid var(--toolkit-line);
 	border-radius: 4px;
@@ -421,18 +491,19 @@ a.secondary:hover {
 }
 
 .skillCardFooter .button {
-	min-height: 40px;
+	min-height: 44px;
 	padding-inline: 10px;
 	background: var(--color-bg-2);
 }
 
 .archivePanel {
 	position: sticky;
-	top: 104px;
-	max-height: calc(100dvh - 120px);
+	top: calc(var(--header-height, 88px) + 16px);
+	max-height: calc(100dvh - var(--header-height, 88px) - 32px);
 	overflow-y: auto;
 	overscroll-behavior: contain;
 	scrollbar-gutter: stable;
+	scroll-padding-block: 8px;
 	border: 1px solid var(--toolkit-line);
 	border-radius: 12px;
 	background: var(--color-bg-1);
@@ -444,7 +515,12 @@ a.secondary:hover {
 }
 
 .archiveHeader h2 {
-	scroll-margin-top: 95px;
+	scroll-margin-top: calc(var(--header-height, 88px) + 16px);
+}
+
+.archiveHeader h2:focus {
+	outline: 2px solid var(--color-focus);
+	outline-offset: 4px;
 }
 
 .archiveHeader .muted {
@@ -513,8 +589,10 @@ a.secondary:hover {
 .tree summary {
 	cursor: pointer;
 	color: var(--toolkit-action-hover);
-	white-space: nowrap;
-	padding: 3px 0;
+	min-height: 44px;
+	padding: 10px 0;
+	overflow-wrap: anywhere;
+	transition: color var(--motion-fast, 160ms) var(--ease-standard, ease);
 }
 
 .tree summary:hover {
@@ -529,7 +607,7 @@ a.secondary:hover {
 }
 
 .treeFile {
-	white-space: nowrap;
+	overflow-wrap: anywhere;
 	padding: 2px 0;
 	display: inline-block;
 }
@@ -566,6 +644,17 @@ a.secondary:hover {
 	font-weight: 500;
 	color: var(--color-text-primary);
 	line-height: 1.5;
+	min-height: 44px;
+	padding-block: 11px;
+	transition: color var(--motion-fast, 160ms) var(--ease-standard, ease);
+}
+
+:is(.archiveContents, .installation, .validation, .tree) summary::marker {
+	color: var(--color-brand);
+}
+
+:is(.archiveContents, .installation, .validation, .tree) summary:active {
+	color: var(--color-brand-deep);
 }
 
 .installation ol {
@@ -745,12 +834,16 @@ a.secondary:hover {
 	width: min(560px, calc(100vw - 32px));
 	max-height: calc(100dvh - 48px);
 	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+	scroll-padding-block: 12px;
 	padding: 28px;
 	border: 1px solid var(--toolkit-line);
 	border-radius: 12px;
 	background: var(--color-bg-1);
 	color: var(--color-text-primary);
 	box-shadow: 0 20px 80px #0002;
+	overflow-wrap: anywhere;
 }
 
 .dialog::backdrop {
@@ -773,7 +866,7 @@ a.secondary:hover {
 
 .dialogHeading {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 	gap: 15px;
 	margin-bottom: 16px;
@@ -784,7 +877,9 @@ a.secondary:hover {
 	font-size: 24px;
 	font-weight: 600;
 	letter-spacing: -0.03em;
+	line-height: 1.2;
 	margin: 0;
+	padding-top: 7px;
 	overflow-wrap: anywhere;
 }
 
@@ -826,6 +921,15 @@ a.secondary:hover {
 	padding: 7px 10px;
 	margin-right: 10px;
 	cursor: pointer;
+	transition: background-color var(--motion-fast, 160ms) var(--ease-standard, ease);
+}
+
+.importForm input[type="file"]:not(:disabled):hover::file-selector-button {
+	background: var(--color-lilac);
+}
+
+.importForm input[type="file"]:disabled::file-selector-button {
+	cursor: not-allowed;
 }
 
 .actions {
@@ -856,12 +960,13 @@ a.secondary:hover {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	flex-wrap: wrap;
 	gap: 14px;
 	margin: 22px 0 12px;
 }
 
 .previewToolbar .field {
-	flex: 1;
+	flex: 1 1 200px;
 }
 
 .previewToolbar select {
@@ -933,6 +1038,7 @@ a.secondary:hover {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	flex-wrap: wrap;
 	gap: 12px;
 	padding-top: 24px;
 	font-size: 14px;
@@ -1068,7 +1174,9 @@ a.secondary:hover {
 	}
 
 	.mobileArchiveLink {
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
 		margin-left: 10px;
 		color: var(--color-text-primary);
 		text-decoration: underline;
@@ -1171,12 +1279,6 @@ a.secondary:hover {
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.button {
-		transition: none;
-	}
-}
-
 @media (forced-colors: active) {
 	.skillSelected {
 		outline: 2px solid Highlight;
@@ -1226,7 +1328,10 @@ a.secondary:hover {
 	color: var(--color-brand-deep);
 	text-decoration: underline;
 	text-underline-offset: 4px;
+	transition: color var(--motion-fast, 160ms) var(--ease-standard, ease);
 }
+.ownerSetup > a:hover { color: var(--color-text-primary); }
+.ownerSetup > a:active { color: var(--color-brand); }
 @media (max-width: 640px) {
 	.library .sectionHeading {
 		align-items: flex-start;
@@ -1243,7 +1348,7 @@ a.secondary:hover {
 }
 .folderBreadcrumb > span { overflow-wrap: anywhere; }
 .folderGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
-.folder { display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 88px; padding: 18px; text-align: left; color: var(--color-text-primary); background: var(--color-bg-1); border: 1px solid var(--toolkit-line); border-radius: 12px; cursor: pointer; }
+.folder { display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 88px; padding: 18px; text-align: left; color: var(--color-text-primary); background: var(--color-bg-1); border: 1px solid var(--toolkit-line); border-radius: 12px; cursor: pointer; transition: background-color var(--motion-fast, 160ms) var(--ease-standard, ease), border-color var(--motion-fast, 160ms) var(--ease-standard, ease); }
 .folder > svg { flex-shrink: 0; color: var(--color-brand); }
 .folder > span:first-of-type { flex: 1; overflow-wrap: anywhere; font-size: 15px; font-weight: 550; }
 .folder:hover { background: var(--color-bg-2); border-color: var(--color-brand); }
@@ -1252,23 +1357,20 @@ a.secondary:hover {
 @media (max-width: 480px) { .folderGrid { grid-template-columns: 1fr; } }
 
 /* A semantic title button stretches across the card; other actions stay independent. */
-.skillCard { position: relative; }
-.skillCopy { border: 0; padding: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.skillCopy { border: 0; padding: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; transition: color var(--motion-fast, 160ms) var(--ease-standard, ease); }
 .skillCopy::after { content: ""; position: absolute; inset: 0; z-index: 1; }
 .skillCopy:focus-visible::after { outline: 2px solid var(--color-brand); outline-offset: -2px; border-radius: 4px; }
 .skillCopy:hover { color: var(--color-brand); }
 .skillCopy:active { color: var(--color-brand-deep); }
 .skillCardHeading input, .skillCardFooter .button, .rawSourceLink { position: relative; z-index: 2; }
-.rawSourceLink { font-size: 12px; text-decoration: underline; text-underline-offset: 3px; min-height: 36px; display: inline-flex; align-items: center; }
+.rawSourceLink { font-size: 12px; text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; transition: color var(--motion-fast, 160ms) var(--ease-standard, ease); }
 .rawSourceLink:hover { color: var(--color-brand); }
+.rawSourceLink:active { color: var(--color-brand-deep); }
 .rawLink { display: block; width: 100%; min-width: 0; padding: 8px; margin-top: 8px; font-family: var(--font-mono); font-size: 13px; background: var(--color-bg-1); color: var(--color-text-primary); border: 1px solid var(--toolkit-line); border-radius: 6px; }
-
-.button[aria-disabled="true"] { opacity: .6; cursor: progress; }
 
 /* Reading shares the file picker and exact-source editor, with no imported HTML. */
 .readingModes { display: inline-flex; padding: 3px; gap: 2px; border: 1px solid var(--toolkit-line); border-radius: 8px; margin-bottom: 12px; }
 .readingModes .button { min-width: 76px; }
-.readingModes .button[aria-pressed="true"] { background: var(--color-bg-2); color: var(--color-brand-deep); }
 .markdown { height: 420px; overflow: auto; padding: 24px; border: 1px solid var(--toolkit-line); border-radius: 8px; font-size: 15px; line-height: 1.8; overflow-wrap: anywhere; scrollbar-gutter: stable; }
 .markdown > :first-child { margin-top: 0; }
 .markdown :is(h3,h4,h5,h6) { color: var(--color-text-primary); font-weight: 650; line-height: 1.4; margin: 28px 0 12px; letter-spacing: -.025em; }
@@ -1282,8 +1384,9 @@ a.secondary:hover {
 .markdown ul ul { list-style: circle; }
 .markdown li + li { margin-top: 5px; }
 .markdown li > p { margin-bottom: 6px; }
-.markdown a { color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; }
+.markdown a { color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; transition: color var(--motion-fast, 160ms) var(--ease-standard, ease); }
 .markdown a:hover { color: var(--color-text-primary); }
+.markdown a:active { color: var(--color-brand); }
 .markdown code { padding: 2px 5px; background: var(--color-bg-2); border-radius: 4px; font: .86em/1.7 var(--font-mono); }
 .markdown pre { padding: 16px; background: var(--color-bg-0); border: 1px solid var(--toolkit-line); border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
 .markdown pre code { background: none; padding: 0; }
@@ -1307,14 +1410,13 @@ a.secondary:hover {
 .library .sectionHeading h2 { font-size: 21px; }
 .libraryActions .button { font-size: 12px; }
 .libraryActions .primary { background: var(--color-bg-1); border-color: var(--toolkit-line); color: var(--color-text-primary); }
-.libraryActions .primary:hover:enabled { border-color: var(--color-brand); background: var(--color-bg-2); }
+.libraryActions .primary:not(:disabled):not([aria-disabled="true"]):hover { border-color: var(--color-brand); background: var(--color-bg-2); }
+.libraryActions .primary:not(:disabled):not([aria-disabled="true"]):active { background: var(--color-lilac); color: var(--color-text-primary); }
 .folder small { display: block; font-size: 11px; font-weight: 400; line-height: 1.6; color: var(--color-text-muted); margin-top: 5px; }
-.folderBreadcrumb .button[aria-pressed="true"], .folderBreadcrumb .button[aria-current="location"] { color: var(--color-brand-deep); background: var(--color-bg-2); }
 .results { position: relative; }
 .loadingLine { position: absolute; z-index: 3; top: 4px; right: 4px; display: flex; gap: 8px; align-items: center; border: 1px solid var(--toolkit-line); padding: 8px 12px; background: var(--color-bg-1); border-radius: 8px; font-size: 12px; }
 .spinner { width: 14px; height: 14px; border: 2px solid var(--toolkit-line); border-top-color: var(--color-brand); border-radius: 50%; animation: lab-spin .8s linear infinite; }
 @keyframes lab-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
 @media (max-width: 1050px) { .library { padding: 20px; } .library .sectionHeading { align-items: flex-start; flex-direction: column; } }
 @media (max-width: 450px) { .library { padding: 16px; } .skillCard { padding-inline: 8px; } .skillCardFooter { flex-wrap: wrap; } .skillSource { flex: 1 1 100%; } }
 
@@ -1330,10 +1432,10 @@ a.secondary:hover {
 .selectedList li > span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .selectedList strong { display: block; font-size: 12px; font-weight: 550; line-height: 1.6; }
 .selectedList small { display: block; font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
-.selectedList .button { width: 40px; flex: 0 0 40px; font-size: 22px; }
+.selectedList .button { width: 44px; flex: 0 0 44px; font-size: 22px; }
 .archiveContents { margin-bottom: 18px; font-size: 13px; }
-.archiveContents > summary { cursor: pointer; min-height: 40px; padding-block: 10px; }
-.archiveContents > summary:hover, .installation > summary:hover { color: var(--color-brand-deep); }
+.archiveContents > summary { cursor: pointer; min-height: 44px; padding-block: 11px; transition: color var(--motion-fast, 160ms) var(--ease-standard, ease); }
+.archiveContents > summary:hover, .installation > summary:hover, .validation > summary:hover { color: var(--color-brand-deep); }
 .archiveContents code { display: block; color: var(--color-text-muted); font: 11px/1.8 var(--font-mono); margin-left: 14px; overflow-wrap: anywhere; }
 .archiveContents .tree { min-height: 120px; max-height: 240px; margin-top: 8px; }
 .download { min-height: 48px; font-size: 12px; }
@@ -1345,14 +1447,15 @@ a.secondary:hover {
 	.mobileDock > div { flex: 1; min-width: 0; }
 	.mobileDock strong { display: block; font-size: 14px; }
 	.mobileDock small { display: block; font-size: 11px; color: var(--color-text-muted); margin-top: 3px; }
-	.mobileDock > a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; }
+	.mobileDock > a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; transition: color var(--motion-fast, 160ms) var(--ease-standard, ease); }
 	.mobileDock > a:hover { color: var(--color-text-primary); }
+	.mobileDock > a:active { color: var(--color-brand); }
 	.mobileDock .button { min-width: 115px; font-size: 12px; }
 	.toolkit { padding-top: 12px; }
 	.pageHeading { gap: 12px; padding-bottom: 20px; margin-bottom: 16px; }
 	.backLink { margin-bottom: 16px; }
-	.archiveHeader h2 { scroll-margin-top: 100px; }
-	.toolkit :is(button,a,input,select,textarea,summary) { scroll-margin-block: 104px 110px; }
+	.archiveHeader h2 { scroll-margin-top: calc(var(--header-height, 76px) + 16px); }
+	.toolkit :is(button,a,input,select,textarea,summary) { scroll-margin-block: calc(var(--header-height, 76px) + 16px) 110px; }
 }
 @media (max-width: 380px) { .mobileDock { gap: 10px; padding-inline: 16px; } }
 
@@ -1365,3 +1468,13 @@ a.secondary:hover {
 .uploadQueue small { display: block; color: var(--color-text-muted); margin-top: 3px; }
 .importForm > .primary { min-width: 150px; }
 .importForm .actions > .primary { min-width: 185px; }
+
+@media (prefers-reduced-motion: reduce) {
+	.toolkit :is(a, button, input, select, textarea, summary),
+	.dialog :is(a, button, input, select, textarea, summary),
+	.dialog input[type="file"]::file-selector-button,
+	.toolkit .skillCard {
+		transition: none;
+	}
+	.spinner { animation: none; }
+}
