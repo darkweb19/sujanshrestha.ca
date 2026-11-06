@@ -43,6 +43,8 @@
 	--motion-fast: 160ms;
 	--motion-standard: 200ms;
 	--ease-standard: cubic-bezier(.2, .65, .3, 1);
+	--section-space: clamp(64px, 8vw, 112px);
+	--section-heading-gap: clamp(32px, 4vw, 48px);
 	--blur-hero: 16px;
 	--blur-modal: 10px;
 	--blur-title: 18px;
@@ -444,14 +446,14 @@ textarea {
 .hero-actions > .action:focus-visible svg { transform: translate(2px, -2px); }
 .hero-actions > .hero-cv:focus-visible svg { transform: translateY(2px); }
 .portfolio-section {
-	padding-block: clamp(64px, 8vw, 112px);
+	padding-block: var(--section-space);
 }
 .section-heading {
 	display: grid;
 	grid-template-columns: 1fr 2fr;
 	gap: 40px;
 	align-items: start;
-	margin-bottom: 48px;
+	margin-bottom: var(--section-heading-gap);
 }
 .section-kicker {
 	font-size: 14px;
@@ -463,6 +465,8 @@ textarea {
 	font-weight: 500;
 	line-height: 1.06;
 	letter-spacing: -0.055em;
+	text-wrap: balance;
+	overflow-wrap: anywhere;
 }
 .section-copy {
 	font-size: 18px;
@@ -485,6 +489,8 @@ textarea {
 	font-size: clamp(24px, 3vw, 36px);
 	letter-spacing: -0.035em;
 	line-height: 1.4;
+	max-width: 40ch;
+	text-wrap: pretty;
 }
 .tech-list {
 	display: flex;
@@ -713,6 +719,8 @@ textarea {
 	line-height: 1;
 	font-weight: 500;
 	letter-spacing: -0.065em;
+	text-wrap: balance;
+	overflow-wrap: anywhere;
 }
 .page-intro > p {
 	margin-top: 24px;
@@ -720,6 +728,7 @@ textarea {
 	font-size: 19px;
 	line-height: 1.6;
 	color: var(--color-text-muted);
+	text-wrap: pretty;
 }
 .article-layout {
 	max-width: 850px;
@@ -732,6 +741,8 @@ textarea {
 	line-height: 1.06;
 	letter-spacing: -0.05em;
 	margin-bottom: 24px;
+	text-wrap: balance;
+	overflow-wrap: anywhere;
 }
 .article-back {
 	display: inline-flex;
@@ -1318,6 +1329,8 @@ textarea {
 	font-size: clamp(25px, 2.6vw, 34px);
 	letter-spacing: -0.04em;
 	line-height: 1.15;
+	text-wrap: balance;
+	overflow-wrap: anywhere;
 }
 .project-summary {
 	color: var(--color-text-muted);
@@ -1325,6 +1338,7 @@ textarea {
 	line-height: 1.6;
 	margin-top: 8px;
 	max-width: 42ch;
+	text-wrap: pretty;
 }
 .project-direct {
 	display: flex;
