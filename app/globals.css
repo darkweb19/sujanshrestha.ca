@@ -909,6 +909,8 @@ textarea {
 	.contact-section .section-heading {
 		margin-bottom: 24px;
 	}
+	.contact-links { gap: 8px 16px; }
+	.contact-links a { min-width: 44px; }
 	.article-layout {
 		padding: 48px 24px 72px;
 	}
