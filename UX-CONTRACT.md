@@ -104,3 +104,32 @@ Activating a skill card or its title copies `https://sujanshrestha.ca/lab/skills
 The public source route returns exact stored UTF-8 SKILL.md contents with text/markdown, no page shell, no authentication, public CORS and no-store caching. Missing or invalid slugs give plain 404s; unavailable storage gives a plain 503 without internals. Vercel rewrites these main-domain paths to the existing persistent Railway Lab. No database migration is needed.
 
 Lab backdrop click and Escape call the canonical guarded onClose callback. Both respect closeDisabled during writes. Dirty editors still offer Keep editing / Discard changes. Body scrolling is locked while open and restored on close together with trigger focus. Background blur comes from the shared runtime token; dialog content remains clear.
+
+
+## Portfolio-wide interaction polish
+
+The shared header is sticky. Its --header-height token also owns anchor clearance.
+Navigation marks matching routes and explicit homepage fragments. Mobile navigation
+is a non-modal disclosure: hidden links leave the keyboard order; Escape restores
+toggle focus, outside pointer/navigation/history closes it, and desktop resize
+moves focus to the matching desktop link. Short menus scroll internally. No
+scrollspy, body scroll lock or animation library is added to public navigation.
+
+Native About/Experience/Academics/Project disclosures retain standard Enter/Space
+and no-JavaScript operation. Focus and open indicators remain visible; no animated
+height delays reading. Project/media transforms are brief and absent in reduced
+motion. Short project dialogs scroll complete content with a sticky close row.
+Contact copy retains button geometry and reserves status space; clipboard failure
+leaves an actionable email fallback until another attempt, rather than clearing
+critical guidance on a timer. Ordinary page titles no longer use decorative blur.
+
+Toolkit dialogs wrap forward/reverse Tab at the current set of visible enabled
+controls, including loaded Markdown links, while retaining dirty-close and pending
+write guards. Native dialogs still own inert background and Escape behavior.
+The focused scrollable Markdown region receives a visible focus outline.
+
+Verification: tests/portfolio-polish-browser.cjs, tests/navigation-polish-browser.cjs
+and tests/lab-polish-browser.cjs add focused coverage to the existing regression
+suites. A real browser verified the updated remote YouTube framing policy under
+an allowed canonical-origin fixture; the old blocked-preview notice was removed.
+No authenticated extractor job was run or API token embedded in this portfolio.

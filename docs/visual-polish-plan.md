@@ -25,7 +25,7 @@ keyboard-visible states, stable borders and no transforms that move page layout.
 
 Public pages remain SSR/SSG and all facts remain available in native disclosures.
 Preserve `lib/portfolio.ts`, blog Markdown, resume and brand/media bytes unchanged.
-Their baseline SHA-256 values are recorded in ignored work/polish/content-hashes.txt.
+Their baseline SHA-256 values are recorded in ignored work/polish/content-hashes.txt. A verified status-only exception removes the obsolete YouTube blocked-preview notice after the live app allowed the canonical portfolio origin; all factual fields remain byte-for-byte unchanged.
 The audience is international English, mobile/4G and desktop; target WCAG 2.2 AA,
 LCP <=2500ms / INP <=200ms / CLS <=0.1 at field p75. Lab tests are synthetic,
 not a claim of field compliance. Lead owns accessibility sign-off. Avoid initial
