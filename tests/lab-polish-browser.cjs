@@ -81,6 +81,7 @@ async function visibleInViewport(locator, width, height) {
     releaseDetail();
     const dialog = page.getByRole('dialog');
     await dialog.waitFor();
+    await dialog.getByRole('region', { name: 'SKILL.md rendered Markdown', exact: true }).locator('h3').first().waitFor();
     assert.ok(await dialog.evaluate(node => node.contains(document.activeElement)));
     const close = dialog.getByRole('button', { name: 'Close dialog', exact: true });
     await close.focus();
@@ -105,6 +106,16 @@ async function visibleInViewport(locator, width, height) {
     await tag.evaluate((node, value) => { node.textContent = value; }, originalTag);
     assert.ok(await firstCard.locator('[class*="skillDescription"]').evaluate(node => node.scrollWidth <= node.clientWidth + 1), 'Description text stays within the card');
     const checkbox = firstCard.getByRole('checkbox');
+    let releaseCatalog;
+    const catalogGate = new Promise(resolve => { releaseCatalog = resolve; });
+    const catalogMatcher = url => url.pathname === '/api/skills';
+    await page.route(catalogMatcher, async route => { await catalogGate; await route.continue(); });
+    await search.fill('a11y');
+    await page.waitForFunction(node => node.disabled, await checkbox.elementHandle());
+    assert.equal(await checkbox.evaluate(node => getComputedStyle(node).cursor), 'not-allowed');
+    releaseCatalog();
+    await settled(page);
+    await page.unroute(catalogMatcher);
     await checkbox.check();
     await page.getByRole('list', { name: 'Selected skills', exact: true }).waitFor();
     const summary = page.locator('summary').filter({ hasText: 'Archive contents' });
