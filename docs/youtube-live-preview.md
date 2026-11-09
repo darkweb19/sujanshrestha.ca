@@ -1,43 +1,36 @@
 # YouTube Extractor live preview
 
-The portfolio now links to the supplied live URL and uses the existing lazy,
-fixed-URL project browser. It retains the GitHub source link, project overview,
-keyboard dismissal, retry and external-open controls. No third-party iframe loads
-until a visitor opens the project.
+The portfolio links to the live extractor and uses the existing lazy, fixed-URL
+project browser. Source links, overview, keyboard dismissal, retry and
+external-open controls remain available. No project iframe loads before a visitor
+opens it.
 
-## Remaining external prerequisite
+## Current verified behavior
 
-On 2026-11-05 the live app returned HTTP 200 with
-`Content-Security-Policy: … frame-ancestors 'none'; …`. That policy correctly
-prevents every embedded preview. Portfolio code cannot override it.
+On 2026-11-06 the live response sent
+`frame-ancestors https://sujanshrestha.ca`. A Chromium test under a locally
+fulfilled canonical portfolio origin loaded the actual remote application with
+the same sandbox permissions, including its heading and controls, without browser
+errors. This fixture changed neither live website. No extraction job or
+authenticated API request was submitted. It verifies framing and rendering;
+authorized media processing remains the extractor's responsibility.
 
-`patches/youtube-extractor-portfolio-embed.patch` is a minimal companion patch
-against `darkweb19/youtube-extractor-rs`, `src/api.rs` blob
-`bd4bb3a2fb96adbf6db46730342ee473bfacde00`. It replaces only the HTML page's
-`frame-ancestors` directive with the exact canonical portfolio origin,
-`https://sujanshrestha.ca`. Every other CSP directive and API bearer-token rule
-stays intact. No wildcard, arbitrary-site proxy, public token or CORS change.
+The visual-polish branch removes the obsolete blocked-preview notice. Localhost
+and arbitrary preview origins remain disallowed by the extractor's exact-origin
+policy. The portfolio browser suite uses controlled frame fixtures to verify
+loading, slow/blocked recovery, source/external links, minimum content height and
+keyboard behavior without depending on a remote service for every test.
 
-This patch is prepared for review; it has not been applied to that repository,
-Rust-tested or deployed. Apply it on a separate branch in the extractor repo,
-run its tests and security checks, then deploy through its normal release flow.
-After deployment verify the returned header and real embedded page. Localhost
-and branch-preview origins deliberately remain disallowed. Remove the temporary
-`previewNotice` in `lib/portfolio.ts` only after the real production iframe renders.
+## Original restriction and retained patch
 
-The portfolio browser suite verifies the live URL, lazy iframe boundary, source
-link and blocked/slow recovery using controlled fixtures. It does not claim the
-current remote app permits framing. Media processing still requires the app's
-own authorized operator access; never put an API token in the portfolio.
+On 2026-11-05 the extractor sent `frame-ancestors 'none'`, preventing every
+embedded preview. The retained historical companion patch,
+`patches/youtube-extractor-portfolio-embed.patch`, changes only that directive in
+`darkweb19/youtube-extractor-rs` src/api.rs blob
+`bd4bb3a2fb96adbf6db46730342ee473bfacde00`. All other CSP directives and API
+bearer-token rules are preserved; there is no wildcard or CORS change.
 
-
-## Verified policy update — 2026-11-06
-
-The live response now sends `frame-ancestors https://sujanshrestha.ca`.
-A real Chromium iframe test under a locally fulfilled canonical portfolio origin
-loaded the actual remote application with the same sandbox permissions, including
-its heading and controls, and no browser errors. No extraction job or authenticated
-API request was submitted. This verifies framing/rendering, not authorized media
-processing. The stale portfolio blocked-preview notice has been removed in the
-visual-polish branch. The historical companion patch remains for provenance;
-no extractor source or deployment was changed by this polish task.
+This portfolio task did not apply that patch, modify extractor source or deploy
+infrastructure. Its later observed live policy already permits the canonical
+portfolio origin. Never embed an API token in the portfolio or treat a frame load
+event alone as proof of successful remote content.

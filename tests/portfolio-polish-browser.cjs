@@ -66,8 +66,14 @@ const routes = ['/', '/blogs', '/blogs/reverse-proxy-ssrf-cannon', '/blogs/supab
    assert.ok(close.y>=0 && close.y+close.height<=viewport.height,'Close stays visible while short viewer scrolls');
    await page.keyboard.press('Escape');
   }
+  await page.route('https://youtube-extractor-rs-production.up.railway.app/', route => route.fulfill({contentType:'text/html',body:'<!doctype html><h1>Extractor preview fixture</h1>'}));
+  await page.setViewportSize({width:320,height:360});
+  await page.getByRole('button',{name:'Preview YouTube Extractor',exact:true}).click();
+  const liveDialog=page.getByRole('dialog',{name:'YouTube Extractor',exact:true});await liveDialog.waitFor();
+  assert.ok(await liveDialog.locator('iframe').evaluate(e=>e.getBoundingClientRect().height)>=320,'Short live frame retains useful height');
+  await page.keyboard.press('Escape');
   await page.setViewportSize({width:1440,height:900});
-  checks.push('Short project viewers scroll complete content while keeping the close control visible');
+  checks.push('Short project viewers and live frames keep useful content height and a visible close control');
   const copy=page.getByRole('button',{name:'Copy email',exact:true});
   await copy.scrollIntoViewIfNeeded();const before=await copy.boundingBox();await copy.click();
   await page.getByRole('status').filter({hasText:'Email copied'}).waitFor();
